@@ -8,23 +8,22 @@
 // ***
 // ******************************************************
 
-# include " tabla.h"
+# include "tabla.h"
 %}
 
 %option noyywrap
 
-ID      [a-zA -Z_]
-DIGITO  [0 -9]
+ID      [a-zA-Z_]
+DIGITO  [0-9]
 OTROS   .
 
 %%
 
-[ \t\n]+        ;
-<patron_token1> { return TOKEN1; }
-<patron_token2> { return TOKEN2; }
-<patron_tokenN> { return TOKENN; }
+[ \t\n]+    ;
+[a-zA-Z_]   { return ID; }
+[0-9]       { return DIGITO; }
 
-.               { printf ("\n[Línea %2d] *** Error léxico : %s\n", yylineno , yytext ); }
+.           { printf ("\n[Línea %2d] *** Error léxico : %s\n", yylineno , yytext ); }
 
 %%
 

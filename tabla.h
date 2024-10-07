@@ -5,6 +5,6 @@
 // **
 // *************************************************************************
 
-# define TOKEN1 257
-# define TOKEN2 258
-# define TOKENN 259
+# define ID 257
+# define DIGITO 258
+# define OTRO 259

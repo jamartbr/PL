@@ -1,4 +1,4 @@
-# Archivo makefile para generar el analizador de l é xico .
+# Archivo makefile para generar el analizador de léxico .
 lex.yy.c: Lexico.lex
 	flex -l Lexico.lex
 
