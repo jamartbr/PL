@@ -29,6 +29,7 @@ INT         "int"
 TIPOVAR     ("float"|"char"|"bool")
 TIPOLISTA   "list"
 VALBOOL     ("TRUE"|"FALSE")
+NUMERO      [0-9]+
 
 PARIZQ      "("
 PARDCH      ")"
@@ -70,6 +71,7 @@ OTROS       .
 "list"      { return TIPOLISTA; }
 "TRUE"      { return VALBOOL; }
 "FALSE"     { return VALBOOL; }
+[0-9]+      { return NUMERO; }
 "("         { return PARIZQ; }
 ")"         { return PARDCH; }
 "{"         { return LLAVEIZQ; }

@@ -35,4 +35,5 @@
 # define ELSE 284
 # define LOCAL 285
 # define INT 286
-# define OTRO 287
+# define NUMERO 287
+# define OTRO 288
