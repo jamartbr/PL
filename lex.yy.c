@@ -558,10 +558,16 @@ char *yytext_ptr;
 // ******************************************************
 
 # include "tabla.h"
-#line 562 "lex.yy.c"
+
+
+
+char* token;
+int atributo = -1;
+
+#line 568 "lex.yy.c"
 /* ESTO HAY QUE ORDENARLO DE MENOR A MAYOR GENERALIDAD: palabras reservadas -> constantes -> identificador */
 /*PUNTO       "."*/
-#line 565 "lex.yy.c"
+#line 571 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -778,10 +784,10 @@ YY_DECL
 		}
 
 	{
-#line 56 "Lexico.lex"
+#line 62 "Lexico.lex"
 
 
-#line 785 "lex.yy.c"
+#line 791 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -851,240 +857,240 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 58 "Lexico.lex"
+#line 64 "Lexico.lex"
 ;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 59 "Lexico.lex"
-{ return WHILE; }
+#line 65 "Lexico.lex"
+{ token = "WHILE"; return WHILE; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 60 "Lexico.lex"
-{ return DO; }
+#line 66 "Lexico.lex"
+{ token = "DO"; return DO; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 61 "Lexico.lex"
-{ return UNTIL; }
+#line 67 "Lexico.lex"
+{ token = "UNTIL"; return UNTIL; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 62 "Lexico.lex"
-{ return IF; }
+#line 68 "Lexico.lex"
+{ token = "IF"; return IF; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 63 "Lexico.lex"
-{ return ELSE; }
+#line 69 "Lexico.lex"
+{ token = "ELSE"; return ELSE; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 64 "Lexico.lex"
-{ return CIN; }
+#line 70 "Lexico.lex"
+{ token = "CIN"; return CIN; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 65 "Lexico.lex"
-{ return COUT; }
+#line 71 "Lexico.lex"
+{ token = "COUT"; return COUT; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 66 "Lexico.lex"
-{ return MAIN; }
+#line 72 "Lexico.lex"
+{ token = "MAIN"; return MAIN; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 67 "Lexico.lex"
-{ return RETURN; }
+#line 73 "Lexico.lex"
+{ token = "RETURN"; return RETURN; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 68 "Lexico.lex"
-{ return LOCAL; }
+#line 74 "Lexico.lex"
+{ token = "LOCAL"; return LOCAL; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 69 "Lexico.lex"
-{ return INT; }
+#line 75 "Lexico.lex"
+{ token = "INT"; return INT; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 70 "Lexico.lex"
-{ return TIPOVAR; }
+#line 76 "Lexico.lex"
+{ token = "TIPOVAR"; atributo = 0; return TIPOVAR; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 71 "Lexico.lex"
-{ return TIPOVAR; }
+#line 77 "Lexico.lex"
+{ token = "TIPOVAR"; atributo = 1; return TIPOVAR; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 72 "Lexico.lex"
-{ return TIPOVAR; }
+#line 78 "Lexico.lex"
+{ token = "TIPOVAR"; atributo = 2; return TIPOVAR; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 73 "Lexico.lex"
-{ return TIPOLISTA; }
+#line 79 "Lexico.lex"
+{ token = "TIPOLISTA"; return TIPOLISTA; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 74 "Lexico.lex"
-{ return VALBOOL; }
+#line 80 "Lexico.lex"
+{ token = "VALBOOL"; atributo = 1; return VALBOOL; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 75 "Lexico.lex"
-{ return VALBOOL; }
+#line 81 "Lexico.lex"
+{ token = "VALBOOL"; atributo = 0; return VALBOOL; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 76 "Lexico.lex"
-{ return PARIZQ; }
+#line 82 "Lexico.lex"
+{ token = "PARIZQ"; return PARIZQ; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 77 "Lexico.lex"
-{ return PARDCH; }
+#line 83 "Lexico.lex"
+{ token = "PARDCH"; return PARDCH; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 78 "Lexico.lex"
-{ return LLAVEIZQ; }
+#line 84 "Lexico.lex"
+{ token = "LLAVEIZQ"; return LLAVEIZQ; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 79 "Lexico.lex"
-{ return LLAVEDCH; }
+#line 85 "Lexico.lex"
+{ token = "LLAVEDCH"; return LLAVEDCH; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 80 "Lexico.lex"
-{ return CORIZQ; }
+#line 86 "Lexico.lex"
+{ token = "CORIZQ"; return CORIZQ; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 81 "Lexico.lex"
-{ return CORDCH; }
+#line 87 "Lexico.lex"
+{ token = "CORDCH"; return CORDCH; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 82 "Lexico.lex"
-{ return PYC; }
+#line 88 "Lexico.lex"
+{ token = "PYC"; return PYC; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 83 "Lexico.lex"
-{ return COMA; }
+#line 89 "Lexico.lex"
+{ token = "COMA"; return COMA; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 84 "Lexico.lex"
-{ return ASING; }
+#line 90 "Lexico.lex"
+{ token = "ASING"; return ASING; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 85 "Lexico.lex"
-{ return SUMREST; }
+#line 91 "Lexico.lex"
+{ token = "SUMREST"; atributo = 0; return SUMREST; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 86 "Lexico.lex"
-{ return SUMREST; }
+#line 92 "Lexico.lex"
+{ token = "SUMREST"; atributo = 1; return SUMREST; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 87 "Lexico.lex"
-{ return OPEMON; }
+#line 93 "Lexico.lex"
+{ token = "OPEMON"; return OPEMON; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 88 "Lexico.lex"
-{ return OPEBIN; }
+#line 94 "Lexico.lex"
+{ token = "OPEBIN"; atributo = 0; return OPEBIN; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 89 "Lexico.lex"
-{ return OPEBIN; }
+#line 95 "Lexico.lex"
+{ token = "OPEBIN"; atributo = 1; return OPEBIN; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 90 "Lexico.lex"
-{ return OPEBIN; }
+#line 96 "Lexico.lex"
+{ token = "OPEBIN"; atributo = 2; return OPEBIN; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 91 "Lexico.lex"
-{ return OPEBIN; }
+#line 97 "Lexico.lex"
+{ token = "OPEBIN"; atributo = 3; return OPEBIN; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 92 "Lexico.lex"
-{ return OPEBIN; }
+#line 98 "Lexico.lex"
+{ token = "OPEBIN"; atributo = 4; return OPEBIN; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 93 "Lexico.lex"
-{ return OPEBIN; }
+#line 99 "Lexico.lex"
+{ token = "OPEBIN"; atributo = 5; return OPEBIN; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 94 "Lexico.lex"
-{ return OPEBIN; }
+#line 100 "Lexico.lex"
+{ token = "OPEBIN"; atributo = 6; return OPEBIN; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 95 "Lexico.lex"
-{ return OPEBIN; }
+#line 101 "Lexico.lex"
+{ token = "OPEBIN"; atributo = 7; return OPEBIN; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 96 "Lexico.lex"
-{ return OPEBIN; }
+#line 102 "Lexico.lex"
+{ token = "OPEBIN"; atributo = 8; return OPEBIN; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 97 "Lexico.lex"
-{ return OPEBIN; }
+#line 103 "Lexico.lex"
+{ token = "OPEBIN"; atributo = 9; return OPEBIN; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 98 "Lexico.lex"
-{ return OPEBIN; }
+#line 104 "Lexico.lex"
+{ token = "OPEBIN"; atributo = 10; return OPEBIN; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 99 "Lexico.lex"
-{ return SEPENT; }
+#line 105 "Lexico.lex"
+{ token = "SEPENT"; return SEPENT; }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 100 "Lexico.lex"
-{ return SEPSAL; }
+#line 106 "Lexico.lex"
+{ token = "SEPSAL"; return SEPSAL; }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 102 "Lexico.lex"
-{ return NUMERO;}
+#line 108 "Lexico.lex"
+{ token = "NUMERO"; return NUMERO;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 104 "Lexico.lex"
-{ return ID; }
+#line 110 "Lexico.lex"
+{ token = "ID"; return ID; }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 106 "Lexico.lex"
+#line 112 "Lexico.lex"
 { printf ("\n[Línea %2d] *** Error léxico : %s\n\n", yylineno , yytext ); }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 108 "Lexico.lex"
+#line 114 "Lexico.lex"
 ECHO;
 	YY_BREAK
-#line 1088 "lex.yy.c"
+#line 1094 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2101,28 +2107,30 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 108 "Lexico.lex"
+#line 114 "Lexico.lex"
 
 
 int main ( int argc, char ** argv )
 {
-    int val;
-    char *token;
+    int codigo;
 
     printf ("Analizador de Léxico - Lenguaje C\n\n");
     ++argv, --argc; /* saltamos el nombre del ejecutable */
     if ( argc > 0)
         yyin = fopen(argv [0], "r");
     else
-        yyin = stdin ;
+        yyin = stdin;
 
-    val = yylex();
-    token = yytext;
-    while (val != 0)
+    codigo = yylex();
+    while (codigo != 0)
     {
-        printf (" %s -> %d \n", token, val);
-        val = yylex();
-        token = yytext;
+        if (atributo == -1)
+            printf ("[\t%s\t] :: %s \n", yytext, token);
+        else
+            printf ("[\t%s\t] :: %s \t :: atrib=%d (%s)\n", yytext, token, atributo, yytext);
+            
+        atributo = -1;
+        codigo = yylex();
     }
     exit(0);
 }
