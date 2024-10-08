@@ -1,7 +1,7 @@
 // *************************************************************************
 // **
 // ** Archivo : TABLA .H
-// ** Descripcion : Definici ón de los nombres de los tokens ( solo para FLEX ).
+// ** Descripcion : Definición de los nombres de los tokens ( solo para FLEX ).
 // **
 // *************************************************************************
 

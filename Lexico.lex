@@ -29,7 +29,6 @@ INT         "int"
 TIPOVAR     ("float"|"char"|"bool")
 TIPOLISTA   "list"
 VALBOOL     ("TRUE"|"FALSE")
-NUMERO      [0-9]+
 
 PARIZQ      "("
 PARDCH      ")"
@@ -38,16 +37,19 @@ LLAVEDCH    "\}"
 CORIZQ      "\["
 CORDCH      "\]"
 PYC         ";"
-PUNTO       "."
+/*PUNTO       "."*/
 COMA        ","
 ASING       "="
 SUMREST     ("+"|"-")
 OPEMON      "!"
-OPEBIN      (”*”|”/”|”%”|”==”|”!=”|”<”|”>”|”<=”|”>=”|”&”|”$”)
+OPEBIN      ("*"|"/"|"%"|"=="|"!="|"<"|">"|"<="|">="|"&"|"$")
 SEPENT      ">>"
 SEPSAL      "<<"
 
-ID          ([A-Z]|[a-z])([A-Z]|[a-z]|[0..9]|_)*
+
+ID          ([A-Za-z])([A-Za-z]|[0-9]|_)*
+
+NUMERO      (\+|\-)?([1-9][0-9]*|0)(\.[0-9]+)? 
 
 OTROS       .
 
@@ -71,7 +73,6 @@ OTROS       .
 "list"      { return TIPOLISTA; }
 "TRUE"      { return VALBOOL; }
 "FALSE"     { return VALBOOL; }
-[0-9]+      { return NUMERO; }
 "("         { return PARIZQ; }
 ")"         { return PARDCH; }
 "{"         { return LLAVEIZQ; }
@@ -79,7 +80,6 @@ OTROS       .
 "["         { return CORIZQ; }
 "]"         { return CORDCH; }
 ";"         { return PYC; }
-"."         { return PUNTO; }
 ","         { return COMA; }
 "="         { return ASING; }
 "+"         { return SUMREST; }
@@ -99,15 +99,18 @@ OTROS       .
 ">>"        { return SEPENT; }
 "<<"        { return SEPSAL; }
 
-([A-Z]|[a-z])([A-Z]|[a-z]|[0..9]|_)*   { return ID; }
+(\+|\-)?([1-9][0-9]*|0)(\.[0-9]+)?  { return NUMERO;}
 
-.           { printf ("\n[Línea %2d] *** Error léxico : %s\n", yylineno , yytext ); }
+([A-Za-z])([A-Za-z]|[0-9]|_)*       { return ID; }
+
+.           { printf ("\n[Línea %2d] *** Error léxico : %s\n\n", yylineno , yytext ); }
 
 %%
 
 int main ( int argc, char ** argv )
 {
-    int val ;
+    int val;
+    char *token;
 
     printf ("Analizador de Léxico - Lenguaje C\n\n");
     ++argv, --argc; /* saltamos el nombre del ejecutable */
@@ -116,11 +119,13 @@ int main ( int argc, char ** argv )
     else
         yyin = stdin ;
 
-    val = yylex() ;
+    val = yylex();
+    token = yytext;
     while (val != 0)
     {
-        printf (" %d \n", val);
-        val = yylex() ;
+        printf (" %s -> %d \n", token, val);
+        val = yylex();
+        token = yytext;
     }
     exit(0);
 }
