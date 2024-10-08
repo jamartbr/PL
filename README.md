@@ -2,8 +2,8 @@
 
 ## Comandos
 
-$ make
+make
 
-$ gcc lex.yy.c -o lexico
+gcc lex.yy.c -o lexico
 
-$ ./lexico
+./lexico
