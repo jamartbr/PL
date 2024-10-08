@@ -2125,10 +2125,10 @@ int main ( int argc, char ** argv )
     while (codigo != 0)
     {
         if (atributo == -1)
-            printf ("[\t%s\t] :: %s \n", yytext, token);
+            printf ("[%15s] :: %s \n", yytext, token);
         else
-            printf ("[\t%s\t] :: %s \t :: atrib=%d (%s)\n", yytext, token, atributo, yytext);
-            
+            printf ("[%15s] :: %s \t :: atrib=%d (%s)\n", yytext, token, atributo, yytext);
+
         atributo = -1;
         codigo = yylex();
     }
