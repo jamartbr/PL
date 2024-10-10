@@ -43,19 +43,18 @@ LLAVEDCH    "\}"
 CORIZQ      "\["
 CORDCH      "\]"
 PYC         ";"
-/*PUNTO       "."*/
 COMA        ","
 ASING       "="
 SUMREST     ("+"|"-")
-OPEMON      "!"
-OPEBIN      ("*"|"/"|"%"|"=="|"!="|"<"|">"|"<="|">="|"&"|"$")
-SEPENT      ">>"
-SEPSAL      "<<"
-
-
-ID          ([A-Za-z])([A-Za-z]|[0-9]|_)*
+OPEMON      ("!"|"?"|"#")
+OPEBIN      ("*"|"/"|"%"|"=="|"!="|"<"|">"|"<="|">="|"@"|"%"|"++"|"--"|"**"|"and"|"or"|"xor")
+AVANZAR     ">>"
+RETROCEDER  "<<"
+INICIO      "$"
 
 NUMERO      (\+|\-)?([1-9][0-9]*|0)(\.[0-9]+)? 
+
+ID          ([A-Za-z])([A-Za-z]|[0-9]|_)*
 
 OTROS       .
 
@@ -90,7 +89,9 @@ OTROS       .
 "="         { token = "ASING"; return ASING; }
 "+"         { token = "SUMREST"; atributo = 0; return SUMREST; }
 "-"         { token = "SUMREST"; atributo = 1; return SUMREST; }
-"!"         { token = "OPEMON"; return OPEMON; }
+"!"         { token = "OPEMON"; atributo = 0; return OPEMON; }
+"?"         { token = "OPEMON"; atributo = 1; return OPEMON; }
+"#"         { token = "OPEMON"; atributo = 2; return OPEMON; }
 "*"         { token = "OPEBIN"; atributo = 0; return OPEBIN; }
 "/"         { token = "OPEBIN"; atributo = 1; return OPEBIN; }
 "%"         { token = "OPEBIN"; atributo = 2; return OPEBIN; }
@@ -100,10 +101,17 @@ OTROS       .
 ">"         { token = "OPEBIN"; atributo = 6; return OPEBIN; }
 "<="        { token = "OPEBIN"; atributo = 7; return OPEBIN; }
 ">="        { token = "OPEBIN"; atributo = 8; return OPEBIN; }
-"&"         { token = "OPEBIN"; atributo = 9; return OPEBIN; }
-"$"         { token = "OPEBIN"; atributo = 10; return OPEBIN; }
-">>"        { token = "SEPENT"; return SEPENT; }
-"<<"        { token = "SEPSAL"; return SEPSAL; }
+"@"         { token = "OPEBIN"; atributo = 9; return OPEBIN; }
+"%"         { token = "OPEBIN"; atributo = 10; return OPEBIN; }
+"++"        { token = "OPEBIN"; atributo = 11; return OPEBIN; }
+"--"        { token = "OPEBIN"; atributo = 12; return OPEBIN; }
+"**"        { token = "OPEBIN"; atributo = 13; return OPEBIN; }
+"and"       { token = "OPEBIN"; atributo = 14; return OPEBIN; }
+"or"        { token = "OPEBIN"; atributo = 15; return OPEBIN; }
+"xor"       { token = "OPEBIN"; atributo = 16; return OPEBIN; }
+">>"        { token = "AVANZAR"; return AVANZAR; }
+"<<"        { token = "RETROCEDER"; return RETROCEDER; }
+"$"         { token = "INICIO"; return INICIO; }
 
 (\+|\-)?([1-9][0-9]*|0)(\.[0-9]+)?  { token = "NUMERO"; return NUMERO;}
 
