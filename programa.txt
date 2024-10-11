@@ -61,8 +61,8 @@ int main
         l1@2 ++ (l1@2 +1);
     } while(l1@2 < 5);
 
-    cout <- holaMundo;
-    cin -> 2347 -> 123;
+    cout << "holaMundo";
+    cin >> 2347 >> 123;
     l1**l2;
 
 

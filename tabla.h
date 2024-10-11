@@ -45,5 +45,6 @@
 # define TIMES      293
 
 # define CHAR       294
-# define NUMERO     295
-# define ID         296
+# define CADENA     295
+# define NUMERO     296
+# define ID         297
