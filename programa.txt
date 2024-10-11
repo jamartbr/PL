@@ -7,7 +7,7 @@ int main
         bool b1, b2;
         list int l1, l2;
 
-        const int const1 = 9;   
+        const int const1 = -.9;   
     }
 
     int suma(int a, int b)
@@ -18,7 +18,7 @@ int main
     float resta(float a, float b)
     {
         local{
-            float n1;
+            float n1_';
             float n2;
         }
 
@@ -28,7 +28,7 @@ int main
         return n1-n2;
     }
 
-    bool estaDentro(list lista, int long)
+    "bool estaDentro(list lista, int long)
     {
         return long < #lista;
     }

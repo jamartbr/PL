@@ -61,7 +61,7 @@ MINUS       "-"
 TIMES       "*"
 
 CHAR        '[A-Za-z]'
-CADENA      \"([^\"]|\\\")*\"
+CADENA      \"([^\"\n]|\\\")*\"
 NUMERO      ([1-9][0-9]*|0)(\.[0-9]+)? 
 
 ID          ([A-Za-z])([A-Za-z]|[0-9]|_)*
@@ -123,11 +123,11 @@ OTROS       .
 "-"         { token = "MINUS"; return MINUS; }
 "*"         { token = "TIMES"; return TIMES; }
 
-'[A-Za-z]'                          { token = "CHAR"; return CHAR; }
-\"([^\"]|\\\")*\"                   { token = "CADENA"; return CADENA; }
-([1-9][0-9]*|0)(\.[0-9]+)?          { token = "NUMERO"; return NUMERO;}
+'[A-Za-z]?'                          { token = "CHAR"; atributo=-2; return CHAR; }
+\"([^\"\n]|\\\")*\"                   { token = "CADENA"; atributo=-2; return CADENA; }
+([1-9][0-9]*|0)(\.[0-9]+)?          { token = "NUMERO"; atributo=-2; return NUMERO;}
 
-([A-Za-z])([A-Za-z]|[0-9]|_)*       { token = "ID"; return ID; }
+([A-Za-z])([A-Za-z]|[0-9]|_)*       { token = "ID"; atributo=-2; return ID; }
 
 .           { printf ("\n[Línea %2d] *** Error léxico : %s\n\n", yylineno , yytext ); }
 
@@ -147,10 +147,13 @@ int main ( int argc, char ** argv )
     codigo = yylex();
     while (codigo != 0)
     {
+        printf("\n");
         if (atributo == -1)
             printf ("[%15s] :: %s \n", yytext, token);
+        else if (atributo == -2)
+            printf ("[%15s] :: %s \t :: lexema = %s\n", yytext, token, yytext);
         else
-            printf ("[%15s] :: %s \t :: atrib=%d (%s)\n", yytext, token, atributo, yytext);
+            printf ("[%15s] :: %s \t :: atrib = %d (%s)\n", yytext, token, atributo, yytext);
 
         atributo = -1;
         codigo = yylex();
