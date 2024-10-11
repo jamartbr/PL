@@ -373,8 +373,8 @@ static void yynoreturn yy_fatal_error ( const char* msg  );
 		YY_FATAL_ERROR( "token too large, exceeds YYLMAX" ); \
 	yy_flex_strncpy( yytext, (yytext_ptr), yyleng + 1 ); \
 	(yy_c_buf_p) = yy_cp;
-#define YY_NUM_RULES 56
-#define YY_END_OF_BUFFER 57
+#define YY_NUM_RULES 55
+#define YY_END_OF_BUFFER 56
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -384,19 +384,19 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[121] =
     {   0,
-        0,    0,   57,   55,    1,    1,   30,   32,   52,   35,
-       19,   20,   33,   28,   26,   29,   34,   53,   53,   25,
-       38,   27,   39,   31,   42,   54,   54,   54,   23,   24,
-       54,   54,   54,   54,   54,   54,   54,   54,   54,   54,
-       54,   54,   54,   54,   21,   22,    1,   37,   46,   44,
-       53,   53,   45,    0,   53,   51,   40,   36,   41,   50,
-       54,   54,   54,   54,   54,   54,   54,   54,    3,   54,
-       54,    5,   54,   54,   54,   54,   48,   54,   54,   54,
-       54,   53,   54,   54,   47,   54,   54,    7,   54,   54,
-       54,   12,   54,   54,   54,   54,   54,   54,   49,   54,
+        0,    0,   56,   54,    1,    1,   28,   42,   40,   44,
+       19,   20,   51,   49,   26,   50,   43,   52,   52,   25,
+       31,   27,   32,   41,   45,   53,   53,   53,   23,   24,
+       53,   53,   53,   53,   53,   53,   53,   53,   53,   53,
+       53,   53,   53,   53,   21,   22,    1,   30,   48,   46,
+       52,   52,   47,    0,   52,   39,   33,   29,   34,   38,
+       53,   53,   53,   53,   53,   53,   53,   53,    3,   53,
+       53,    5,   53,   53,   53,   53,   36,   53,   53,   53,
+       53,   52,   53,   53,   35,   53,   53,    7,   53,   53,
+       53,   12,   53,   53,   53,   53,   53,   53,   37,   53,
 
-       17,   15,   14,    8,    6,   54,   16,   54,    9,   54,
-       54,   54,   18,   13,   11,   54,    4,    2,   10,    0
+       17,   15,   14,    8,    6,   53,   16,   53,    9,   53,
+       53,   53,   18,   13,   11,   53,    4,    2,   10,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -532,11 +532,11 @@ static const flex_int16_t yy_chk[205] =
     } ;
 
 /* Table of booleans, true if rule could match eol. */
-static const flex_int32_t yy_rule_can_match_eol[57] =
+static const flex_int32_t yy_rule_can_match_eol[56] =
     {   0,
 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,     };
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,     };
 
 static yy_state_type yy_last_accepting_state;
 static char *yy_last_accepting_cpos;
@@ -577,7 +577,8 @@ int atributo = -1;
 
 #line 579 "lex.yy.c"
 /* ESTO HAY QUE ORDENARLO DE MENOR A MAYOR GENERALIDAD: palabras reservadas -> constantes -> identificador */
-#line 581 "lex.yy.c"
+/*CONST       (\+|\-)?([1-9][0-9]*|0)(\.[0-9]+)? | ("TRUE"|"FALSE") | */
+#line 582 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -794,10 +795,10 @@ YY_DECL
 		}
 
 	{
-#line 62 "Lexico.lex"
+#line 68 "Lexico.lex"
 
 
-#line 801 "lex.yy.c"
+#line 802 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -867,285 +868,280 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 64 "Lexico.lex"
+#line 70 "Lexico.lex"
 ;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 65 "Lexico.lex"
+#line 71 "Lexico.lex"
 { token = "WHILE"; return WHILE; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 66 "Lexico.lex"
+#line 72 "Lexico.lex"
 { token = "DO"; return DO; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 67 "Lexico.lex"
+#line 73 "Lexico.lex"
 { token = "UNTIL"; return UNTIL; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 68 "Lexico.lex"
+#line 74 "Lexico.lex"
 { token = "IF"; return IF; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 69 "Lexico.lex"
+#line 75 "Lexico.lex"
 { token = "ELSE"; return ELSE; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 70 "Lexico.lex"
+#line 76 "Lexico.lex"
 { token = "CIN"; return CIN; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 71 "Lexico.lex"
+#line 77 "Lexico.lex"
 { token = "COUT"; return COUT; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 72 "Lexico.lex"
+#line 78 "Lexico.lex"
 { token = "MAIN"; return MAIN; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 73 "Lexico.lex"
+#line 79 "Lexico.lex"
 { token = "RETURN"; return RETURN; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 74 "Lexico.lex"
+#line 80 "Lexico.lex"
 { token = "LOCAL"; return LOCAL; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 75 "Lexico.lex"
+#line 81 "Lexico.lex"
 { token = "INT"; return INT; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 76 "Lexico.lex"
+#line 82 "Lexico.lex"
 { token = "TIPOVAR"; atributo = 0; return TIPOVAR; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 77 "Lexico.lex"
+#line 83 "Lexico.lex"
 { token = "TIPOVAR"; atributo = 1; return TIPOVAR; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 78 "Lexico.lex"
+#line 84 "Lexico.lex"
 { token = "TIPOVAR"; atributo = 2; return TIPOVAR; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 79 "Lexico.lex"
+#line 85 "Lexico.lex"
 { token = "TIPOLISTA"; return TIPOLISTA; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 80 "Lexico.lex"
+#line 86 "Lexico.lex"
 { token = "VALBOOL"; atributo = 1; return VALBOOL; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 81 "Lexico.lex"
+#line 87 "Lexico.lex"
 { token = "VALBOOL"; atributo = 0; return VALBOOL; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 82 "Lexico.lex"
+#line 88 "Lexico.lex"
 { token = "PARIZQ"; return PARIZQ; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 83 "Lexico.lex"
+#line 89 "Lexico.lex"
 { token = "PARDCH"; return PARDCH; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 84 "Lexico.lex"
+#line 90 "Lexico.lex"
 { token = "LLAVEIZQ"; return LLAVEIZQ; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 85 "Lexico.lex"
+#line 91 "Lexico.lex"
 { token = "LLAVEDCH"; return LLAVEDCH; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 86 "Lexico.lex"
+#line 92 "Lexico.lex"
 { token = "CORIZQ"; return CORIZQ; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 87 "Lexico.lex"
+#line 93 "Lexico.lex"
 { token = "CORDCH"; return CORDCH; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 88 "Lexico.lex"
+#line 94 "Lexico.lex"
 { token = "PYC"; return PYC; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 89 "Lexico.lex"
+#line 95 "Lexico.lex"
 { token = "COMA"; return COMA; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 90 "Lexico.lex"
+#line 96 "Lexico.lex"
 { token = "ASING"; return ASING; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 91 "Lexico.lex"
-{ token = "SUMREST"; atributo = 0; return SUMREST; }
+#line 97 "Lexico.lex"
+{ token = "OPEMON"; return OPEMON; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 92 "Lexico.lex"
-{ token = "SUMREST"; atributo = 1; return SUMREST; }
+#line 98 "Lexico.lex"
+{ token = "OPEBIN"; atributo = 0; return OPEBIN; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 93 "Lexico.lex"
-{ token = "OPEMON"; atributo = 0; return OPEMON; }
+#line 99 "Lexico.lex"
+{ token = "OPEBIN"; atributo = 1; return OPEBIN; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 94 "Lexico.lex"
-{ token = "OPEMON"; atributo = 1; return OPEMON; }
+#line 100 "Lexico.lex"
+{ token = "OPEBIN"; atributo = 2; return OPEBIN; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 95 "Lexico.lex"
-{ token = "OPEMON"; atributo = 2; return OPEMON; }
+#line 101 "Lexico.lex"
+{ token = "OPEBIN"; atributo = 3; return OPEBIN; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 96 "Lexico.lex"
-{ token = "OPEBIN"; atributo = 0; return OPEBIN; }
+#line 102 "Lexico.lex"
+{ token = "OPEBIN"; atributo = 4; return OPEBIN; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 97 "Lexico.lex"
-{ token = "OPEBIN"; atributo = 1; return OPEBIN; }
+#line 103 "Lexico.lex"
+{ token = "OPEBIN"; atributo = 5; return OPEBIN; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 98 "Lexico.lex"
-{ token = "OPEBIN"; atributo = 2; return OPEBIN; }
+#line 104 "Lexico.lex"
+{ token = "OPEBIN"; atributo = 6; return OPEBIN; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 99 "Lexico.lex"
-{ token = "OPEBIN"; atributo = 3; return OPEBIN; }
+#line 105 "Lexico.lex"
+{ token = "OPEBIN"; atributo = 7; return OPEBIN; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 100 "Lexico.lex"
-{ token = "OPEBIN"; atributo = 4; return OPEBIN; }
+#line 106 "Lexico.lex"
+{ token = "OPEBIN"; atributo = 8; return OPEBIN; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 101 "Lexico.lex"
-{ token = "OPEBIN"; atributo = 5; return OPEBIN; }
+#line 107 "Lexico.lex"
+{ token = "SIG"; return SIG; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 102 "Lexico.lex"
-{ token = "OPEBIN"; atributo = 6; return OPEBIN; }
+#line 108 "Lexico.lex"
+{ token = "ANT"; return ANT; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 103 "Lexico.lex"
-{ token = "OPEBIN"; atributo = 7; return OPEBIN; }
+#line 109 "Lexico.lex"
+{ token = "OPEMONLIST"; atributo = 0; return OPEMONLIST; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 104 "Lexico.lex"
-{ token = "OPEBIN"; atributo = 8; return OPEBIN; }
+#line 110 "Lexico.lex"
+{ token = "OPEMONLIST"; atributo = 1; return OPEMONLIST; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 105 "Lexico.lex"
-{ token = "OPEBIN"; atributo = 9; return OPEBIN; }
+#line 111 "Lexico.lex"
+{ token = "OPEMONLIST"; atributo = 2; return OPEMONLIST; }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 106 "Lexico.lex"
-{ token = "OPEBIN"; atributo = 10; return OPEBIN; }
+#line 112 "Lexico.lex"
+{ token = "OPEBINLIST"; atributo = 0; return OPEBINLIST; }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 107 "Lexico.lex"
-{ token = "OPEBIN"; atributo = 11; return OPEBIN; }
+#line 113 "Lexico.lex"
+{ token = "OPEBINLIST"; atributo = 1; return OPEBINLIST; }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 108 "Lexico.lex"
-{ token = "OPEBIN"; atributo = 12; return OPEBIN; }
+#line 114 "Lexico.lex"
+{ token = "AT"; return AT; }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 109 "Lexico.lex"
-{ token = "OPEBIN"; atributo = 13; return OPEBIN; }
+#line 115 "Lexico.lex"
+{ token = "PLUSPLUS"; return PLUSPLUS; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 110 "Lexico.lex"
-{ token = "OPEBIN"; atributo = 14; return OPEBIN; }
+#line 116 "Lexico.lex"
+{ token = "MINUSMINUS"; return MINUSMINUS; }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 111 "Lexico.lex"
-{ token = "OPEBIN"; atributo = 15; return OPEBIN; }
+#line 117 "Lexico.lex"
+{ token = "TIMESTIMES"; return TIMESTIMES; }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 112 "Lexico.lex"
-{ token = "OPEBIN"; atributo = 16; return OPEBIN; }
+#line 118 "Lexico.lex"
+{ token = "PLUS"; return PLUS; }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 113 "Lexico.lex"
-{ token = "AVANZAR"; return AVANZAR; }
+#line 119 "Lexico.lex"
+{ token = "MINUS"; return MINUS; }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 114 "Lexico.lex"
-{ token = "RETROCEDER"; return RETROCEDER; }
+#line 120 "Lexico.lex"
+{ token = "TIMES"; return TIMES; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 115 "Lexico.lex"
-{ token = "INICIO"; return INICIO; }
+#line 122 "Lexico.lex"
+{ token = "NUMERO"; return NUMERO;}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 117 "Lexico.lex"
-{ token = "NUMERO"; return NUMERO;}
+#line 124 "Lexico.lex"
+{ token = "ID"; return ID; }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 119 "Lexico.lex"
-{ token = "ID"; return ID; }
+#line 126 "Lexico.lex"
+{ printf ("\n[Línea %2d] *** Error léxico : %s\n\n", yylineno , yytext ); }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 121 "Lexico.lex"
-{ printf ("\n[Línea %2d] *** Error léxico : %s\n\n", yylineno , yytext ); }
-	YY_BREAK
-case 56:
-YY_RULE_SETUP
-#line 123 "Lexico.lex"
+#line 128 "Lexico.lex"
 ECHO;
 	YY_BREAK
-#line 1149 "lex.yy.c"
+#line 1145 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2162,7 +2158,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 123 "Lexico.lex"
+#line 128 "Lexico.lex"
 
 
 int main ( int argc, char ** argv )
