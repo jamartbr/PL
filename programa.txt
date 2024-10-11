@@ -37,7 +37,7 @@ int main
     i2 = -2;
     f1 = 13.2;
     f2 = -15.54;
-    char1_2 = g;
+    char1_2 = 'g';
     b1 = TRUE;
     b2 = FALSE;
         
