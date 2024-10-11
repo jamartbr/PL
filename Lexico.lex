@@ -62,7 +62,7 @@ TIMES       "*"
 
 CHAR        '[A-Za-z]'
 CADENA      \"([^\"]|\\\")*\"
-NUMERO      (\+|\-)?([1-9][0-9]*|0)(\.[0-9]+)? 
+NUMERO      ([1-9][0-9]*|0)(\.[0-9]+)? 
 
 ID          ([A-Za-z])([A-Za-z]|[0-9]|_)*
 
@@ -125,7 +125,7 @@ OTROS       .
 
 '[A-Za-z]'                          { token = "CHAR"; return CHAR; }
 \"([^\"]|\\\")*\"                   { token = "CADENA"; return CADENA; }
-(\+|\-)?([1-9][0-9]*|0)(\.[0-9]+)?  { token = "NUMERO"; return NUMERO;}
+([1-9][0-9]*|0)(\.[0-9]+)?          { token = "NUMERO"; return NUMERO;}
 
 ([A-Za-z])([A-Za-z]|[0-9]|_)*       { token = "ID"; return ID; }
 
