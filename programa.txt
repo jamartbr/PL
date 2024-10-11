@@ -5,8 +5,7 @@ int main
         float f_1, f_2;
         char char_1_2;
         bool b1, b2;
-        list of int l1, l2;
-        string s1,
+        list int l1, l2;
 
         const int const1 = 9;   
     }
@@ -66,7 +65,6 @@ int main
     cin -> 2347 -> 123;
     l1**l2;
 
-    s1 = 'adiccionAlStardewValley';
 
     ?l1;
     l2--3;
