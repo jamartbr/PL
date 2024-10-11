@@ -60,7 +60,7 @@ PLUS        "+"
 MINUS       "-"
 TIMES       "*"
 
-CHAR        [A-Za-z]
+CHAR        '[A-Za-z]'
 CADENA      \"([^\"]|\\\")*\"
 NUMERO      (\+|\-)?([1-9][0-9]*|0)(\.[0-9]+)? 
 
@@ -123,7 +123,7 @@ OTROS       .
 "-"         { token = "MINUS"; return MINUS; }
 "*"         { token = "TIMES"; return TIMES; }
 
-[A-Za-z]                            { token = "CHAR"; return CHAR; }
+'[A-Za-z]'                          { token = "CHAR"; return CHAR; }
 \"([^\"]|\\\")*\"                   { token = "CADENA"; return CADENA; }
 (\+|\-)?([1-9][0-9]*|0)(\.[0-9]+)?  { token = "NUMERO"; return NUMERO;}
 
