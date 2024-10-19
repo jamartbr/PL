@@ -31,8 +31,9 @@ COUT        "cout"
 MAIN        "main"
 RETURN      "return"
 LOCAL       "local"
-INT         "int"
-TIPOVAR     ("float"|"char"|"bool")
+TIPOINT     "int"
+TIPOCHAR    "char"
+TIPOVAR     ("float"|"bool")
 TIPOLISTA   "list"
 TIPOCONST   "const"
 VALBOOL     ("FALSE"|"TRUE")
@@ -123,13 +124,13 @@ OTROS       .
 "-"         { token = "MINUS"; return MINUS; }
 "*"         { token = "TIMES"; return TIMES; }
 
-'[A-Za-z]?'                          { token = "CHAR"; atributo=-2; return CHAR; }
-\"([^\"\n]|\\\")*\"                   { token = "CADENA"; atributo=-2; return CADENA; }
+'[A-Za-z]?'                         { token = "CHAR"; atributo=-2; return CHAR; }
+\"([^\"\n]|\\\")*\"                 { token = "CADENA"; atributo=-2; return CADENA; }
 ([1-9][0-9]*|0)(\.[0-9]+)?          { token = "NUMERO"; atributo=-2; return NUMERO;}
 
 ([A-Za-z])([A-Za-z]|[0-9]|_)*       { token = "ID"; atributo=-2; return ID; }
 
-.           { printf ("\n[Línea %2d] *** Error léxico : %s\n\n", yylineno , yytext ); }
+.                                   { printf ("\n[Línea %2d] *** Error léxico : %s\n\n", yylineno , yytext ); }
 
 %%
 
