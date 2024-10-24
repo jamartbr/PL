@@ -72,7 +72,7 @@ void yyerror ( const char *);
 
 programa            : TIPOINT MAIN bloque
                     ;
-bloque              : LLAVEIZQ declar_var_locales declar_funciones sentencias LLAVEDCH PYC
+bloque              : LLAVEIZQ declar_var_locales declar_funcion sentencia LLAVEDCH PYC
                     ;
 declar_var_locales  : LOCAL LLAVEIZQ var_locales LLAVEDCH
                     | 
@@ -96,18 +96,17 @@ items               : exp COMA items
                     | exp
                     |
                     ;
-
-
-
-
 declar_funciones    : declar_funcion declar_funciones
                     |
                     ;
 declar_funcion      : cabec_funcion bloque
+                    |
                     ;
 cabec_funcion       : tipo_var ID PARIZQ parametros PARDCH
                     ;
 parametros          : parametro COMA parametros 
+                    | parametro
+                    |
                     ;
 parametro           : tipo_var ID
                     ;
@@ -130,7 +129,7 @@ sentencia           : bloque
                     | sentencia_funcion
                     | sentencia_lista
                     ;
-sentencia_asig     : ID ASING exp
+sentencia_asig      : ID ASING exp
                     | ID ASING CORIZQ items CORDCH
                     | ID ASING CORIZQ CADENA CORDCH
                     ;

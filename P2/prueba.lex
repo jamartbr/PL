@@ -1,7 +1,7 @@
 %{
 // ***********************************************************
 // **
-// ** Fichero : PRUEBA. LEX
+// ** Fichero : PRUEBA.LEX
 // ** Funcion : Pruebas de FLEX para prácticas de PL.
 // **
 // ***********************************************************
@@ -130,7 +130,7 @@ OTROS       .
 '[A-Za-z]?'                         { token = "CHAR"; atributo=-2; return CHAR; }
 \"([^\"\n]|\\\")*\"                 { token = "CADENA"; atributo=-2; return CADENA; }
 ([1-9][0-9]*|0)                     { token = "ENTERO"; atributo=-2; return ENTERO; }
-([1-9][0-9]*|0)(\.[0-9]+)?             { token = "NUMERO"; atributo=-2; return NUMERO; }
+([1-9][0-9]*|0)(\.[0-9]+)?          { token = "NUMERO"; atributo=-2; return NUMERO; }
 ([A-Za-z])([A-Za-z]|[0-9]|_)*       { token = "ID"; atributo=-2; return ID; }
 
 .                                   { printf ("\n[Línea %2d] *** Error léxico : %s\n\n", yylineno , yytext ); }

@@ -7,18 +7,18 @@ int main
         bool b1, b2;
         list int l1, l2;
 
-        const int const1 = -.9;   
+        const int const1 = 200;   
     }
 
     int suma(int a, int b)
     {
         return a+b;
-    }
+    };
 
     float resta(float a, float b)
     {
         local{
-            float n1_';
+            float n1;
             float n2;
         }
 
@@ -26,12 +26,12 @@ int main
         n2=b;
 
         return n1-n2;
-    }
+    };
 
-    "bool estaDentro(list lista, int long)
+    bool estaDentro(list lista, int long)
     {
         return long < #lista;
-    }
+    };
        
     i1 = 12;
     i2 = -2;
@@ -47,12 +47,12 @@ int main
     if(i1>i2)
     {
         b1 = FALSE;
-    }
+    };
 
     while (i2 < 6)
     {
         i2 = i2+1;
-    }
+    };
 
     suma(1,2);
 

@@ -569,7 +569,7 @@ char *yytext_ptr;
 #line 2 "prueba.lex"
 // ***********************************************************
 // **
-// ** Fichero : PRUEBA. LEX
+// ** Fichero : PRUEBA.LEX
 // ** Funcion : Pruebas de FLEX para prácticas de PL.
 // **
 // ***********************************************************
