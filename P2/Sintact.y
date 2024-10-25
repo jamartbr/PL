@@ -72,7 +72,7 @@ void yyerror ( const char *);
 
 programa            : TIPOINT MAIN bloque
                     ;
-bloque              : LLAVEIZQ declar_var_locales declar_funcion sentencia LLAVEDCH PYC
+bloque              : LLAVEIZQ declar_var_locales declar_funciones sentencia LLAVEDCH PYC
                     ;
 declar_var_locales  : LOCAL LLAVEIZQ var_locales LLAVEDCH
                     | 
