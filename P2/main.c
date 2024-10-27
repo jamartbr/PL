@@ -1,7 +1,7 @@
 // ************************************************************************
 // ***
 // *** Fichero : MAIN .C
-// *** Funcion : Prueas de FLEX / BISON para prácticas de PL
+// *** Funcion : Pruebas de FLEX / BISON para prácticas de PL
 // ***
 // ************************************************************************
 

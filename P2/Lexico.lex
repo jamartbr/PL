@@ -1,13 +1,14 @@
 %{
-// ***********************************************************
-// **
-// ** Fichero : PRUEBA.LEX
-// ** Funcion : Pruebas de FLEX para prácticas de PL.
-// **
-// ***********************************************************
+// ******************************************************
+// ***
+// *** Fichero : LEXICO.LEX
+// *** Función : Especificación LEX del lenguaje
+// ***
+// *** Ultima modificación: 25-oct-2024
+// ***
+// ******************************************************
 
-// La siguiente orden incluye la tabla de tokens obtenida en BISON
-// y la declaración posterior indica que no se va a escribir la función 'yywrap '
+// La declaración posterior indica que no se va a escribir la función 'yywrap '
 // evita que se tenga que enlazar con -lfl , o que se tenga que escribir dicha
 // función.
 
@@ -17,6 +18,8 @@
 
 char* token;
 int atributo = -1;
+
+// La siguiente orden incluye la tabla de tokens obtenida en BISON
 
 %}
 
@@ -136,3 +139,31 @@ OTROS       .
 .                                   { printf ("\n[Línea %2d] *** Error léxico : %s\n\n", yylineno , yytext ); }
 
 %%
+
+// int main ( int argc, char ** argv )
+// {
+//     int codigo;
+
+//     printf ("Analizador de Léxico - Lenguaje C\n\n");
+//     ++argv, --argc; /* saltamos el nombre del ejecutable */
+//     if ( argc > 0)
+//         yyin = fopen(argv [0], "r");
+//     else
+//         yyin = stdin;
+
+//     codigo = yylex();
+//     while (codigo != 0)
+//     {
+//         printf("\n");
+//         if (atributo == -1)
+//             printf ("[%15s] :: %s \n", yytext, token);
+//         else if (atributo == -2)
+//             printf ("[%15s] :: %s \t :: lexema = %s\n", yytext, token, yytext);
+//         else
+//             printf ("[%15s] :: %s \t :: atrib = %d (%s)\n", yytext, token, atributo, yytext);
+
+//         atributo = -1;
+//         codigo = yylex();
+//     }
+//     exit(0);
+// }

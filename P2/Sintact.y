@@ -2,7 +2,9 @@
 // ************************************************************
 // ***
 // *** Fichero : SINTACT.Y
-// *** Funcion : Pruebas de BISON para prácticas de PL
+// *** Función : Especificación BISON del lenguaje
+// ***
+// *** Ultima modificación: 25-oct-2024
 // ***
 // ************************************************************
 
@@ -18,6 +20,9 @@ void yyerror ( const char *);
 %define parse.error verbose
 
 %start programa
+
+
+// ************* Definición de Tokens *************
 
 %token WHILE      
 %token DO         
@@ -64,47 +69,62 @@ void yyerror ( const char *);
 %token CADENA     
 %token NUMERO     
 %token ENTERO
-%token ID         
+%token ID   
+
+
+// ************* Definición de Precedencia y Asocitividad *************
+
+
 
 %%
 
+// ************* Producciones de la Gramática *************
 
+// Programa
 
 programa            : TIPOINT MAIN bloque
                     ;
-bloque              : LLAVEIZQ declar_var_locales declar_funciones sentencia LLAVEDCH PYC
+bloque              : LLAVEIZQ declar_var_locales declar_funciones sentencias LLAVEDCH
                     ;
+
+
+// Declaración variables locales
+
 declar_var_locales  : LOCAL LLAVEIZQ var_locales LLAVEDCH
                     | 
                     ;
-var_locales         : cuerpo_declar_var var_locales
-                    | cuerpo_declar_const var_locales
-                    | cuerpo_declar_var
-                    | cuerpo_declar_const
+var_locales         : var_locales cuerpo_declar_var PYC
+                    | var_locales cuerpo_declar_const PYC
+                    | cuerpo_declar_var PYC
+                    | cuerpo_declar_const PYC
                     ;
-cuerpo_declar_var   : tipo_var_elem nombres PYC
-                    | TIPOLISTA tipo_var_elem nombres PYC
+cuerpo_declar_var   : tipo_var_elem nombres
+                    | TIPOLISTA tipo_var_elem nombres
                     ;
-nombres             : ID COMA nombres
+nombres             : nombres COMA ID
                     | ID
                     ;
-cuerpo_declar_const : TIPOCONST tipo_var_elem ID ASING exp_no_lista PYC
-                    | TIPOCONST TIPOLISTA tipo_var_elem ID ASING CORIZQ items CORDCH PYC
-                    | TIPOCONST TIPOLISTA TIPOCHAR ID ASING CORIZQ CADENA CORDCH PYC
+cuerpo_declar_const : TIPOCONST tipo_var_elem ID ASING exp_simple
+                    | TIPOCONST TIPOLISTA tipo_var_elem ID ASING CORIZQ asig_const_lista
                     ;
-items               : exp COMA items
-                    | exp
+asig_const_lista    : items CORDCH
+                    | CADENA CORDCH
+                    ;
+items               : items COMA exp_simple
+                    | exp_simple
                     |
                     ;
-declar_funciones    : declar_funcion declar_funciones
+
+
+// Declaración subprogramas (funciones)
+declar_funciones    : declar_funciones declar_funcion
                     |
                     ;
 declar_funcion      : cabec_funcion bloque
-                    |
                     ;
 cabec_funcion       : tipo_var ID PARIZQ parametros PARDCH
                     ;
-parametros          : parametro COMA parametros 
+parametros          : parametros COMA parametro 
                     | parametro
                     |
                     ;
@@ -112,50 +132,47 @@ parametro           : tipo_var ID
                     ;
 
 
+// Sentencias
 
-
-sentencias          : sentencia sentencias PYC
-                    | sentencia PYC
+sentencias          : sentencias bloque PYC 
+                    | sentencias ID ASING sentencia_asig PYC 
+                    | sentencias IF sentencia_if PYC 
+                    | sentencias WHILE sentencia_while PYC 
+                    | sentencias CIN sentencia_entrada PYC 
+                    | sentencias COUT sentencia_salida PYC 
+                    | sentencias RETURN sentencia_return PYC 
+                    | sentencias DO sentencia_do_until PYC 
+                    | sentencias ID PARIZQ sentencia_funcion PARDCH PYC 
+                    | sentencias sentencia_lista PYC 
                     |
                     ;
-sentencia           : bloque
-                    | sentencia_asig
-                    | sentencia_if
-                    | sentencia_while
-                    | sentencia_entrada
-                    | sentencia_salida
-                    | sentencia_return
-                    | sentencia_do_until
-                    | sentencia_funcion
-                    | sentencia_lista
+sentencia_asig      : exp
+                    | CORIZQ items CORDCH
+                    | CORIZQ CADENA CORDCH
                     ;
-sentencia_asig      : ID ASING exp
-                    | ID ASING CORIZQ items CORDCH
-                    | ID ASING CORIZQ CADENA CORDCH
+sentencia_if        : PARIZQ exp PARDCH bloque
+                    | PARIZQ exp PARDCH bloque ELSE bloque
                     ;
-sentencia_if        : IF PARIZQ exp PARDCH bloque
-                    | IF PARIZQ exp PARDCH bloque ELSE bloque
+sentencia_while     : PARIZQ exp PARDCH bloque
                     ;
-sentencia_while     : WHILE PARIZQ exp PARDCH bloque
+sentencia_entrada   : SIG datos_entrada
                     ;
-sentencia_entrada   : CIN SIG datos_entrada
-                    ;
-datos_entrada       : exp SIG datos_entrada
+datos_entrada       : datos_entrada SIG exp
                     | exp
                     ;
-sentencia_salida    : COUT ANT datos_salida
+sentencia_salida    : ANT datos_salida
                     ;
-datos_salida        : dato_salida SIG datos_salida
+datos_salida        : datos_salida SIG dato_salida
                     | dato_salida
                     ;
 dato_salida         : exp
                     | CADENA
                     ;
-sentencia_return    : RETURN exp
+sentencia_return    : exp
                     ;
-sentencia_do_until  : DO bloque UNTIL PARIZQ exp PARDCH
+sentencia_do_until  : bloque UNTIL PARIZQ exp PARDCH
                     ;
-sentencia_funcion   : ID PARIZQ items PARDCH
+sentencia_funcion   : items
                     ;
 sentencia_lista     : ID SIG
                     | ID ANT
@@ -163,53 +180,58 @@ sentencia_lista     : ID SIG
                     ;
 
 
+// Expresiones
 
-exp_simple          : NUMERO
+exp                 : exp PLUS termino
+                    | exp MINUS termino
+                    | exp TIMES termino
+                    | exp OPEBIN termino
+                    | exp OPEBINLIST termino
+                    | termino
+                    | exp ID exp_lista_ID
+                    | exp DOLLAR ID
+                    | exp OPEMONLIST ID
+                    | exp exp_simple aux ID
+                    ;
+exp_lista_ID        : SIG
+                    | ANT
+                    | AT num op_ternario
+                    | MINUSMINUS num
+                    | TIMESTIMES ID
+                    | PLUS exp_simple
+                    | MINUS exp_simple
+                    | TIMES exp_simple
+                    | OPEBINLIST exp_simple
+                    ;
+op_ternario         : PLUSPLUS exp_simple
+                    |
+                    ;
+aux                 : PLUS
+                    | TIMES
+                    ;
+
+termino             : exp_simple
+                    | OPEMON exp_simple
+                    ;
+exp_simple          : op_signo num
                     | CHAR
                     | VALBOOL
-                    | ID
+                    | LLAVEIZQ ID LLAVEDCH
                     ;
-exp                 : exp_no_lista
-                    | exp_lista
-                    ;
-exp_no_lista        : op_monario exp
-                    | exp op_binario exp
-                    | PARIZQ exp PARDCH
-                    | exp_simple
-                    ;
-exp_lista           : op_monario_lista ID
-                    | ID op_binario_lista ENTERO
-                    | ENTERO PLUS ID
-                    | ENTERO TIMES ID
-                    | ID AT exp
-                    | ID PLUSPLUS ENTERO AT exp
-                    | ID TIMESTIMES ID
+num                 : NUMERO
+                    | ENTERO
                     ;
 
 
 
-op_monario          : OPEMON
-                    | PLUS
+// Operadores
+
+op_signo            : PLUS
                     | MINUS
                     ;
-op_binario          : PLUS
-                    | MINUS
-                    | TIMES
-                    | OPEBINLIST
-                    | OPEBIN
-                    ;
 
 
-
-op_monario_lista    : OPEMONLIST
-                    ;
-op_binario_lista    : OPEBINLIST
-                    | MINUSMINUS
-                    | PLUS
-                    | MINUS
-                    | TIMES
-
-
+// Tipos de variables
 
 tipo_var_elem       : TIPOVAR
                     | TIPOCHAR
@@ -218,5 +240,10 @@ tipo_var_elem       : TIPOVAR
 tipo_var            : tipo_var_elem
                     | TIPOLISTA tipo_var_elem
                     ;
+
+
+// Tratamiento de errores
+
+
 
 %%
