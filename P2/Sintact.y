@@ -203,6 +203,14 @@ exp_lista_ID        : SIG
                     | TIMES exp_simple
                     | OPEBINLIST exp_simple
                     ;
+
+
+
+// Operadores y radicales
+
+op_signo            : PLUS
+                    | MINUS
+                    ;
 op_ternario         : PLUSPLUS exp_simple
                     |
                     ;
@@ -220,14 +228,6 @@ exp_simple          : op_signo num
                     ;
 num                 : NUMERO
                     | ENTERO
-                    ;
-
-
-
-// Operadores
-
-op_signo            : PLUS
-                    | MINUS
                     ;
 
 

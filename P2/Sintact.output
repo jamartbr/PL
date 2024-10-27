@@ -108,25 +108,25 @@ Gramática
    76             | TIMES exp_simple
    77             | OPEBINLIST exp_simple
 
-   78 op_ternario: PLUSPLUS exp_simple
-   79            | ε
+   78 op_signo: PLUS
+   79         | MINUS
 
-   80 aux: PLUS
-   81    | TIMES
+   80 op_ternario: PLUSPLUS exp_simple
+   81            | ε
 
-   82 termino: exp_simple
-   83        | OPEMON exp_simple
+   82 aux: PLUS
+   83    | TIMES
 
-   84 exp_simple: op_signo num
-   85           | CHAR
-   86           | VALBOOL
-   87           | LLAVEIZQ ID LLAVEDCH
+   84 termino: exp_simple
+   85        | OPEMON exp_simple
 
-   88 num: NUMERO
-   89    | ENTERO
+   86 exp_simple: op_signo num
+   87           | CHAR
+   88           | VALBOOL
+   89           | LLAVEIZQ ID LLAVEDCH
 
-   90 op_signo: PLUS
-   91         | MINUS
+   90 num: NUMERO
+   91    | ENTERO
 
    92 tipo_var_elem: TIPOVAR
    93              | TIPOCHAR
@@ -155,17 +155,17 @@ Terminales con las reglas donde aparecen
     TIPOVAR (270) 92
     TIPOLISTA (271) 10 14 96
     TIPOCONST (272) 13 14
-    VALBOOL (273) 86
+    VALBOOL (273) 88
     PARIZQ (274) 23 36 42 43 44 54
     PARDCH (275) 23 36 42 43 44 54
-    LLAVEIZQ (276) 2 3 87
-    LLAVEDCH (277) 2 3 87
+    LLAVEIZQ (276) 2 3 89
+    LLAVEDCH (277) 2 3 89
     CORIZQ (278) 14 40 41
     CORDCH (279) 15 16 40 41
     PYC (280) 5 6 7 8 28 29 30 31 32 33 34 35 36 37
     COMA (281) 11 17 24
     ASING (282) 13 14 29
-    OPEMON (283) 83
+    OPEMON (283) 85
     OPEBIN (284) 62
     SIG (285) 45 46 49 56 69
     ANT (286) 48 57 70
@@ -173,17 +173,17 @@ Terminales con las reglas donde aparecen
     OPEMONLIST (288) 67
     OPEBINLIST (289) 63 77
     AT (290) 71
-    PLUSPLUS (291) 78
+    PLUSPLUS (291) 80
     MINUSMINUS (292) 72
     TIMESTIMES (293) 73
-    PLUS (294) 59 74 80 90
-    MINUS (295) 60 75 91
-    TIMES (296) 61 76 81
-    CHAR (297) 85
+    PLUS (294) 59 74 78 82
+    MINUS (295) 60 75 79
+    TIMES (296) 61 76 83
+    CHAR (297) 87
     CADENA (298) 16 41 52
-    NUMERO (299) 88
-    ENTERO (300) 89
-    ID (301) 11 12 13 14 23 27 29 36 56 57 58 65 66 67 68 73 87
+    NUMERO (299) 90
+    ENTERO (300) 91
+    ID (301) 11 12 13 14 23 27 29 36 56 57 58 65 66 67 68 73 89
 
 
 No terminales con las reglas donde aparecen
@@ -277,24 +277,24 @@ No terminales con las reglas donde aparecen
     exp_lista_ID (76)
         on left: 69 70 71 72 73 74 75 76 77
         on right: 65
-    op_ternario (77)
+    op_signo (77)
         on left: 78 79
-        on right: 71
-    aux (78)
+        on right: 86
+    op_ternario (78)
         on left: 80 81
-        on right: 68
-    termino (79)
+        on right: 71
+    aux (79)
         on left: 82 83
+        on right: 68
+    termino (80)
+        on left: 84 85
         on right: 59 60 61 62 63 64
-    exp_simple (80)
-        on left: 84 85 86 87
-        on right: 13 17 18 68 74 75 76 77 78 82 83
-    num (81)
-        on left: 88 89
-        on right: 71 72 84
-    op_signo (82)
+    exp_simple (81)
+        on left: 86 87 88 89
+        on right: 13 17 18 68 74 75 76 77 80 84 85
+    num (82)
         on left: 90 91
-        on right: 84
+        on right: 71 72 86
     tipo_var_elem (83)
         on left: 92 93 94
         on right: 9 10 13 14 95 96
@@ -719,9 +719,9 @@ Estado 43
 
     sentencia_return  ir al estado 72
     exp               ir al estado 73
-    termino           ir al estado 74
-    exp_simple        ir al estado 75
-    op_signo          ir al estado 76
+    op_signo          ir al estado 74
+    termino           ir al estado 75
+    exp_simple        ir al estado 76
 
 
 Estado 44
@@ -829,9 +829,9 @@ Estado 56
     CHAR      desplazar e ir al estado 71
 
     exp         ir al estado 88
-    termino     ir al estado 74
-    exp_simple  ir al estado 75
-    op_signo    ir al estado 76
+    op_signo    ir al estado 74
+    termino     ir al estado 75
+    exp_simple  ir al estado 76
 
 
 Estado 57
@@ -868,9 +868,9 @@ Estado 60
     CHAR      desplazar e ir al estado 71
 
     exp         ir al estado 92
-    termino     ir al estado 74
-    exp_simple  ir al estado 75
-    op_signo    ir al estado 76
+    op_signo    ir al estado 74
+    termino     ir al estado 75
+    exp_simple  ir al estado 76
 
 
 Estado 61
@@ -893,9 +893,9 @@ Estado 62
 
     datos_entrada  ir al estado 94
     exp            ir al estado 95
-    termino        ir al estado 74
-    exp_simple     ir al estado 75
-    op_signo       ir al estado 76
+    op_signo       ir al estado 74
+    termino        ir al estado 75
+    exp_simple     ir al estado 76
 
 
 Estado 63
@@ -920,9 +920,9 @@ Estado 64
     datos_salida  ir al estado 98
     dato_salida   ir al estado 99
     exp           ir al estado 100
-    termino       ir al estado 74
-    exp_simple    ir al estado 75
-    op_signo      ir al estado 76
+    op_signo      ir al estado 74
+    termino       ir al estado 75
+    exp_simple    ir al estado 76
 
 
 Estado 65
@@ -934,21 +934,21 @@ Estado 65
 
 Estado 66
 
-   86 exp_simple: VALBOOL •
+   88 exp_simple: VALBOOL •
 
-    $default  reduce usando la regla 86 (exp_simple)
+    $default  reduce usando la regla 88 (exp_simple)
 
 
 Estado 67
 
-   87 exp_simple: LLAVEIZQ • ID LLAVEDCH
+   89 exp_simple: LLAVEIZQ • ID LLAVEDCH
 
     ID  desplazar e ir al estado 102
 
 
 Estado 68
 
-   83 termino: OPEMON • exp_simple
+   85 termino: OPEMON • exp_simple
 
     VALBOOL   desplazar e ir al estado 66
     LLAVEIZQ  desplazar e ir al estado 67
@@ -956,29 +956,29 @@ Estado 68
     MINUS     desplazar e ir al estado 70
     CHAR      desplazar e ir al estado 71
 
+    op_signo    ir al estado 74
     exp_simple  ir al estado 103
-    op_signo    ir al estado 76
 
 
 Estado 69
 
-   90 op_signo: PLUS •
+   78 op_signo: PLUS •
 
-    $default  reduce usando la regla 90 (op_signo)
+    $default  reduce usando la regla 78 (op_signo)
 
 
 Estado 70
 
-   91 op_signo: MINUS •
+   79 op_signo: MINUS •
 
-    $default  reduce usando la regla 91 (op_signo)
+    $default  reduce usando la regla 79 (op_signo)
 
 
 Estado 71
 
-   85 exp_simple: CHAR •
+   87 exp_simple: CHAR •
 
-    $default  reduce usando la regla 85 (exp_simple)
+    $default  reduce usando la regla 87 (exp_simple)
 
 
 Estado 72
@@ -1015,32 +1015,32 @@ Estado 73
 
     $default  reduce usando la regla 53 (sentencia_return)
 
+    op_signo    ir al estado 74
     exp_simple  ir al estado 113
-    op_signo    ir al estado 76
 
 
 Estado 74
+
+   86 exp_simple: op_signo • num
+
+    NUMERO  desplazar e ir al estado 114
+    ENTERO  desplazar e ir al estado 115
+
+    num  ir al estado 116
+
+
+Estado 75
 
    64 exp: termino •
 
     $default  reduce usando la regla 64 (exp)
 
 
-Estado 75
-
-   82 termino: exp_simple •
-
-    $default  reduce usando la regla 82 (termino)
-
-
 Estado 76
 
-   84 exp_simple: op_signo • num
+   84 termino: exp_simple •
 
-    NUMERO  desplazar e ir al estado 114
-    ENTERO  desplazar e ir al estado 115
-
-    num  ir al estado 116
+    $default  reduce usando la regla 84 (termino)
 
 
 Estado 77
@@ -1064,8 +1064,8 @@ Estado 78
 
     items              ir al estado 117
     sentencia_funcion  ir al estado 118
+    op_signo           ir al estado 74
     exp_simple         ir al estado 119
-    op_signo           ir al estado 76
 
 
 Estado 79
@@ -1082,9 +1082,9 @@ Estado 79
 
     sentencia_asig  ir al estado 121
     exp             ir al estado 122
-    termino         ir al estado 74
-    exp_simple      ir al estado 75
-    op_signo        ir al estado 76
+    op_signo        ir al estado 74
+    termino         ir al estado 75
+    exp_simple      ir al estado 76
 
 
 Estado 80
@@ -1149,8 +1149,8 @@ Estado 86
     MINUS     desplazar e ir al estado 70
     CHAR      desplazar e ir al estado 71
 
+    op_signo    ir al estado 74
     exp_simple  ir al estado 127
-    op_signo    ir al estado 76
 
 
 Estado 87
@@ -1186,8 +1186,8 @@ Estado 88
     CHAR        desplazar e ir al estado 71
     ID          desplazar e ir al estado 112
 
+    op_signo    ir al estado 74
     exp_simple  ir al estado 113
-    op_signo    ir al estado 76
 
 
 Estado 89
@@ -1238,8 +1238,8 @@ Estado 92
     CHAR        desplazar e ir al estado 71
     ID          desplazar e ir al estado 112
 
+    op_signo    ir al estado 74
     exp_simple  ir al estado 113
-    op_signo    ir al estado 76
 
 
 Estado 93
@@ -1286,8 +1286,8 @@ Estado 95
 
     $default  reduce usando la regla 47 (datos_entrada)
 
+    op_signo    ir al estado 74
     exp_simple  ir al estado 113
-    op_signo    ir al estado 76
 
 
 Estado 96
@@ -1348,8 +1348,8 @@ Estado 100
 
     $default  reduce usando la regla 51 (dato_salida)
 
+    op_signo    ir al estado 74
     exp_simple  ir al estado 113
-    op_signo    ir al estado 76
 
 
 Estado 101
@@ -1361,16 +1361,16 @@ Estado 101
 
 Estado 102
 
-   87 exp_simple: LLAVEIZQ ID • LLAVEDCH
+   89 exp_simple: LLAVEIZQ ID • LLAVEDCH
 
     LLAVEDCH  desplazar e ir al estado 133
 
 
 Estado 103
 
-   83 termino: OPEMON exp_simple •
+   85 termino: OPEMON exp_simple •
 
-    $default  reduce usando la regla 83 (termino)
+    $default  reduce usando la regla 85 (termino)
 
 
 Estado 104
@@ -1391,9 +1391,9 @@ Estado 105
     MINUS     desplazar e ir al estado 70
     CHAR      desplazar e ir al estado 71
 
+    op_signo    ir al estado 74
     termino     ir al estado 134
-    exp_simple  ir al estado 75
-    op_signo    ir al estado 76
+    exp_simple  ir al estado 76
 
 
 Estado 106
@@ -1421,15 +1421,15 @@ Estado 108
     MINUS     desplazar e ir al estado 70
     CHAR      desplazar e ir al estado 71
 
+    op_signo    ir al estado 74
     termino     ir al estado 137
-    exp_simple  ir al estado 75
-    op_signo    ir al estado 76
+    exp_simple  ir al estado 76
 
 
 Estado 109
 
    59 exp: exp PLUS • termino
-   90 op_signo: PLUS •
+   78 op_signo: PLUS •
 
     VALBOOL   desplazar e ir al estado 66
     LLAVEIZQ  desplazar e ir al estado 67
@@ -1438,17 +1438,17 @@ Estado 109
     MINUS     desplazar e ir al estado 70
     CHAR      desplazar e ir al estado 71
 
-    $default  reduce usando la regla 90 (op_signo)
+    $default  reduce usando la regla 78 (op_signo)
 
+    op_signo    ir al estado 74
     termino     ir al estado 138
-    exp_simple  ir al estado 75
-    op_signo    ir al estado 76
+    exp_simple  ir al estado 76
 
 
 Estado 110
 
    60 exp: exp MINUS • termino
-   91 op_signo: MINUS •
+   79 op_signo: MINUS •
 
     VALBOOL   desplazar e ir al estado 66
     LLAVEIZQ  desplazar e ir al estado 67
@@ -1457,11 +1457,11 @@ Estado 110
     MINUS     desplazar e ir al estado 70
     CHAR      desplazar e ir al estado 71
 
-    $default  reduce usando la regla 91 (op_signo)
+    $default  reduce usando la regla 79 (op_signo)
 
+    op_signo    ir al estado 74
     termino     ir al estado 139
-    exp_simple  ir al estado 75
-    op_signo    ir al estado 76
+    exp_simple  ir al estado 76
 
 
 Estado 111
@@ -1475,9 +1475,9 @@ Estado 111
     MINUS     desplazar e ir al estado 70
     CHAR      desplazar e ir al estado 71
 
+    op_signo    ir al estado 74
     termino     ir al estado 140
-    exp_simple  ir al estado 75
-    op_signo    ir al estado 76
+    exp_simple  ir al estado 76
 
 
 Estado 112
@@ -1509,23 +1509,23 @@ Estado 113
 
 Estado 114
 
-   88 num: NUMERO •
+   90 num: NUMERO •
 
-    $default  reduce usando la regla 88 (num)
+    $default  reduce usando la regla 90 (num)
 
 
 Estado 115
 
-   89 num: ENTERO •
+   91 num: ENTERO •
 
-    $default  reduce usando la regla 89 (num)
+    $default  reduce usando la regla 91 (num)
 
 
 Estado 116
 
-   84 exp_simple: op_signo num •
+   86 exp_simple: op_signo num •
 
-    $default  reduce usando la regla 84 (exp_simple)
+    $default  reduce usando la regla 86 (exp_simple)
 
 
 Estado 117
@@ -1567,8 +1567,8 @@ Estado 120
     $default  reduce usando la regla 19 (items)
 
     items       ir al estado 157
+    op_signo    ir al estado 74
     exp_simple  ir al estado 119
-    op_signo    ir al estado 76
 
 
 Estado 121
@@ -1605,8 +1605,8 @@ Estado 122
 
     $default  reduce usando la regla 39 (sentencia_asig)
 
+    op_signo    ir al estado 74
     exp_simple  ir al estado 113
-    op_signo    ir al estado 76
 
 
 Estado 123
@@ -1667,9 +1667,9 @@ Estado 129
     CHAR      desplazar e ir al estado 71
 
     exp         ir al estado 164
-    termino     ir al estado 74
-    exp_simple  ir al estado 75
-    op_signo    ir al estado 76
+    op_signo    ir al estado 74
+    termino     ir al estado 75
+    exp_simple  ir al estado 76
 
 
 Estado 130
@@ -1694,9 +1694,9 @@ Estado 131
     CHAR      desplazar e ir al estado 71
 
     exp         ir al estado 166
-    termino     ir al estado 74
-    exp_simple  ir al estado 75
-    op_signo    ir al estado 76
+    op_signo    ir al estado 74
+    termino     ir al estado 75
+    exp_simple  ir al estado 76
 
 
 Estado 132
@@ -1713,16 +1713,16 @@ Estado 132
 
     dato_salida  ir al estado 167
     exp          ir al estado 100
-    termino      ir al estado 74
-    exp_simple   ir al estado 75
-    op_signo     ir al estado 76
+    op_signo     ir al estado 74
+    termino      ir al estado 75
+    exp_simple   ir al estado 76
 
 
 Estado 133
 
-   87 exp_simple: LLAVEIZQ ID LLAVEDCH •
+   89 exp_simple: LLAVEIZQ ID LLAVEDCH •
 
-    $default  reduce usando la regla 87 (exp_simple)
+    $default  reduce usando la regla 89 (exp_simple)
 
 
 Estado 134
@@ -1798,8 +1798,8 @@ Estado 143
     MINUS     desplazar e ir al estado 70
     CHAR      desplazar e ir al estado 71
 
+    op_signo    ir al estado 74
     exp_simple  ir al estado 168
-    op_signo    ir al estado 76
 
 
 Estado 144
@@ -1839,8 +1839,8 @@ Estado 147
     MINUS     desplazar e ir al estado 70
     CHAR      desplazar e ir al estado 71
 
+    op_signo    ir al estado 74
     exp_simple  ir al estado 172
-    op_signo    ir al estado 76
 
 
 Estado 148
@@ -1853,8 +1853,8 @@ Estado 148
     MINUS     desplazar e ir al estado 70
     CHAR      desplazar e ir al estado 71
 
+    op_signo    ir al estado 74
     exp_simple  ir al estado 173
-    op_signo    ir al estado 76
 
 
 Estado 149
@@ -1867,8 +1867,8 @@ Estado 149
     MINUS     desplazar e ir al estado 70
     CHAR      desplazar e ir al estado 71
 
+    op_signo    ir al estado 74
     exp_simple  ir al estado 174
-    op_signo    ir al estado 76
 
 
 Estado 150
@@ -1880,16 +1880,16 @@ Estado 150
 
 Estado 151
 
-   80 aux: PLUS •
+   82 aux: PLUS •
 
-    $default  reduce usando la regla 80 (aux)
+    $default  reduce usando la regla 82 (aux)
 
 
 Estado 152
 
-   81 aux: TIMES •
+   83 aux: TIMES •
 
-    $default  reduce usando la regla 81 (aux)
+    $default  reduce usando la regla 83 (aux)
 
 
 Estado 153
@@ -1909,8 +1909,8 @@ Estado 154
     MINUS     desplazar e ir al estado 70
     CHAR      desplazar e ir al estado 71
 
+    op_signo    ir al estado 74
     exp_simple  ir al estado 176
-    op_signo    ir al estado 76
 
 
 Estado 155
@@ -1986,8 +1986,8 @@ Estado 162
 
     asig_const_lista  ir al estado 182
     items             ir al estado 183
+    op_signo          ir al estado 74
     exp_simple        ir al estado 119
-    op_signo          ir al estado 76
 
 
 Estado 163
@@ -2023,8 +2023,8 @@ Estado 164
     CHAR        desplazar e ir al estado 71
     ID          desplazar e ir al estado 112
 
+    op_signo    ir al estado 74
     exp_simple  ir al estado 113
-    op_signo    ir al estado 76
 
 
 Estado 165
@@ -2064,8 +2064,8 @@ Estado 166
 
     $default  reduce usando la regla 46 (datos_entrada)
 
+    op_signo    ir al estado 74
     exp_simple  ir al estado 113
-    op_signo    ir al estado 76
 
 
 Estado 167
@@ -2088,7 +2088,7 @@ Estado 169
 
     PLUSPLUS  desplazar e ir al estado 186
 
-    $default  reduce usando la regla 79 (op_ternario)
+    $default  reduce usando la regla 81 (op_ternario)
 
     op_ternario  ir al estado 187
 
@@ -2211,7 +2211,7 @@ Estado 185
 
 Estado 186
 
-   78 op_ternario: PLUSPLUS • exp_simple
+   80 op_ternario: PLUSPLUS • exp_simple
 
     VALBOOL   desplazar e ir al estado 66
     LLAVEIZQ  desplazar e ir al estado 67
@@ -2219,8 +2219,8 @@ Estado 186
     MINUS     desplazar e ir al estado 70
     CHAR      desplazar e ir al estado 71
 
+    op_signo    ir al estado 74
     exp_simple  ir al estado 191
-    op_signo    ir al estado 76
 
 
 Estado 187
@@ -2253,6 +2253,6 @@ Estado 190
 
 Estado 191
 
-   78 op_ternario: PLUSPLUS exp_simple •
+   80 op_ternario: PLUSPLUS exp_simple •
 
-    $default  reduce usando la regla 78 (op_ternario)
+    $default  reduce usando la regla 80 (op_ternario)
