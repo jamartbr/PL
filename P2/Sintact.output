@@ -20,8 +20,8 @@ Gramática
    11 nombres: nombres COMA ID
    12        | ID
 
-   13 cuerpo_declar_const: TIPOCONST tipo_var_elem ID ASING exp_simple
-   14                    | TIPOCONST TIPOLISTA tipo_var_elem ID ASING CORIZQ asig_const_lista
+   13 cuerpo_declar_const: TIPOCONST tipo_var_elem ID ASIGN exp_simple
+   14                    | TIPOCONST TIPOLISTA tipo_var_elem ID ASIGN CORIZQ asig_const_lista
 
    15 asig_const_lista: items CORDCH
    16                 | CADENA CORDCH
@@ -33,7 +33,7 @@ Gramática
    20 declar_funciones: declar_funciones declar_funcion
    21                 | ε
 
-   22 declar_funcion: cabec_funcion bloque
+   22 declar_funcion: cabec_funcion bloque PYC
 
    23 cabec_funcion: tipo_var ID PARIZQ parametros PARDCH
 
@@ -44,7 +44,7 @@ Gramática
    27 parametro: tipo_var ID
 
    28 sentencias: sentencias bloque PYC
-   29           | sentencias ID ASING sentencia_asig PYC
+   29           | sentencias ID ASIGN sentencia_asig PYC
    30           | sentencias IF sentencia_if PYC
    31           | sentencias WHILE sentencia_while PYC
    32           | sentencias CIN sentencia_entrada PYC
@@ -92,54 +92,51 @@ Gramática
    61    | exp TIMES termino
    62    | exp OPEBIN termino
    63    | exp OPEBINLIST termino
-   64    | termino
-   65    | exp ID exp_lista_ID
-   66    | exp DOLLAR ID
-   67    | exp OPEMONLIST ID
-   68    | exp exp_simple aux ID
+   64    | exp ID exp_lista_ID
+   65    | exp OPEMONLIST ID
+   66    | exp exp_simple aux ID
+   67    | termino
+   68    | error
 
-   69 exp_lista_ID: SIG
-   70             | ANT
-   71             | AT num op_ternario
-   72             | MINUSMINUS num
-   73             | TIMESTIMES ID
-   74             | PLUS exp_simple
-   75             | MINUS exp_simple
-   76             | TIMES exp_simple
-   77             | OPEBINLIST exp_simple
+   69 exp_lista_ID: AT num op_ternario
+   70             | MINUSMINUS num
+   71             | TIMESTIMES ID
+   72             | PLUS exp_simple
+   73             | MINUS exp_simple
+   74             | TIMES exp_simple
+   75             | OPEBINLIST exp_simple
 
-   78 op_signo: PLUS
-   79         | MINUS
+   76 op_ternario: PLUSPLUS exp_simple
+   77            | ε
 
-   80 op_ternario: PLUSPLUS exp_simple
-   81            | ε
+   78 aux: PLUS
+   79    | TIMES
 
-   82 aux: PLUS
-   83    | TIMES
+   80 termino: exp_simple
+   81        | OPEMON exp_simple
+   82        | PARIZQ exp PARDCH
+   83        | OPEMONLIST LLAVEIZQ ID LLAVEDCH
 
-   84 termino: exp_simple
-   85        | OPEMON exp_simple
+   84 exp_simple: num
+   85           | CHAR
+   86           | VALBOOL
+   87           | LLAVEIZQ ID LLAVEDCH
 
-   86 exp_simple: op_signo num
-   87           | CHAR
-   88           | VALBOOL
-   89           | LLAVEIZQ ID LLAVEDCH
+   88 num: NUMERO
+   89    | ENTERO
 
-   90 num: NUMERO
-   91    | ENTERO
+   90 tipo_var_elem: TIPOVAR
+   91              | TIPOCHAR
+   92              | TIPOINT
 
-   92 tipo_var_elem: TIPOVAR
-   93              | TIPOCHAR
-   94              | TIPOINT
-
-   95 tipo_var: tipo_var_elem
-   96         | TIPOLISTA tipo_var_elem
+   93 tipo_var: tipo_var_elem
+   94         | TIPOLISTA
 
 
 Terminales con las reglas donde aparecen
 
     $end (0) 0
-    error (256)
+    error (256) 68
     WHILE (258) 31
     DO (259) 35
     UNTIL (260) 54
@@ -150,40 +147,40 @@ Terminales con las reglas donde aparecen
     MAIN (265) 1
     RETURN (266) 34
     LOCAL (267) 3
-    TIPOINT (268) 1 94
-    TIPOCHAR (269) 93
-    TIPOVAR (270) 92
-    TIPOLISTA (271) 10 14 96
+    TIPOINT (268) 1 92
+    TIPOCHAR (269) 91
+    TIPOVAR (270) 90
+    TIPOLISTA (271) 10 14 94
     TIPOCONST (272) 13 14
-    VALBOOL (273) 88
-    PARIZQ (274) 23 36 42 43 44 54
-    PARDCH (275) 23 36 42 43 44 54
-    LLAVEIZQ (276) 2 3 89
-    LLAVEDCH (277) 2 3 89
+    VALBOOL (273) 86
+    PARIZQ (274) 23 36 42 43 44 54 82
+    PARDCH (275) 23 36 42 43 44 54 82
+    LLAVEIZQ (276) 2 3 83 87
+    LLAVEDCH (277) 2 3 83 87
     CORIZQ (278) 14 40 41
     CORDCH (279) 15 16 40 41
-    PYC (280) 5 6 7 8 28 29 30 31 32 33 34 35 36 37
+    PYC (280) 5 6 7 8 22 28 29 30 31 32 33 34 35 36 37
     COMA (281) 11 17 24
-    ASING (282) 13 14 29
-    OPEMON (283) 85
+    ASIGN (282) 13 14 29
+    OPEMON (283) 81
     OPEBIN (284) 62
-    SIG (285) 45 46 49 56 69
-    ANT (286) 48 57 70
-    DOLLAR (287) 58 66
-    OPEMONLIST (288) 67
-    OPEBINLIST (289) 63 77
-    AT (290) 71
-    PLUSPLUS (291) 80
-    MINUSMINUS (292) 72
-    TIMESTIMES (293) 73
-    PLUS (294) 59 74 78 82
-    MINUS (295) 60 75 79
-    TIMES (296) 61 76 83
-    CHAR (297) 87
+    SIG (285) 45 46 49 56
+    ANT (286) 48 57
+    DOLLAR (287) 58
+    OPEMONLIST (288) 65 83
+    OPEBINLIST (289) 63 75
+    AT (290) 69
+    PLUSPLUS (291) 76
+    MINUSMINUS (292) 70
+    TIMESTIMES (293) 71
+    PLUS (294) 59 72 78
+    MINUS (295) 60 73
+    TIMES (296) 61 74 79
+    CHAR (297) 85
     CADENA (298) 16 41 52
-    NUMERO (299) 90
-    ENTERO (300) 91
-    ID (301) 11 12 13 14 23 27 29 36 56 57 58 65 66 67 68 73 89
+    NUMERO (299) 88
+    ENTERO (300) 89
+    ID (301) 11 12 13 14 23 27 29 36 56 57 58 64 65 66 71 83 87
 
 
 No terminales con las reglas donde aparecen
@@ -273,33 +270,30 @@ No terminales con las reglas donde aparecen
         on right: 37
     exp (75)
         on left: 59 60 61 62 63 64 65 66 67 68
-        on right: 39 42 43 44 46 47 51 53 54 59 60 61 62 63 65 66 67 68
+        on right: 39 42 43 44 46 47 51 53 54 59 60 61 62 63 64 65 66 82
     exp_lista_ID (76)
-        on left: 69 70 71 72 73 74 75 76 77
-        on right: 65
-    op_signo (77)
+        on left: 69 70 71 72 73 74 75
+        on right: 64
+    op_ternario (77)
+        on left: 76 77
+        on right: 69
+    aux (78)
         on left: 78 79
-        on right: 86
-    op_ternario (78)
-        on left: 80 81
-        on right: 71
-    aux (79)
-        on left: 82 83
-        on right: 68
-    termino (80)
-        on left: 84 85
-        on right: 59 60 61 62 63 64
-    exp_simple (81)
-        on left: 86 87 88 89
-        on right: 13 17 18 68 74 75 76 77 80 84 85
-    num (82)
-        on left: 90 91
-        on right: 71 72 86
-    tipo_var_elem (83)
-        on left: 92 93 94
-        on right: 9 10 13 14 95 96
-    tipo_var (84)
-        on left: 95 96
+        on right: 66
+    termino (79)
+        on left: 80 81 82 83
+        on right: 59 60 61 62 63 67
+    exp_simple (80)
+        on left: 84 85 86 87
+        on right: 13 17 18 66 72 73 74 75 76 80 81
+    num (81)
+        on left: 88 89
+        on right: 69 70 84
+    tipo_var_elem (82)
+        on left: 90 91 92
+        on right: 9 10 13 14 93
+    tipo_var (83)
+        on left: 93 94
         on right: 23 27
 
 
@@ -413,23 +407,23 @@ Estado 10
 
 Estado 11
 
-   94 tipo_var_elem: TIPOINT •
+   92 tipo_var_elem: TIPOINT •
 
-    $default  reduce usando la regla 94 (tipo_var_elem)
+    $default  reduce usando la regla 92 (tipo_var_elem)
 
 
 Estado 12
 
-   93 tipo_var_elem: TIPOCHAR •
+   91 tipo_var_elem: TIPOCHAR •
 
-    $default  reduce usando la regla 93 (tipo_var_elem)
+    $default  reduce usando la regla 91 (tipo_var_elem)
 
 
 Estado 13
 
-   92 tipo_var_elem: TIPOVAR •
+   90 tipo_var_elem: TIPOVAR •
 
-    $default  reduce usando la regla 92 (tipo_var_elem)
+    $default  reduce usando la regla 90 (tipo_var_elem)
 
 
 Estado 14
@@ -445,8 +439,8 @@ Estado 14
 
 Estado 15
 
-   13 cuerpo_declar_const: TIPOCONST • tipo_var_elem ID ASING exp_simple
-   14                    | TIPOCONST • TIPOLISTA tipo_var_elem ID ASING CORIZQ asig_const_lista
+   13 cuerpo_declar_const: TIPOCONST • tipo_var_elem ID ASIGN exp_simple
+   14                    | TIPOCONST • TIPOLISTA tipo_var_elem ID ASIGN CORIZQ asig_const_lista
 
     TIPOINT    desplazar e ir al estado 11
     TIPOCHAR   desplazar e ir al estado 12
@@ -499,13 +493,9 @@ Estado 19
 
 Estado 20
 
-   96 tipo_var: TIPOLISTA • tipo_var_elem
+   94 tipo_var: TIPOLISTA •
 
-    TIPOINT   desplazar e ir al estado 11
-    TIPOCHAR  desplazar e ir al estado 12
-    TIPOVAR   desplazar e ir al estado 13
-
-    tipo_var_elem  ir al estado 36
+    $default  reduce usando la regla 94 (tipo_var)
 
 
 Estado 21
@@ -517,18 +507,18 @@ Estado 21
 
 Estado 22
 
-   22 declar_funcion: cabec_funcion • bloque
+   22 declar_funcion: cabec_funcion • bloque PYC
 
     LLAVEIZQ  desplazar e ir al estado 5
 
-    bloque  ir al estado 37
+    bloque  ir al estado 36
 
 
 Estado 23
 
     2 bloque: LLAVEIZQ declar_var_locales declar_funciones sentencias • LLAVEDCH
    28 sentencias: sentencias • bloque PYC
-   29           | sentencias • ID ASING sentencia_asig PYC
+   29           | sentencias • ID ASIGN sentencia_asig PYC
    30           | sentencias • IF sentencia_if PYC
    31           | sentencias • WHILE sentencia_while PYC
    32           | sentencias • CIN sentencia_entrada PYC
@@ -538,33 +528,33 @@ Estado 23
    36           | sentencias • ID PARIZQ sentencia_funcion PARDCH PYC
    37           | sentencias • sentencia_lista PYC
 
-    WHILE     desplazar e ir al estado 38
-    DO        desplazar e ir al estado 39
-    IF        desplazar e ir al estado 40
-    CIN       desplazar e ir al estado 41
-    COUT      desplazar e ir al estado 42
-    RETURN    desplazar e ir al estado 43
+    WHILE     desplazar e ir al estado 37
+    DO        desplazar e ir al estado 38
+    IF        desplazar e ir al estado 39
+    CIN       desplazar e ir al estado 40
+    COUT      desplazar e ir al estado 41
+    RETURN    desplazar e ir al estado 42
     LLAVEIZQ  desplazar e ir al estado 5
-    LLAVEDCH  desplazar e ir al estado 44
-    DOLLAR    desplazar e ir al estado 45
-    ID        desplazar e ir al estado 46
+    LLAVEDCH  desplazar e ir al estado 43
+    DOLLAR    desplazar e ir al estado 44
+    ID        desplazar e ir al estado 45
 
-    bloque           ir al estado 47
-    sentencia_lista  ir al estado 48
+    bloque           ir al estado 46
+    sentencia_lista  ir al estado 47
 
 
 Estado 24
 
-   95 tipo_var: tipo_var_elem •
+   93 tipo_var: tipo_var_elem •
 
-    $default  reduce usando la regla 95 (tipo_var)
+    $default  reduce usando la regla 93 (tipo_var)
 
 
 Estado 25
 
    23 cabec_funcion: tipo_var • ID PARIZQ parametros PARDCH
 
-    ID  desplazar e ir al estado 49
+    ID  desplazar e ir al estado 48
 
 
 Estado 26
@@ -573,25 +563,25 @@ Estado 26
 
     ID  desplazar e ir al estado 34
 
-    nombres  ir al estado 50
+    nombres  ir al estado 49
 
 
 Estado 27
 
-   14 cuerpo_declar_const: TIPOCONST TIPOLISTA • tipo_var_elem ID ASING CORIZQ asig_const_lista
+   14 cuerpo_declar_const: TIPOCONST TIPOLISTA • tipo_var_elem ID ASIGN CORIZQ asig_const_lista
 
     TIPOINT   desplazar e ir al estado 11
     TIPOCHAR  desplazar e ir al estado 12
     TIPOVAR   desplazar e ir al estado 13
 
-    tipo_var_elem  ir al estado 51
+    tipo_var_elem  ir al estado 50
 
 
 Estado 28
 
-   13 cuerpo_declar_const: TIPOCONST tipo_var_elem • ID ASING exp_simple
+   13 cuerpo_declar_const: TIPOCONST tipo_var_elem • ID ASIGN exp_simple
 
-    ID  desplazar e ir al estado 52
+    ID  desplazar e ir al estado 51
 
 
 Estado 29
@@ -605,14 +595,14 @@ Estado 30
 
     5 var_locales: var_locales cuerpo_declar_var • PYC
 
-    PYC  desplazar e ir al estado 53
+    PYC  desplazar e ir al estado 52
 
 
 Estado 31
 
     6 var_locales: var_locales cuerpo_declar_const • PYC
 
-    PYC  desplazar e ir al estado 54
+    PYC  desplazar e ir al estado 53
 
 
 Estado 32
@@ -641,26 +631,19 @@ Estado 35
     9 cuerpo_declar_var: tipo_var_elem nombres •
    11 nombres: nombres • COMA ID
 
-    COMA  desplazar e ir al estado 55
+    COMA  desplazar e ir al estado 54
 
     $default  reduce usando la regla 9 (cuerpo_declar_var)
 
 
 Estado 36
 
-   96 tipo_var: TIPOLISTA tipo_var_elem •
+   22 declar_funcion: cabec_funcion bloque • PYC
 
-    $default  reduce usando la regla 96 (tipo_var)
+    PYC  desplazar e ir al estado 55
 
 
 Estado 37
-
-   22 declar_funcion: cabec_funcion bloque •
-
-    $default  reduce usando la regla 22 (declar_funcion)
-
-
-Estado 38
 
    31 sentencias: sentencias WHILE • sentencia_while PYC
 
@@ -669,7 +652,7 @@ Estado 38
     sentencia_while  ir al estado 57
 
 
-Estado 39
+Estado 38
 
    35 sentencias: sentencias DO • sentencia_do_until PYC
 
@@ -679,7 +662,7 @@ Estado 39
     sentencia_do_until  ir al estado 59
 
 
-Estado 40
+Estado 39
 
    30 sentencias: sentencias IF • sentencia_if PYC
 
@@ -688,7 +671,7 @@ Estado 40
     sentencia_if  ir al estado 61
 
 
-Estado 41
+Estado 40
 
    32 sentencias: sentencias CIN • sentencia_entrada PYC
 
@@ -697,7 +680,7 @@ Estado 41
     sentencia_entrada  ir al estado 63
 
 
-Estado 42
+Estado 41
 
    33 sentencias: sentencias COUT • sentencia_salida PYC
 
@@ -706,153 +689,166 @@ Estado 42
     sentencia_salida  ir al estado 65
 
 
-Estado 43
+Estado 42
 
    34 sentencias: sentencias RETURN • sentencia_return PYC
 
-    VALBOOL   desplazar e ir al estado 66
-    LLAVEIZQ  desplazar e ir al estado 67
-    OPEMON    desplazar e ir al estado 68
-    PLUS      desplazar e ir al estado 69
-    MINUS     desplazar e ir al estado 70
-    CHAR      desplazar e ir al estado 71
+    error       desplazar e ir al estado 66
+    VALBOOL     desplazar e ir al estado 67
+    PARIZQ      desplazar e ir al estado 68
+    LLAVEIZQ    desplazar e ir al estado 69
+    OPEMON      desplazar e ir al estado 70
+    OPEMONLIST  desplazar e ir al estado 71
+    CHAR        desplazar e ir al estado 72
+    NUMERO      desplazar e ir al estado 73
+    ENTERO      desplazar e ir al estado 74
 
-    sentencia_return  ir al estado 72
-    exp               ir al estado 73
-    op_signo          ir al estado 74
-    termino           ir al estado 75
-    exp_simple        ir al estado 76
+    sentencia_return  ir al estado 75
+    exp               ir al estado 76
+    termino           ir al estado 77
+    exp_simple        ir al estado 78
+    num               ir al estado 79
 
 
-Estado 44
+Estado 43
 
     2 bloque: LLAVEIZQ declar_var_locales declar_funciones sentencias LLAVEDCH •
 
     $default  reduce usando la regla 2 (bloque)
 
 
-Estado 45
+Estado 44
 
    58 sentencia_lista: DOLLAR • ID
 
-    ID  desplazar e ir al estado 77
+    ID  desplazar e ir al estado 80
 
 
-Estado 46
+Estado 45
 
-   29 sentencias: sentencias ID • ASING sentencia_asig PYC
+   29 sentencias: sentencias ID • ASIGN sentencia_asig PYC
    36           | sentencias ID • PARIZQ sentencia_funcion PARDCH PYC
    56 sentencia_lista: ID • SIG
    57                | ID • ANT
 
-    PARIZQ  desplazar e ir al estado 78
-    ASING   desplazar e ir al estado 79
-    SIG     desplazar e ir al estado 80
-    ANT     desplazar e ir al estado 81
+    PARIZQ  desplazar e ir al estado 81
+    ASIGN   desplazar e ir al estado 82
+    SIG     desplazar e ir al estado 83
+    ANT     desplazar e ir al estado 84
+
+
+Estado 46
+
+   28 sentencias: sentencias bloque • PYC
+
+    PYC  desplazar e ir al estado 85
 
 
 Estado 47
 
-   28 sentencias: sentencias bloque • PYC
+   37 sentencias: sentencias sentencia_lista • PYC
 
-    PYC  desplazar e ir al estado 82
+    PYC  desplazar e ir al estado 86
 
 
 Estado 48
 
-   37 sentencias: sentencias sentencia_lista • PYC
+   23 cabec_funcion: tipo_var ID • PARIZQ parametros PARDCH
 
-    PYC  desplazar e ir al estado 83
+    PARIZQ  desplazar e ir al estado 87
 
 
 Estado 49
 
-   23 cabec_funcion: tipo_var ID • PARIZQ parametros PARDCH
-
-    PARIZQ  desplazar e ir al estado 84
-
-
-Estado 50
-
    10 cuerpo_declar_var: TIPOLISTA tipo_var_elem nombres •
    11 nombres: nombres • COMA ID
 
-    COMA  desplazar e ir al estado 55
+    COMA  desplazar e ir al estado 54
 
     $default  reduce usando la regla 10 (cuerpo_declar_var)
 
 
+Estado 50
+
+   14 cuerpo_declar_const: TIPOCONST TIPOLISTA tipo_var_elem • ID ASIGN CORIZQ asig_const_lista
+
+    ID  desplazar e ir al estado 88
+
+
 Estado 51
 
-   14 cuerpo_declar_const: TIPOCONST TIPOLISTA tipo_var_elem • ID ASING CORIZQ asig_const_lista
+   13 cuerpo_declar_const: TIPOCONST tipo_var_elem ID • ASIGN exp_simple
 
-    ID  desplazar e ir al estado 85
+    ASIGN  desplazar e ir al estado 89
 
 
 Estado 52
-
-   13 cuerpo_declar_const: TIPOCONST tipo_var_elem ID • ASING exp_simple
-
-    ASING  desplazar e ir al estado 86
-
-
-Estado 53
 
     5 var_locales: var_locales cuerpo_declar_var PYC •
 
     $default  reduce usando la regla 5 (var_locales)
 
 
-Estado 54
+Estado 53
 
     6 var_locales: var_locales cuerpo_declar_const PYC •
 
     $default  reduce usando la regla 6 (var_locales)
 
 
-Estado 55
+Estado 54
 
    11 nombres: nombres COMA • ID
 
-    ID  desplazar e ir al estado 87
+    ID  desplazar e ir al estado 90
+
+
+Estado 55
+
+   22 declar_funcion: cabec_funcion bloque PYC •
+
+    $default  reduce usando la regla 22 (declar_funcion)
 
 
 Estado 56
 
    44 sentencia_while: PARIZQ • exp PARDCH bloque
 
-    VALBOOL   desplazar e ir al estado 66
-    LLAVEIZQ  desplazar e ir al estado 67
-    OPEMON    desplazar e ir al estado 68
-    PLUS      desplazar e ir al estado 69
-    MINUS     desplazar e ir al estado 70
-    CHAR      desplazar e ir al estado 71
+    error       desplazar e ir al estado 66
+    VALBOOL     desplazar e ir al estado 67
+    PARIZQ      desplazar e ir al estado 68
+    LLAVEIZQ    desplazar e ir al estado 69
+    OPEMON      desplazar e ir al estado 70
+    OPEMONLIST  desplazar e ir al estado 71
+    CHAR        desplazar e ir al estado 72
+    NUMERO      desplazar e ir al estado 73
+    ENTERO      desplazar e ir al estado 74
 
-    exp         ir al estado 88
-    op_signo    ir al estado 74
-    termino     ir al estado 75
-    exp_simple  ir al estado 76
+    exp         ir al estado 91
+    termino     ir al estado 77
+    exp_simple  ir al estado 78
+    num         ir al estado 79
 
 
 Estado 57
 
    31 sentencias: sentencias WHILE sentencia_while • PYC
 
-    PYC  desplazar e ir al estado 89
+    PYC  desplazar e ir al estado 92
 
 
 Estado 58
 
    54 sentencia_do_until: bloque • UNTIL PARIZQ exp PARDCH
 
-    UNTIL  desplazar e ir al estado 90
+    UNTIL  desplazar e ir al estado 93
 
 
 Estado 59
 
    35 sentencias: sentencias DO sentencia_do_until • PYC
 
-    PYC  desplazar e ir al estado 91
+    PYC  desplazar e ir al estado 94
 
 
 Estado 60
@@ -860,135 +856,178 @@ Estado 60
    42 sentencia_if: PARIZQ • exp PARDCH bloque
    43             | PARIZQ • exp PARDCH bloque ELSE bloque
 
-    VALBOOL   desplazar e ir al estado 66
-    LLAVEIZQ  desplazar e ir al estado 67
-    OPEMON    desplazar e ir al estado 68
-    PLUS      desplazar e ir al estado 69
-    MINUS     desplazar e ir al estado 70
-    CHAR      desplazar e ir al estado 71
+    error       desplazar e ir al estado 66
+    VALBOOL     desplazar e ir al estado 67
+    PARIZQ      desplazar e ir al estado 68
+    LLAVEIZQ    desplazar e ir al estado 69
+    OPEMON      desplazar e ir al estado 70
+    OPEMONLIST  desplazar e ir al estado 71
+    CHAR        desplazar e ir al estado 72
+    NUMERO      desplazar e ir al estado 73
+    ENTERO      desplazar e ir al estado 74
 
-    exp         ir al estado 92
-    op_signo    ir al estado 74
-    termino     ir al estado 75
-    exp_simple  ir al estado 76
+    exp         ir al estado 95
+    termino     ir al estado 77
+    exp_simple  ir al estado 78
+    num         ir al estado 79
 
 
 Estado 61
 
    30 sentencias: sentencias IF sentencia_if • PYC
 
-    PYC  desplazar e ir al estado 93
+    PYC  desplazar e ir al estado 96
 
 
 Estado 62
 
    45 sentencia_entrada: SIG • datos_entrada
 
-    VALBOOL   desplazar e ir al estado 66
-    LLAVEIZQ  desplazar e ir al estado 67
-    OPEMON    desplazar e ir al estado 68
-    PLUS      desplazar e ir al estado 69
-    MINUS     desplazar e ir al estado 70
-    CHAR      desplazar e ir al estado 71
+    error       desplazar e ir al estado 66
+    VALBOOL     desplazar e ir al estado 67
+    PARIZQ      desplazar e ir al estado 68
+    LLAVEIZQ    desplazar e ir al estado 69
+    OPEMON      desplazar e ir al estado 70
+    OPEMONLIST  desplazar e ir al estado 71
+    CHAR        desplazar e ir al estado 72
+    NUMERO      desplazar e ir al estado 73
+    ENTERO      desplazar e ir al estado 74
 
-    datos_entrada  ir al estado 94
-    exp            ir al estado 95
-    op_signo       ir al estado 74
-    termino        ir al estado 75
-    exp_simple     ir al estado 76
+    datos_entrada  ir al estado 97
+    exp            ir al estado 98
+    termino        ir al estado 77
+    exp_simple     ir al estado 78
+    num            ir al estado 79
 
 
 Estado 63
 
    32 sentencias: sentencias CIN sentencia_entrada • PYC
 
-    PYC  desplazar e ir al estado 96
+    PYC  desplazar e ir al estado 99
 
 
 Estado 64
 
    48 sentencia_salida: ANT • datos_salida
 
-    VALBOOL   desplazar e ir al estado 66
-    LLAVEIZQ  desplazar e ir al estado 67
-    OPEMON    desplazar e ir al estado 68
-    PLUS      desplazar e ir al estado 69
-    MINUS     desplazar e ir al estado 70
-    CHAR      desplazar e ir al estado 71
-    CADENA    desplazar e ir al estado 97
+    error       desplazar e ir al estado 66
+    VALBOOL     desplazar e ir al estado 67
+    PARIZQ      desplazar e ir al estado 68
+    LLAVEIZQ    desplazar e ir al estado 69
+    OPEMON      desplazar e ir al estado 70
+    OPEMONLIST  desplazar e ir al estado 71
+    CHAR        desplazar e ir al estado 72
+    CADENA      desplazar e ir al estado 100
+    NUMERO      desplazar e ir al estado 73
+    ENTERO      desplazar e ir al estado 74
 
-    datos_salida  ir al estado 98
-    dato_salida   ir al estado 99
-    exp           ir al estado 100
-    op_signo      ir al estado 74
-    termino       ir al estado 75
-    exp_simple    ir al estado 76
+    datos_salida  ir al estado 101
+    dato_salida   ir al estado 102
+    exp           ir al estado 103
+    termino       ir al estado 77
+    exp_simple    ir al estado 78
+    num           ir al estado 79
 
 
 Estado 65
 
    33 sentencias: sentencias COUT sentencia_salida • PYC
 
-    PYC  desplazar e ir al estado 101
+    PYC  desplazar e ir al estado 104
 
 
 Estado 66
 
-   88 exp_simple: VALBOOL •
+   68 exp: error •
 
-    $default  reduce usando la regla 88 (exp_simple)
+    $default  reduce usando la regla 68 (exp)
 
 
 Estado 67
 
-   89 exp_simple: LLAVEIZQ • ID LLAVEDCH
+   86 exp_simple: VALBOOL •
 
-    ID  desplazar e ir al estado 102
+    $default  reduce usando la regla 86 (exp_simple)
 
 
 Estado 68
 
-   85 termino: OPEMON • exp_simple
+   82 termino: PARIZQ • exp PARDCH
 
-    VALBOOL   desplazar e ir al estado 66
-    LLAVEIZQ  desplazar e ir al estado 67
-    PLUS      desplazar e ir al estado 69
-    MINUS     desplazar e ir al estado 70
-    CHAR      desplazar e ir al estado 71
+    error       desplazar e ir al estado 66
+    VALBOOL     desplazar e ir al estado 67
+    PARIZQ      desplazar e ir al estado 68
+    LLAVEIZQ    desplazar e ir al estado 69
+    OPEMON      desplazar e ir al estado 70
+    OPEMONLIST  desplazar e ir al estado 71
+    CHAR        desplazar e ir al estado 72
+    NUMERO      desplazar e ir al estado 73
+    ENTERO      desplazar e ir al estado 74
 
-    op_signo    ir al estado 74
-    exp_simple  ir al estado 103
+    exp         ir al estado 105
+    termino     ir al estado 77
+    exp_simple  ir al estado 78
+    num         ir al estado 79
 
 
 Estado 69
 
-   78 op_signo: PLUS •
+   87 exp_simple: LLAVEIZQ • ID LLAVEDCH
 
-    $default  reduce usando la regla 78 (op_signo)
+    ID  desplazar e ir al estado 106
 
 
 Estado 70
 
-   79 op_signo: MINUS •
+   81 termino: OPEMON • exp_simple
 
-    $default  reduce usando la regla 79 (op_signo)
+    VALBOOL   desplazar e ir al estado 67
+    LLAVEIZQ  desplazar e ir al estado 69
+    CHAR      desplazar e ir al estado 72
+    NUMERO    desplazar e ir al estado 73
+    ENTERO    desplazar e ir al estado 74
+
+    exp_simple  ir al estado 107
+    num         ir al estado 79
 
 
 Estado 71
 
-   87 exp_simple: CHAR •
+   83 termino: OPEMONLIST • LLAVEIZQ ID LLAVEDCH
 
-    $default  reduce usando la regla 87 (exp_simple)
+    LLAVEIZQ  desplazar e ir al estado 108
 
 
 Estado 72
 
-   34 sentencias: sentencias RETURN sentencia_return • PYC
+   85 exp_simple: CHAR •
 
-    PYC  desplazar e ir al estado 104
+    $default  reduce usando la regla 85 (exp_simple)
 
 
 Estado 73
+
+   88 num: NUMERO •
+
+    $default  reduce usando la regla 88 (num)
+
+
+Estado 74
+
+   89 num: ENTERO •
+
+    $default  reduce usando la regla 89 (num)
+
+
+Estado 75
+
+   34 sentencias: sentencias RETURN sentencia_return • PYC
+
+    PYC  desplazar e ir al estado 109
+
+
+Estado 76
 
    53 sentencia_return: exp •
    59 exp: exp • PLUS termino
@@ -996,126 +1035,126 @@ Estado 73
    61    | exp • TIMES termino
    62    | exp • OPEBIN termino
    63    | exp • OPEBINLIST termino
-   65    | exp • ID exp_lista_ID
-   66    | exp • DOLLAR ID
-   67    | exp • OPEMONLIST ID
-   68    | exp • exp_simple aux ID
+   64    | exp • ID exp_lista_ID
+   65    | exp • OPEMONLIST ID
+   66    | exp • exp_simple aux ID
 
-    VALBOOL     desplazar e ir al estado 66
-    LLAVEIZQ    desplazar e ir al estado 67
-    OPEBIN      desplazar e ir al estado 105
-    DOLLAR      desplazar e ir al estado 106
-    OPEMONLIST  desplazar e ir al estado 107
-    OPEBINLIST  desplazar e ir al estado 108
-    PLUS        desplazar e ir al estado 109
-    MINUS       desplazar e ir al estado 110
-    TIMES       desplazar e ir al estado 111
-    CHAR        desplazar e ir al estado 71
-    ID          desplazar e ir al estado 112
+    VALBOOL     desplazar e ir al estado 67
+    LLAVEIZQ    desplazar e ir al estado 69
+    OPEBIN      desplazar e ir al estado 110
+    OPEMONLIST  desplazar e ir al estado 111
+    OPEBINLIST  desplazar e ir al estado 112
+    PLUS        desplazar e ir al estado 113
+    MINUS       desplazar e ir al estado 114
+    TIMES       desplazar e ir al estado 115
+    CHAR        desplazar e ir al estado 72
+    NUMERO      desplazar e ir al estado 73
+    ENTERO      desplazar e ir al estado 74
+    ID          desplazar e ir al estado 116
 
     $default  reduce usando la regla 53 (sentencia_return)
 
-    op_signo    ir al estado 74
-    exp_simple  ir al estado 113
-
-
-Estado 74
-
-   86 exp_simple: op_signo • num
-
-    NUMERO  desplazar e ir al estado 114
-    ENTERO  desplazar e ir al estado 115
-
-    num  ir al estado 116
-
-
-Estado 75
-
-   64 exp: termino •
-
-    $default  reduce usando la regla 64 (exp)
-
-
-Estado 76
-
-   84 termino: exp_simple •
-
-    $default  reduce usando la regla 84 (termino)
+    exp_simple  ir al estado 117
+    num         ir al estado 79
 
 
 Estado 77
+
+   67 exp: termino •
+
+    $default  reduce usando la regla 67 (exp)
+
+
+Estado 78
+
+   80 termino: exp_simple •
+
+    $default  reduce usando la regla 80 (termino)
+
+
+Estado 79
+
+   84 exp_simple: num •
+
+    $default  reduce usando la regla 84 (exp_simple)
+
+
+Estado 80
 
    58 sentencia_lista: DOLLAR ID •
 
     $default  reduce usando la regla 58 (sentencia_lista)
 
 
-Estado 78
+Estado 81
 
    36 sentencias: sentencias ID PARIZQ • sentencia_funcion PARDCH PYC
 
-    VALBOOL   desplazar e ir al estado 66
-    LLAVEIZQ  desplazar e ir al estado 67
-    PLUS      desplazar e ir al estado 69
-    MINUS     desplazar e ir al estado 70
-    CHAR      desplazar e ir al estado 71
+    VALBOOL   desplazar e ir al estado 67
+    LLAVEIZQ  desplazar e ir al estado 69
+    CHAR      desplazar e ir al estado 72
+    NUMERO    desplazar e ir al estado 73
+    ENTERO    desplazar e ir al estado 74
 
     $default  reduce usando la regla 19 (items)
 
-    items              ir al estado 117
-    sentencia_funcion  ir al estado 118
-    op_signo           ir al estado 74
-    exp_simple         ir al estado 119
+    items              ir al estado 118
+    sentencia_funcion  ir al estado 119
+    exp_simple         ir al estado 120
+    num                ir al estado 79
 
 
-Estado 79
+Estado 82
 
-   29 sentencias: sentencias ID ASING • sentencia_asig PYC
+   29 sentencias: sentencias ID ASIGN • sentencia_asig PYC
 
-    VALBOOL   desplazar e ir al estado 66
-    LLAVEIZQ  desplazar e ir al estado 67
-    CORIZQ    desplazar e ir al estado 120
-    OPEMON    desplazar e ir al estado 68
-    PLUS      desplazar e ir al estado 69
-    MINUS     desplazar e ir al estado 70
-    CHAR      desplazar e ir al estado 71
+    error       desplazar e ir al estado 66
+    VALBOOL     desplazar e ir al estado 67
+    PARIZQ      desplazar e ir al estado 68
+    LLAVEIZQ    desplazar e ir al estado 69
+    CORIZQ      desplazar e ir al estado 121
+    OPEMON      desplazar e ir al estado 70
+    OPEMONLIST  desplazar e ir al estado 71
+    CHAR        desplazar e ir al estado 72
+    NUMERO      desplazar e ir al estado 73
+    ENTERO      desplazar e ir al estado 74
 
-    sentencia_asig  ir al estado 121
-    exp             ir al estado 122
-    op_signo        ir al estado 74
-    termino         ir al estado 75
-    exp_simple      ir al estado 76
+    sentencia_asig  ir al estado 122
+    exp             ir al estado 123
+    termino         ir al estado 77
+    exp_simple      ir al estado 78
+    num             ir al estado 79
 
 
-Estado 80
+Estado 83
 
    56 sentencia_lista: ID SIG •
 
     $default  reduce usando la regla 56 (sentencia_lista)
 
 
-Estado 81
+Estado 84
 
    57 sentencia_lista: ID ANT •
 
     $default  reduce usando la regla 57 (sentencia_lista)
 
 
-Estado 82
+Estado 85
 
    28 sentencias: sentencias bloque PYC •
 
     $default  reduce usando la regla 28 (sentencias)
 
 
-Estado 83
+Estado 86
 
    37 sentencias: sentencias sentencia_lista PYC •
 
     $default  reduce usando la regla 37 (sentencias)
 
 
-Estado 84
+Estado 87
 
    23 cabec_funcion: tipo_var ID PARIZQ • parametros PARDCH
 
@@ -1126,41 +1165,41 @@ Estado 84
 
     $default  reduce usando la regla 26 (parametros)
 
-    parametros     ir al estado 123
-    parametro      ir al estado 124
+    parametros     ir al estado 124
+    parametro      ir al estado 125
     tipo_var_elem  ir al estado 24
-    tipo_var       ir al estado 125
+    tipo_var       ir al estado 126
 
 
-Estado 85
+Estado 88
 
-   14 cuerpo_declar_const: TIPOCONST TIPOLISTA tipo_var_elem ID • ASING CORIZQ asig_const_lista
+   14 cuerpo_declar_const: TIPOCONST TIPOLISTA tipo_var_elem ID • ASIGN CORIZQ asig_const_lista
 
-    ASING  desplazar e ir al estado 126
-
-
-Estado 86
-
-   13 cuerpo_declar_const: TIPOCONST tipo_var_elem ID ASING • exp_simple
-
-    VALBOOL   desplazar e ir al estado 66
-    LLAVEIZQ  desplazar e ir al estado 67
-    PLUS      desplazar e ir al estado 69
-    MINUS     desplazar e ir al estado 70
-    CHAR      desplazar e ir al estado 71
-
-    op_signo    ir al estado 74
-    exp_simple  ir al estado 127
+    ASIGN  desplazar e ir al estado 127
 
 
-Estado 87
+Estado 89
+
+   13 cuerpo_declar_const: TIPOCONST tipo_var_elem ID ASIGN • exp_simple
+
+    VALBOOL   desplazar e ir al estado 67
+    LLAVEIZQ  desplazar e ir al estado 69
+    CHAR      desplazar e ir al estado 72
+    NUMERO    desplazar e ir al estado 73
+    ENTERO    desplazar e ir al estado 74
+
+    exp_simple  ir al estado 128
+    num         ir al estado 79
+
+
+Estado 90
 
    11 nombres: nombres COMA ID •
 
     $default  reduce usando la regla 11 (nombres)
 
 
-Estado 88
+Estado 91
 
    44 sentencia_while: PARIZQ exp • PARDCH bloque
    59 exp: exp • PLUS termino
@@ -1168,50 +1207,50 @@ Estado 88
    61    | exp • TIMES termino
    62    | exp • OPEBIN termino
    63    | exp • OPEBINLIST termino
-   65    | exp • ID exp_lista_ID
-   66    | exp • DOLLAR ID
-   67    | exp • OPEMONLIST ID
-   68    | exp • exp_simple aux ID
+   64    | exp • ID exp_lista_ID
+   65    | exp • OPEMONLIST ID
+   66    | exp • exp_simple aux ID
 
-    VALBOOL     desplazar e ir al estado 66
-    PARDCH      desplazar e ir al estado 128
-    LLAVEIZQ    desplazar e ir al estado 67
-    OPEBIN      desplazar e ir al estado 105
-    DOLLAR      desplazar e ir al estado 106
-    OPEMONLIST  desplazar e ir al estado 107
-    OPEBINLIST  desplazar e ir al estado 108
-    PLUS        desplazar e ir al estado 109
-    MINUS       desplazar e ir al estado 110
-    TIMES       desplazar e ir al estado 111
-    CHAR        desplazar e ir al estado 71
-    ID          desplazar e ir al estado 112
+    VALBOOL     desplazar e ir al estado 67
+    PARDCH      desplazar e ir al estado 129
+    LLAVEIZQ    desplazar e ir al estado 69
+    OPEBIN      desplazar e ir al estado 110
+    OPEMONLIST  desplazar e ir al estado 111
+    OPEBINLIST  desplazar e ir al estado 112
+    PLUS        desplazar e ir al estado 113
+    MINUS       desplazar e ir al estado 114
+    TIMES       desplazar e ir al estado 115
+    CHAR        desplazar e ir al estado 72
+    NUMERO      desplazar e ir al estado 73
+    ENTERO      desplazar e ir al estado 74
+    ID          desplazar e ir al estado 116
 
-    op_signo    ir al estado 74
-    exp_simple  ir al estado 113
+    exp_simple  ir al estado 117
+    num         ir al estado 79
 
 
-Estado 89
+Estado 92
 
    31 sentencias: sentencias WHILE sentencia_while PYC •
 
     $default  reduce usando la regla 31 (sentencias)
 
 
-Estado 90
+Estado 93
 
    54 sentencia_do_until: bloque UNTIL • PARIZQ exp PARDCH
 
-    PARIZQ  desplazar e ir al estado 129
+    PARIZQ  desplazar e ir al estado 130
 
 
-Estado 91
+Estado 94
 
    35 sentencias: sentencias DO sentencia_do_until PYC •
 
     $default  reduce usando la regla 35 (sentencias)
 
 
-Estado 92
+Estado 95
 
    42 sentencia_if: PARIZQ exp • PARDCH bloque
    43             | PARIZQ exp • PARDCH bloque ELSE bloque
@@ -1220,46 +1259,46 @@ Estado 92
    61    | exp • TIMES termino
    62    | exp • OPEBIN termino
    63    | exp • OPEBINLIST termino
-   65    | exp • ID exp_lista_ID
-   66    | exp • DOLLAR ID
-   67    | exp • OPEMONLIST ID
-   68    | exp • exp_simple aux ID
+   64    | exp • ID exp_lista_ID
+   65    | exp • OPEMONLIST ID
+   66    | exp • exp_simple aux ID
 
-    VALBOOL     desplazar e ir al estado 66
-    PARDCH      desplazar e ir al estado 130
-    LLAVEIZQ    desplazar e ir al estado 67
-    OPEBIN      desplazar e ir al estado 105
-    DOLLAR      desplazar e ir al estado 106
-    OPEMONLIST  desplazar e ir al estado 107
-    OPEBINLIST  desplazar e ir al estado 108
-    PLUS        desplazar e ir al estado 109
-    MINUS       desplazar e ir al estado 110
-    TIMES       desplazar e ir al estado 111
-    CHAR        desplazar e ir al estado 71
-    ID          desplazar e ir al estado 112
+    VALBOOL     desplazar e ir al estado 67
+    PARDCH      desplazar e ir al estado 131
+    LLAVEIZQ    desplazar e ir al estado 69
+    OPEBIN      desplazar e ir al estado 110
+    OPEMONLIST  desplazar e ir al estado 111
+    OPEBINLIST  desplazar e ir al estado 112
+    PLUS        desplazar e ir al estado 113
+    MINUS       desplazar e ir al estado 114
+    TIMES       desplazar e ir al estado 115
+    CHAR        desplazar e ir al estado 72
+    NUMERO      desplazar e ir al estado 73
+    ENTERO      desplazar e ir al estado 74
+    ID          desplazar e ir al estado 116
 
-    op_signo    ir al estado 74
-    exp_simple  ir al estado 113
+    exp_simple  ir al estado 117
+    num         ir al estado 79
 
 
-Estado 93
+Estado 96
 
    30 sentencias: sentencias IF sentencia_if PYC •
 
     $default  reduce usando la regla 30 (sentencias)
 
 
-Estado 94
+Estado 97
 
    45 sentencia_entrada: SIG datos_entrada •
    46 datos_entrada: datos_entrada • SIG exp
 
-    SIG  desplazar e ir al estado 131
+    SIG  desplazar e ir al estado 132
 
     $default  reduce usando la regla 45 (sentencia_entrada)
 
 
-Estado 95
+Estado 98
 
    47 datos_entrada: exp •
    59 exp: exp • PLUS termino
@@ -1267,61 +1306,61 @@ Estado 95
    61    | exp • TIMES termino
    62    | exp • OPEBIN termino
    63    | exp • OPEBINLIST termino
-   65    | exp • ID exp_lista_ID
-   66    | exp • DOLLAR ID
-   67    | exp • OPEMONLIST ID
-   68    | exp • exp_simple aux ID
+   64    | exp • ID exp_lista_ID
+   65    | exp • OPEMONLIST ID
+   66    | exp • exp_simple aux ID
 
-    VALBOOL     desplazar e ir al estado 66
-    LLAVEIZQ    desplazar e ir al estado 67
-    OPEBIN      desplazar e ir al estado 105
-    DOLLAR      desplazar e ir al estado 106
-    OPEMONLIST  desplazar e ir al estado 107
-    OPEBINLIST  desplazar e ir al estado 108
-    PLUS        desplazar e ir al estado 109
-    MINUS       desplazar e ir al estado 110
-    TIMES       desplazar e ir al estado 111
-    CHAR        desplazar e ir al estado 71
-    ID          desplazar e ir al estado 112
+    VALBOOL     desplazar e ir al estado 67
+    LLAVEIZQ    desplazar e ir al estado 69
+    OPEBIN      desplazar e ir al estado 110
+    OPEMONLIST  desplazar e ir al estado 111
+    OPEBINLIST  desplazar e ir al estado 112
+    PLUS        desplazar e ir al estado 113
+    MINUS       desplazar e ir al estado 114
+    TIMES       desplazar e ir al estado 115
+    CHAR        desplazar e ir al estado 72
+    NUMERO      desplazar e ir al estado 73
+    ENTERO      desplazar e ir al estado 74
+    ID          desplazar e ir al estado 116
 
     $default  reduce usando la regla 47 (datos_entrada)
 
-    op_signo    ir al estado 74
-    exp_simple  ir al estado 113
+    exp_simple  ir al estado 117
+    num         ir al estado 79
 
 
-Estado 96
+Estado 99
 
    32 sentencias: sentencias CIN sentencia_entrada PYC •
 
     $default  reduce usando la regla 32 (sentencias)
 
 
-Estado 97
+Estado 100
 
    52 dato_salida: CADENA •
 
     $default  reduce usando la regla 52 (dato_salida)
 
 
-Estado 98
+Estado 101
 
    48 sentencia_salida: ANT datos_salida •
    49 datos_salida: datos_salida • SIG dato_salida
 
-    SIG  desplazar e ir al estado 132
+    SIG  desplazar e ir al estado 133
 
     $default  reduce usando la regla 48 (sentencia_salida)
 
 
-Estado 99
+Estado 102
 
    50 datos_salida: dato_salida •
 
     $default  reduce usando la regla 50 (datos_salida)
 
 
-Estado 100
+Estado 103
 
    51 dato_salida: exp •
    59 exp: exp • PLUS termino
@@ -1329,163 +1368,195 @@ Estado 100
    61    | exp • TIMES termino
    62    | exp • OPEBIN termino
    63    | exp • OPEBINLIST termino
-   65    | exp • ID exp_lista_ID
-   66    | exp • DOLLAR ID
-   67    | exp • OPEMONLIST ID
-   68    | exp • exp_simple aux ID
+   64    | exp • ID exp_lista_ID
+   65    | exp • OPEMONLIST ID
+   66    | exp • exp_simple aux ID
 
-    VALBOOL     desplazar e ir al estado 66
-    LLAVEIZQ    desplazar e ir al estado 67
-    OPEBIN      desplazar e ir al estado 105
-    DOLLAR      desplazar e ir al estado 106
-    OPEMONLIST  desplazar e ir al estado 107
-    OPEBINLIST  desplazar e ir al estado 108
-    PLUS        desplazar e ir al estado 109
-    MINUS       desplazar e ir al estado 110
-    TIMES       desplazar e ir al estado 111
-    CHAR        desplazar e ir al estado 71
-    ID          desplazar e ir al estado 112
+    VALBOOL     desplazar e ir al estado 67
+    LLAVEIZQ    desplazar e ir al estado 69
+    OPEBIN      desplazar e ir al estado 110
+    OPEMONLIST  desplazar e ir al estado 111
+    OPEBINLIST  desplazar e ir al estado 112
+    PLUS        desplazar e ir al estado 113
+    MINUS       desplazar e ir al estado 114
+    TIMES       desplazar e ir al estado 115
+    CHAR        desplazar e ir al estado 72
+    NUMERO      desplazar e ir al estado 73
+    ENTERO      desplazar e ir al estado 74
+    ID          desplazar e ir al estado 116
 
     $default  reduce usando la regla 51 (dato_salida)
 
-    op_signo    ir al estado 74
-    exp_simple  ir al estado 113
+    exp_simple  ir al estado 117
+    num         ir al estado 79
 
 
-Estado 101
+Estado 104
 
    33 sentencias: sentencias COUT sentencia_salida PYC •
 
     $default  reduce usando la regla 33 (sentencias)
 
 
-Estado 102
+Estado 105
 
-   89 exp_simple: LLAVEIZQ ID • LLAVEDCH
+   59 exp: exp • PLUS termino
+   60    | exp • MINUS termino
+   61    | exp • TIMES termino
+   62    | exp • OPEBIN termino
+   63    | exp • OPEBINLIST termino
+   64    | exp • ID exp_lista_ID
+   65    | exp • OPEMONLIST ID
+   66    | exp • exp_simple aux ID
+   82 termino: PARIZQ exp • PARDCH
 
-    LLAVEDCH  desplazar e ir al estado 133
+    VALBOOL     desplazar e ir al estado 67
+    PARDCH      desplazar e ir al estado 134
+    LLAVEIZQ    desplazar e ir al estado 69
+    OPEBIN      desplazar e ir al estado 110
+    OPEMONLIST  desplazar e ir al estado 111
+    OPEBINLIST  desplazar e ir al estado 112
+    PLUS        desplazar e ir al estado 113
+    MINUS       desplazar e ir al estado 114
+    TIMES       desplazar e ir al estado 115
+    CHAR        desplazar e ir al estado 72
+    NUMERO      desplazar e ir al estado 73
+    ENTERO      desplazar e ir al estado 74
+    ID          desplazar e ir al estado 116
+
+    exp_simple  ir al estado 117
+    num         ir al estado 79
 
 
-Estado 103
+Estado 106
 
-   85 termino: OPEMON exp_simple •
+   87 exp_simple: LLAVEIZQ ID • LLAVEDCH
 
-    $default  reduce usando la regla 85 (termino)
+    LLAVEDCH  desplazar e ir al estado 135
 
 
-Estado 104
+Estado 107
+
+   81 termino: OPEMON exp_simple •
+
+    $default  reduce usando la regla 81 (termino)
+
+
+Estado 108
+
+   83 termino: OPEMONLIST LLAVEIZQ • ID LLAVEDCH
+
+    ID  desplazar e ir al estado 136
+
+
+Estado 109
 
    34 sentencias: sentencias RETURN sentencia_return PYC •
 
     $default  reduce usando la regla 34 (sentencias)
 
 
-Estado 105
+Estado 110
 
    62 exp: exp OPEBIN • termino
 
-    VALBOOL   desplazar e ir al estado 66
-    LLAVEIZQ  desplazar e ir al estado 67
-    OPEMON    desplazar e ir al estado 68
-    PLUS      desplazar e ir al estado 69
-    MINUS     desplazar e ir al estado 70
-    CHAR      desplazar e ir al estado 71
+    VALBOOL     desplazar e ir al estado 67
+    PARIZQ      desplazar e ir al estado 68
+    LLAVEIZQ    desplazar e ir al estado 69
+    OPEMON      desplazar e ir al estado 70
+    OPEMONLIST  desplazar e ir al estado 71
+    CHAR        desplazar e ir al estado 72
+    NUMERO      desplazar e ir al estado 73
+    ENTERO      desplazar e ir al estado 74
 
-    op_signo    ir al estado 74
-    termino     ir al estado 134
-    exp_simple  ir al estado 76
-
-
-Estado 106
-
-   66 exp: exp DOLLAR • ID
-
-    ID  desplazar e ir al estado 135
-
-
-Estado 107
-
-   67 exp: exp OPEMONLIST • ID
-
-    ID  desplazar e ir al estado 136
-
-
-Estado 108
-
-   63 exp: exp OPEBINLIST • termino
-
-    VALBOOL   desplazar e ir al estado 66
-    LLAVEIZQ  desplazar e ir al estado 67
-    OPEMON    desplazar e ir al estado 68
-    PLUS      desplazar e ir al estado 69
-    MINUS     desplazar e ir al estado 70
-    CHAR      desplazar e ir al estado 71
-
-    op_signo    ir al estado 74
     termino     ir al estado 137
-    exp_simple  ir al estado 76
-
-
-Estado 109
-
-   59 exp: exp PLUS • termino
-   78 op_signo: PLUS •
-
-    VALBOOL   desplazar e ir al estado 66
-    LLAVEIZQ  desplazar e ir al estado 67
-    OPEMON    desplazar e ir al estado 68
-    PLUS      desplazar e ir al estado 69
-    MINUS     desplazar e ir al estado 70
-    CHAR      desplazar e ir al estado 71
-
-    $default  reduce usando la regla 78 (op_signo)
-
-    op_signo    ir al estado 74
-    termino     ir al estado 138
-    exp_simple  ir al estado 76
-
-
-Estado 110
-
-   60 exp: exp MINUS • termino
-   79 op_signo: MINUS •
-
-    VALBOOL   desplazar e ir al estado 66
-    LLAVEIZQ  desplazar e ir al estado 67
-    OPEMON    desplazar e ir al estado 68
-    PLUS      desplazar e ir al estado 69
-    MINUS     desplazar e ir al estado 70
-    CHAR      desplazar e ir al estado 71
-
-    $default  reduce usando la regla 79 (op_signo)
-
-    op_signo    ir al estado 74
-    termino     ir al estado 139
-    exp_simple  ir al estado 76
+    exp_simple  ir al estado 78
+    num         ir al estado 79
 
 
 Estado 111
 
-   61 exp: exp TIMES • termino
+   65 exp: exp OPEMONLIST • ID
 
-    VALBOOL   desplazar e ir al estado 66
-    LLAVEIZQ  desplazar e ir al estado 67
-    OPEMON    desplazar e ir al estado 68
-    PLUS      desplazar e ir al estado 69
-    MINUS     desplazar e ir al estado 70
-    CHAR      desplazar e ir al estado 71
-
-    op_signo    ir al estado 74
-    termino     ir al estado 140
-    exp_simple  ir al estado 76
+    ID  desplazar e ir al estado 138
 
 
 Estado 112
 
-   65 exp: exp ID • exp_lista_ID
+   63 exp: exp OPEBINLIST • termino
 
-    SIG         desplazar e ir al estado 141
-    ANT         desplazar e ir al estado 142
+    VALBOOL     desplazar e ir al estado 67
+    PARIZQ      desplazar e ir al estado 68
+    LLAVEIZQ    desplazar e ir al estado 69
+    OPEMON      desplazar e ir al estado 70
+    OPEMONLIST  desplazar e ir al estado 71
+    CHAR        desplazar e ir al estado 72
+    NUMERO      desplazar e ir al estado 73
+    ENTERO      desplazar e ir al estado 74
+
+    termino     ir al estado 139
+    exp_simple  ir al estado 78
+    num         ir al estado 79
+
+
+Estado 113
+
+   59 exp: exp PLUS • termino
+
+    VALBOOL     desplazar e ir al estado 67
+    PARIZQ      desplazar e ir al estado 68
+    LLAVEIZQ    desplazar e ir al estado 69
+    OPEMON      desplazar e ir al estado 70
+    OPEMONLIST  desplazar e ir al estado 71
+    CHAR        desplazar e ir al estado 72
+    NUMERO      desplazar e ir al estado 73
+    ENTERO      desplazar e ir al estado 74
+
+    termino     ir al estado 140
+    exp_simple  ir al estado 78
+    num         ir al estado 79
+
+
+Estado 114
+
+   60 exp: exp MINUS • termino
+
+    VALBOOL     desplazar e ir al estado 67
+    PARIZQ      desplazar e ir al estado 68
+    LLAVEIZQ    desplazar e ir al estado 69
+    OPEMON      desplazar e ir al estado 70
+    OPEMONLIST  desplazar e ir al estado 71
+    CHAR        desplazar e ir al estado 72
+    NUMERO      desplazar e ir al estado 73
+    ENTERO      desplazar e ir al estado 74
+
+    termino     ir al estado 141
+    exp_simple  ir al estado 78
+    num         ir al estado 79
+
+
+Estado 115
+
+   61 exp: exp TIMES • termino
+
+    VALBOOL     desplazar e ir al estado 67
+    PARIZQ      desplazar e ir al estado 68
+    LLAVEIZQ    desplazar e ir al estado 69
+    OPEMON      desplazar e ir al estado 70
+    OPEMONLIST  desplazar e ir al estado 71
+    CHAR        desplazar e ir al estado 72
+    NUMERO      desplazar e ir al estado 73
+    ENTERO      desplazar e ir al estado 74
+
+    termino     ir al estado 142
+    exp_simple  ir al estado 78
+    num         ir al estado 79
+
+
+Estado 116
+
+   64 exp: exp ID • exp_lista_ID
+
     OPEBINLIST  desplazar e ir al estado 143
     AT          desplazar e ir al estado 144
     MINUSMINUS  desplazar e ir al estado 145
@@ -1497,9 +1568,9 @@ Estado 112
     exp_lista_ID  ir al estado 150
 
 
-Estado 113
+Estado 117
 
-   68 exp: exp exp_simple • aux ID
+   66 exp: exp exp_simple • aux ID
 
     PLUS   desplazar e ir al estado 151
     TIMES  desplazar e ir al estado 152
@@ -1507,28 +1578,7 @@ Estado 113
     aux  ir al estado 153
 
 
-Estado 114
-
-   90 num: NUMERO •
-
-    $default  reduce usando la regla 90 (num)
-
-
-Estado 115
-
-   91 num: ENTERO •
-
-    $default  reduce usando la regla 91 (num)
-
-
-Estado 116
-
-   86 exp_simple: op_signo num •
-
-    $default  reduce usando la regla 86 (exp_simple)
-
-
-Estado 117
+Estado 118
 
    17 items: items • COMA exp_simple
    55 sentencia_funcion: items •
@@ -1538,47 +1588,47 @@ Estado 117
     $default  reduce usando la regla 55 (sentencia_funcion)
 
 
-Estado 118
+Estado 119
 
    36 sentencias: sentencias ID PARIZQ sentencia_funcion • PARDCH PYC
 
     PARDCH  desplazar e ir al estado 155
 
 
-Estado 119
+Estado 120
 
    18 items: exp_simple •
 
     $default  reduce usando la regla 18 (items)
 
 
-Estado 120
+Estado 121
 
    40 sentencia_asig: CORIZQ • items CORDCH
    41               | CORIZQ • CADENA CORDCH
 
-    VALBOOL   desplazar e ir al estado 66
-    LLAVEIZQ  desplazar e ir al estado 67
-    PLUS      desplazar e ir al estado 69
-    MINUS     desplazar e ir al estado 70
-    CHAR      desplazar e ir al estado 71
+    VALBOOL   desplazar e ir al estado 67
+    LLAVEIZQ  desplazar e ir al estado 69
+    CHAR      desplazar e ir al estado 72
     CADENA    desplazar e ir al estado 156
+    NUMERO    desplazar e ir al estado 73
+    ENTERO    desplazar e ir al estado 74
 
     $default  reduce usando la regla 19 (items)
 
     items       ir al estado 157
-    op_signo    ir al estado 74
-    exp_simple  ir al estado 119
+    exp_simple  ir al estado 120
+    num         ir al estado 79
 
 
-Estado 121
+Estado 122
 
-   29 sentencias: sentencias ID ASING sentencia_asig • PYC
+   29 sentencias: sentencias ID ASIGN sentencia_asig • PYC
 
     PYC  desplazar e ir al estado 158
 
 
-Estado 122
+Estado 123
 
    39 sentencia_asig: exp •
    59 exp: exp • PLUS termino
@@ -1586,30 +1636,30 @@ Estado 122
    61    | exp • TIMES termino
    62    | exp • OPEBIN termino
    63    | exp • OPEBINLIST termino
-   65    | exp • ID exp_lista_ID
-   66    | exp • DOLLAR ID
-   67    | exp • OPEMONLIST ID
-   68    | exp • exp_simple aux ID
+   64    | exp • ID exp_lista_ID
+   65    | exp • OPEMONLIST ID
+   66    | exp • exp_simple aux ID
 
-    VALBOOL     desplazar e ir al estado 66
-    LLAVEIZQ    desplazar e ir al estado 67
-    OPEBIN      desplazar e ir al estado 105
-    DOLLAR      desplazar e ir al estado 106
-    OPEMONLIST  desplazar e ir al estado 107
-    OPEBINLIST  desplazar e ir al estado 108
-    PLUS        desplazar e ir al estado 109
-    MINUS       desplazar e ir al estado 110
-    TIMES       desplazar e ir al estado 111
-    CHAR        desplazar e ir al estado 71
-    ID          desplazar e ir al estado 112
+    VALBOOL     desplazar e ir al estado 67
+    LLAVEIZQ    desplazar e ir al estado 69
+    OPEBIN      desplazar e ir al estado 110
+    OPEMONLIST  desplazar e ir al estado 111
+    OPEBINLIST  desplazar e ir al estado 112
+    PLUS        desplazar e ir al estado 113
+    MINUS       desplazar e ir al estado 114
+    TIMES       desplazar e ir al estado 115
+    CHAR        desplazar e ir al estado 72
+    NUMERO      desplazar e ir al estado 73
+    ENTERO      desplazar e ir al estado 74
+    ID          desplazar e ir al estado 116
 
     $default  reduce usando la regla 39 (sentencia_asig)
 
-    op_signo    ir al estado 74
-    exp_simple  ir al estado 113
+    exp_simple  ir al estado 117
+    num         ir al estado 79
 
 
-Estado 123
+Estado 124
 
    23 cabec_funcion: tipo_var ID PARIZQ parametros • PARDCH
    24 parametros: parametros • COMA parametro
@@ -1618,35 +1668,35 @@ Estado 123
     COMA    desplazar e ir al estado 160
 
 
-Estado 124
+Estado 125
 
    25 parametros: parametro •
 
     $default  reduce usando la regla 25 (parametros)
 
 
-Estado 125
+Estado 126
 
    27 parametro: tipo_var • ID
 
     ID  desplazar e ir al estado 161
 
 
-Estado 126
+Estado 127
 
-   14 cuerpo_declar_const: TIPOCONST TIPOLISTA tipo_var_elem ID ASING • CORIZQ asig_const_lista
+   14 cuerpo_declar_const: TIPOCONST TIPOLISTA tipo_var_elem ID ASIGN • CORIZQ asig_const_lista
 
     CORIZQ  desplazar e ir al estado 162
 
 
-Estado 127
+Estado 128
 
-   13 cuerpo_declar_const: TIPOCONST tipo_var_elem ID ASING exp_simple •
+   13 cuerpo_declar_const: TIPOCONST tipo_var_elem ID ASIGN exp_simple •
 
     $default  reduce usando la regla 13 (cuerpo_declar_const)
 
 
-Estado 128
+Estado 129
 
    44 sentencia_while: PARIZQ exp PARDCH • bloque
 
@@ -1655,24 +1705,27 @@ Estado 128
     bloque  ir al estado 163
 
 
-Estado 129
+Estado 130
 
    54 sentencia_do_until: bloque UNTIL PARIZQ • exp PARDCH
 
-    VALBOOL   desplazar e ir al estado 66
-    LLAVEIZQ  desplazar e ir al estado 67
-    OPEMON    desplazar e ir al estado 68
-    PLUS      desplazar e ir al estado 69
-    MINUS     desplazar e ir al estado 70
-    CHAR      desplazar e ir al estado 71
+    error       desplazar e ir al estado 66
+    VALBOOL     desplazar e ir al estado 67
+    PARIZQ      desplazar e ir al estado 68
+    LLAVEIZQ    desplazar e ir al estado 69
+    OPEMON      desplazar e ir al estado 70
+    OPEMONLIST  desplazar e ir al estado 71
+    CHAR        desplazar e ir al estado 72
+    NUMERO      desplazar e ir al estado 73
+    ENTERO      desplazar e ir al estado 74
 
     exp         ir al estado 164
-    op_signo    ir al estado 74
-    termino     ir al estado 75
-    exp_simple  ir al estado 76
+    termino     ir al estado 77
+    exp_simple  ir al estado 78
+    num         ir al estado 79
 
 
-Estado 130
+Estado 131
 
    42 sentencia_if: PARIZQ exp PARDCH • bloque
    43             | PARIZQ exp PARDCH • bloque ELSE bloque
@@ -1682,249 +1735,248 @@ Estado 130
     bloque  ir al estado 165
 
 
-Estado 131
+Estado 132
 
    46 datos_entrada: datos_entrada SIG • exp
 
-    VALBOOL   desplazar e ir al estado 66
-    LLAVEIZQ  desplazar e ir al estado 67
-    OPEMON    desplazar e ir al estado 68
-    PLUS      desplazar e ir al estado 69
-    MINUS     desplazar e ir al estado 70
-    CHAR      desplazar e ir al estado 71
+    error       desplazar e ir al estado 66
+    VALBOOL     desplazar e ir al estado 67
+    PARIZQ      desplazar e ir al estado 68
+    LLAVEIZQ    desplazar e ir al estado 69
+    OPEMON      desplazar e ir al estado 70
+    OPEMONLIST  desplazar e ir al estado 71
+    CHAR        desplazar e ir al estado 72
+    NUMERO      desplazar e ir al estado 73
+    ENTERO      desplazar e ir al estado 74
 
     exp         ir al estado 166
-    op_signo    ir al estado 74
-    termino     ir al estado 75
-    exp_simple  ir al estado 76
-
-
-Estado 132
-
-   49 datos_salida: datos_salida SIG • dato_salida
-
-    VALBOOL   desplazar e ir al estado 66
-    LLAVEIZQ  desplazar e ir al estado 67
-    OPEMON    desplazar e ir al estado 68
-    PLUS      desplazar e ir al estado 69
-    MINUS     desplazar e ir al estado 70
-    CHAR      desplazar e ir al estado 71
-    CADENA    desplazar e ir al estado 97
-
-    dato_salida  ir al estado 167
-    exp          ir al estado 100
-    op_signo     ir al estado 74
-    termino      ir al estado 75
-    exp_simple   ir al estado 76
+    termino     ir al estado 77
+    exp_simple  ir al estado 78
+    num         ir al estado 79
 
 
 Estado 133
 
-   89 exp_simple: LLAVEIZQ ID LLAVEDCH •
+   49 datos_salida: datos_salida SIG • dato_salida
 
-    $default  reduce usando la regla 89 (exp_simple)
+    error       desplazar e ir al estado 66
+    VALBOOL     desplazar e ir al estado 67
+    PARIZQ      desplazar e ir al estado 68
+    LLAVEIZQ    desplazar e ir al estado 69
+    OPEMON      desplazar e ir al estado 70
+    OPEMONLIST  desplazar e ir al estado 71
+    CHAR        desplazar e ir al estado 72
+    CADENA      desplazar e ir al estado 100
+    NUMERO      desplazar e ir al estado 73
+    ENTERO      desplazar e ir al estado 74
+
+    dato_salida  ir al estado 167
+    exp          ir al estado 103
+    termino      ir al estado 77
+    exp_simple   ir al estado 78
+    num          ir al estado 79
 
 
 Estado 134
+
+   82 termino: PARIZQ exp PARDCH •
+
+    $default  reduce usando la regla 82 (termino)
+
+
+Estado 135
+
+   87 exp_simple: LLAVEIZQ ID LLAVEDCH •
+
+    $default  reduce usando la regla 87 (exp_simple)
+
+
+Estado 136
+
+   83 termino: OPEMONLIST LLAVEIZQ ID • LLAVEDCH
+
+    LLAVEDCH  desplazar e ir al estado 168
+
+
+Estado 137
 
    62 exp: exp OPEBIN termino •
 
     $default  reduce usando la regla 62 (exp)
 
 
-Estado 135
+Estado 138
 
-   66 exp: exp DOLLAR ID •
+   65 exp: exp OPEMONLIST ID •
 
-    $default  reduce usando la regla 66 (exp)
-
-
-Estado 136
-
-   67 exp: exp OPEMONLIST ID •
-
-    $default  reduce usando la regla 67 (exp)
+    $default  reduce usando la regla 65 (exp)
 
 
-Estado 137
+Estado 139
 
    63 exp: exp OPEBINLIST termino •
 
     $default  reduce usando la regla 63 (exp)
 
 
-Estado 138
+Estado 140
 
    59 exp: exp PLUS termino •
 
     $default  reduce usando la regla 59 (exp)
 
 
-Estado 139
+Estado 141
 
    60 exp: exp MINUS termino •
 
     $default  reduce usando la regla 60 (exp)
 
 
-Estado 140
+Estado 142
 
    61 exp: exp TIMES termino •
 
     $default  reduce usando la regla 61 (exp)
 
 
-Estado 141
-
-   69 exp_lista_ID: SIG •
-
-    $default  reduce usando la regla 69 (exp_lista_ID)
-
-
-Estado 142
-
-   70 exp_lista_ID: ANT •
-
-    $default  reduce usando la regla 70 (exp_lista_ID)
-
-
 Estado 143
 
-   77 exp_lista_ID: OPEBINLIST • exp_simple
+   75 exp_lista_ID: OPEBINLIST • exp_simple
 
-    VALBOOL   desplazar e ir al estado 66
-    LLAVEIZQ  desplazar e ir al estado 67
-    PLUS      desplazar e ir al estado 69
-    MINUS     desplazar e ir al estado 70
-    CHAR      desplazar e ir al estado 71
+    VALBOOL   desplazar e ir al estado 67
+    LLAVEIZQ  desplazar e ir al estado 69
+    CHAR      desplazar e ir al estado 72
+    NUMERO    desplazar e ir al estado 73
+    ENTERO    desplazar e ir al estado 74
 
-    op_signo    ir al estado 74
-    exp_simple  ir al estado 168
+    exp_simple  ir al estado 169
+    num         ir al estado 79
 
 
 Estado 144
 
-   71 exp_lista_ID: AT • num op_ternario
+   69 exp_lista_ID: AT • num op_ternario
 
-    NUMERO  desplazar e ir al estado 114
-    ENTERO  desplazar e ir al estado 115
-
-    num  ir al estado 169
-
-
-Estado 145
-
-   72 exp_lista_ID: MINUSMINUS • num
-
-    NUMERO  desplazar e ir al estado 114
-    ENTERO  desplazar e ir al estado 115
+    NUMERO  desplazar e ir al estado 73
+    ENTERO  desplazar e ir al estado 74
 
     num  ir al estado 170
 
 
+Estado 145
+
+   70 exp_lista_ID: MINUSMINUS • num
+
+    NUMERO  desplazar e ir al estado 73
+    ENTERO  desplazar e ir al estado 74
+
+    num  ir al estado 171
+
+
 Estado 146
 
-   73 exp_lista_ID: TIMESTIMES • ID
+   71 exp_lista_ID: TIMESTIMES • ID
 
-    ID  desplazar e ir al estado 171
+    ID  desplazar e ir al estado 172
 
 
 Estado 147
 
-   74 exp_lista_ID: PLUS • exp_simple
+   72 exp_lista_ID: PLUS • exp_simple
 
-    VALBOOL   desplazar e ir al estado 66
-    LLAVEIZQ  desplazar e ir al estado 67
-    PLUS      desplazar e ir al estado 69
-    MINUS     desplazar e ir al estado 70
-    CHAR      desplazar e ir al estado 71
+    VALBOOL   desplazar e ir al estado 67
+    LLAVEIZQ  desplazar e ir al estado 69
+    CHAR      desplazar e ir al estado 72
+    NUMERO    desplazar e ir al estado 73
+    ENTERO    desplazar e ir al estado 74
 
-    op_signo    ir al estado 74
-    exp_simple  ir al estado 172
+    exp_simple  ir al estado 173
+    num         ir al estado 79
 
 
 Estado 148
 
-   75 exp_lista_ID: MINUS • exp_simple
+   73 exp_lista_ID: MINUS • exp_simple
 
-    VALBOOL   desplazar e ir al estado 66
-    LLAVEIZQ  desplazar e ir al estado 67
-    PLUS      desplazar e ir al estado 69
-    MINUS     desplazar e ir al estado 70
-    CHAR      desplazar e ir al estado 71
+    VALBOOL   desplazar e ir al estado 67
+    LLAVEIZQ  desplazar e ir al estado 69
+    CHAR      desplazar e ir al estado 72
+    NUMERO    desplazar e ir al estado 73
+    ENTERO    desplazar e ir al estado 74
 
-    op_signo    ir al estado 74
-    exp_simple  ir al estado 173
+    exp_simple  ir al estado 174
+    num         ir al estado 79
 
 
 Estado 149
 
-   76 exp_lista_ID: TIMES • exp_simple
+   74 exp_lista_ID: TIMES • exp_simple
 
-    VALBOOL   desplazar e ir al estado 66
-    LLAVEIZQ  desplazar e ir al estado 67
-    PLUS      desplazar e ir al estado 69
-    MINUS     desplazar e ir al estado 70
-    CHAR      desplazar e ir al estado 71
+    VALBOOL   desplazar e ir al estado 67
+    LLAVEIZQ  desplazar e ir al estado 69
+    CHAR      desplazar e ir al estado 72
+    NUMERO    desplazar e ir al estado 73
+    ENTERO    desplazar e ir al estado 74
 
-    op_signo    ir al estado 74
-    exp_simple  ir al estado 174
+    exp_simple  ir al estado 175
+    num         ir al estado 79
 
 
 Estado 150
 
-   65 exp: exp ID exp_lista_ID •
+   64 exp: exp ID exp_lista_ID •
 
-    $default  reduce usando la regla 65 (exp)
+    $default  reduce usando la regla 64 (exp)
 
 
 Estado 151
 
-   82 aux: PLUS •
+   78 aux: PLUS •
 
-    $default  reduce usando la regla 82 (aux)
+    $default  reduce usando la regla 78 (aux)
 
 
 Estado 152
 
-   83 aux: TIMES •
+   79 aux: TIMES •
 
-    $default  reduce usando la regla 83 (aux)
+    $default  reduce usando la regla 79 (aux)
 
 
 Estado 153
 
-   68 exp: exp exp_simple aux • ID
+   66 exp: exp exp_simple aux • ID
 
-    ID  desplazar e ir al estado 175
+    ID  desplazar e ir al estado 176
 
 
 Estado 154
 
    17 items: items COMA • exp_simple
 
-    VALBOOL   desplazar e ir al estado 66
-    LLAVEIZQ  desplazar e ir al estado 67
-    PLUS      desplazar e ir al estado 69
-    MINUS     desplazar e ir al estado 70
-    CHAR      desplazar e ir al estado 71
+    VALBOOL   desplazar e ir al estado 67
+    LLAVEIZQ  desplazar e ir al estado 69
+    CHAR      desplazar e ir al estado 72
+    NUMERO    desplazar e ir al estado 73
+    ENTERO    desplazar e ir al estado 74
 
-    op_signo    ir al estado 74
-    exp_simple  ir al estado 176
+    exp_simple  ir al estado 177
+    num         ir al estado 79
 
 
 Estado 155
 
    36 sentencias: sentencias ID PARIZQ sentencia_funcion PARDCH • PYC
 
-    PYC  desplazar e ir al estado 177
+    PYC  desplazar e ir al estado 178
 
 
 Estado 156
 
    41 sentencia_asig: CORIZQ CADENA • CORDCH
 
-    CORDCH  desplazar e ir al estado 178
+    CORDCH  desplazar e ir al estado 179
 
 
 Estado 157
@@ -1932,13 +1984,13 @@ Estado 157
    17 items: items • COMA exp_simple
    40 sentencia_asig: CORIZQ items • CORDCH
 
-    CORDCH  desplazar e ir al estado 179
+    CORDCH  desplazar e ir al estado 180
     COMA    desplazar e ir al estado 154
 
 
 Estado 158
 
-   29 sentencias: sentencias ID ASING sentencia_asig PYC •
+   29 sentencias: sentencias ID ASIGN sentencia_asig PYC •
 
     $default  reduce usando la regla 29 (sentencias)
 
@@ -1959,9 +2011,9 @@ Estado 160
     TIPOVAR    desplazar e ir al estado 13
     TIPOLISTA  desplazar e ir al estado 20
 
-    parametro      ir al estado 180
+    parametro      ir al estado 181
     tipo_var_elem  ir al estado 24
-    tipo_var       ir al estado 125
+    tipo_var       ir al estado 126
 
 
 Estado 161
@@ -1973,21 +2025,21 @@ Estado 161
 
 Estado 162
 
-   14 cuerpo_declar_const: TIPOCONST TIPOLISTA tipo_var_elem ID ASING CORIZQ • asig_const_lista
+   14 cuerpo_declar_const: TIPOCONST TIPOLISTA tipo_var_elem ID ASIGN CORIZQ • asig_const_lista
 
-    VALBOOL   desplazar e ir al estado 66
-    LLAVEIZQ  desplazar e ir al estado 67
-    PLUS      desplazar e ir al estado 69
-    MINUS     desplazar e ir al estado 70
-    CHAR      desplazar e ir al estado 71
-    CADENA    desplazar e ir al estado 181
+    VALBOOL   desplazar e ir al estado 67
+    LLAVEIZQ  desplazar e ir al estado 69
+    CHAR      desplazar e ir al estado 72
+    CADENA    desplazar e ir al estado 182
+    NUMERO    desplazar e ir al estado 73
+    ENTERO    desplazar e ir al estado 74
 
     $default  reduce usando la regla 19 (items)
 
-    asig_const_lista  ir al estado 182
-    items             ir al estado 183
-    op_signo          ir al estado 74
-    exp_simple        ir al estado 119
+    asig_const_lista  ir al estado 183
+    items             ir al estado 184
+    exp_simple        ir al estado 120
+    num               ir al estado 79
 
 
 Estado 163
@@ -2005,26 +2057,26 @@ Estado 164
    61    | exp • TIMES termino
    62    | exp • OPEBIN termino
    63    | exp • OPEBINLIST termino
-   65    | exp • ID exp_lista_ID
-   66    | exp • DOLLAR ID
-   67    | exp • OPEMONLIST ID
-   68    | exp • exp_simple aux ID
+   64    | exp • ID exp_lista_ID
+   65    | exp • OPEMONLIST ID
+   66    | exp • exp_simple aux ID
 
-    VALBOOL     desplazar e ir al estado 66
-    PARDCH      desplazar e ir al estado 184
-    LLAVEIZQ    desplazar e ir al estado 67
-    OPEBIN      desplazar e ir al estado 105
-    DOLLAR      desplazar e ir al estado 106
-    OPEMONLIST  desplazar e ir al estado 107
-    OPEBINLIST  desplazar e ir al estado 108
-    PLUS        desplazar e ir al estado 109
-    MINUS       desplazar e ir al estado 110
-    TIMES       desplazar e ir al estado 111
-    CHAR        desplazar e ir al estado 71
-    ID          desplazar e ir al estado 112
+    VALBOOL     desplazar e ir al estado 67
+    PARDCH      desplazar e ir al estado 185
+    LLAVEIZQ    desplazar e ir al estado 69
+    OPEBIN      desplazar e ir al estado 110
+    OPEMONLIST  desplazar e ir al estado 111
+    OPEBINLIST  desplazar e ir al estado 112
+    PLUS        desplazar e ir al estado 113
+    MINUS       desplazar e ir al estado 114
+    TIMES       desplazar e ir al estado 115
+    CHAR        desplazar e ir al estado 72
+    NUMERO      desplazar e ir al estado 73
+    ENTERO      desplazar e ir al estado 74
+    ID          desplazar e ir al estado 116
 
-    op_signo    ir al estado 74
-    exp_simple  ir al estado 113
+    exp_simple  ir al estado 117
+    num         ir al estado 79
 
 
 Estado 165
@@ -2032,7 +2084,7 @@ Estado 165
    42 sentencia_if: PARIZQ exp PARDCH bloque •
    43             | PARIZQ exp PARDCH bloque • ELSE bloque
 
-    ELSE  desplazar e ir al estado 185
+    ELSE  desplazar e ir al estado 186
 
     $default  reduce usando la regla 42 (sentencia_if)
 
@@ -2045,27 +2097,27 @@ Estado 166
    61    | exp • TIMES termino
    62    | exp • OPEBIN termino
    63    | exp • OPEBINLIST termino
-   65    | exp • ID exp_lista_ID
-   66    | exp • DOLLAR ID
-   67    | exp • OPEMONLIST ID
-   68    | exp • exp_simple aux ID
+   64    | exp • ID exp_lista_ID
+   65    | exp • OPEMONLIST ID
+   66    | exp • exp_simple aux ID
 
-    VALBOOL     desplazar e ir al estado 66
-    LLAVEIZQ    desplazar e ir al estado 67
-    OPEBIN      desplazar e ir al estado 105
-    DOLLAR      desplazar e ir al estado 106
-    OPEMONLIST  desplazar e ir al estado 107
-    OPEBINLIST  desplazar e ir al estado 108
-    PLUS        desplazar e ir al estado 109
-    MINUS       desplazar e ir al estado 110
-    TIMES       desplazar e ir al estado 111
-    CHAR        desplazar e ir al estado 71
-    ID          desplazar e ir al estado 112
+    VALBOOL     desplazar e ir al estado 67
+    LLAVEIZQ    desplazar e ir al estado 69
+    OPEBIN      desplazar e ir al estado 110
+    OPEMONLIST  desplazar e ir al estado 111
+    OPEBINLIST  desplazar e ir al estado 112
+    PLUS        desplazar e ir al estado 113
+    MINUS       desplazar e ir al estado 114
+    TIMES       desplazar e ir al estado 115
+    CHAR        desplazar e ir al estado 72
+    NUMERO      desplazar e ir al estado 73
+    ENTERO      desplazar e ir al estado 74
+    ID          desplazar e ir al estado 116
 
     $default  reduce usando la regla 46 (datos_entrada)
 
-    op_signo    ir al estado 74
-    exp_simple  ir al estado 113
+    exp_simple  ir al estado 117
+    num         ir al estado 79
 
 
 Estado 167
@@ -2077,182 +2129,189 @@ Estado 167
 
 Estado 168
 
-   77 exp_lista_ID: OPEBINLIST exp_simple •
+   83 termino: OPEMONLIST LLAVEIZQ ID LLAVEDCH •
 
-    $default  reduce usando la regla 77 (exp_lista_ID)
+    $default  reduce usando la regla 83 (termino)
 
 
 Estado 169
 
-   71 exp_lista_ID: AT num • op_ternario
-
-    PLUSPLUS  desplazar e ir al estado 186
-
-    $default  reduce usando la regla 81 (op_ternario)
-
-    op_ternario  ir al estado 187
-
-
-Estado 170
-
-   72 exp_lista_ID: MINUSMINUS num •
-
-    $default  reduce usando la regla 72 (exp_lista_ID)
-
-
-Estado 171
-
-   73 exp_lista_ID: TIMESTIMES ID •
-
-    $default  reduce usando la regla 73 (exp_lista_ID)
-
-
-Estado 172
-
-   74 exp_lista_ID: PLUS exp_simple •
-
-    $default  reduce usando la regla 74 (exp_lista_ID)
-
-
-Estado 173
-
-   75 exp_lista_ID: MINUS exp_simple •
+   75 exp_lista_ID: OPEBINLIST exp_simple •
 
     $default  reduce usando la regla 75 (exp_lista_ID)
 
 
+Estado 170
+
+   69 exp_lista_ID: AT num • op_ternario
+
+    PLUSPLUS  desplazar e ir al estado 187
+
+    $default  reduce usando la regla 77 (op_ternario)
+
+    op_ternario  ir al estado 188
+
+
+Estado 171
+
+   70 exp_lista_ID: MINUSMINUS num •
+
+    $default  reduce usando la regla 70 (exp_lista_ID)
+
+
+Estado 172
+
+   71 exp_lista_ID: TIMESTIMES ID •
+
+    $default  reduce usando la regla 71 (exp_lista_ID)
+
+
+Estado 173
+
+   72 exp_lista_ID: PLUS exp_simple •
+
+    $default  reduce usando la regla 72 (exp_lista_ID)
+
+
 Estado 174
 
-   76 exp_lista_ID: TIMES exp_simple •
+   73 exp_lista_ID: MINUS exp_simple •
 
-    $default  reduce usando la regla 76 (exp_lista_ID)
+    $default  reduce usando la regla 73 (exp_lista_ID)
 
 
 Estado 175
 
-   68 exp: exp exp_simple aux ID •
+   74 exp_lista_ID: TIMES exp_simple •
 
-    $default  reduce usando la regla 68 (exp)
+    $default  reduce usando la regla 74 (exp_lista_ID)
 
 
 Estado 176
+
+   66 exp: exp exp_simple aux ID •
+
+    $default  reduce usando la regla 66 (exp)
+
+
+Estado 177
 
    17 items: items COMA exp_simple •
 
     $default  reduce usando la regla 17 (items)
 
 
-Estado 177
+Estado 178
 
    36 sentencias: sentencias ID PARIZQ sentencia_funcion PARDCH PYC •
 
     $default  reduce usando la regla 36 (sentencias)
 
 
-Estado 178
+Estado 179
 
    41 sentencia_asig: CORIZQ CADENA CORDCH •
 
     $default  reduce usando la regla 41 (sentencia_asig)
 
 
-Estado 179
+Estado 180
 
    40 sentencia_asig: CORIZQ items CORDCH •
 
     $default  reduce usando la regla 40 (sentencia_asig)
 
 
-Estado 180
+Estado 181
 
    24 parametros: parametros COMA parametro •
 
     $default  reduce usando la regla 24 (parametros)
 
 
-Estado 181
+Estado 182
 
    16 asig_const_lista: CADENA • CORDCH
 
-    CORDCH  desplazar e ir al estado 188
-
-
-Estado 182
-
-   14 cuerpo_declar_const: TIPOCONST TIPOLISTA tipo_var_elem ID ASING CORIZQ asig_const_lista •
-
-    $default  reduce usando la regla 14 (cuerpo_declar_const)
+    CORDCH  desplazar e ir al estado 189
 
 
 Estado 183
 
-   15 asig_const_lista: items • CORDCH
-   17 items: items • COMA exp_simple
+   14 cuerpo_declar_const: TIPOCONST TIPOLISTA tipo_var_elem ID ASIGN CORIZQ asig_const_lista •
 
-    CORDCH  desplazar e ir al estado 189
-    COMA    desplazar e ir al estado 154
+    $default  reduce usando la regla 14 (cuerpo_declar_const)
 
 
 Estado 184
+
+   15 asig_const_lista: items • CORDCH
+   17 items: items • COMA exp_simple
+
+    CORDCH  desplazar e ir al estado 190
+    COMA    desplazar e ir al estado 154
+
+
+Estado 185
 
    54 sentencia_do_until: bloque UNTIL PARIZQ exp PARDCH •
 
     $default  reduce usando la regla 54 (sentencia_do_until)
 
 
-Estado 185
+Estado 186
 
    43 sentencia_if: PARIZQ exp PARDCH bloque ELSE • bloque
 
     LLAVEIZQ  desplazar e ir al estado 5
 
-    bloque  ir al estado 190
-
-
-Estado 186
-
-   80 op_ternario: PLUSPLUS • exp_simple
-
-    VALBOOL   desplazar e ir al estado 66
-    LLAVEIZQ  desplazar e ir al estado 67
-    PLUS      desplazar e ir al estado 69
-    MINUS     desplazar e ir al estado 70
-    CHAR      desplazar e ir al estado 71
-
-    op_signo    ir al estado 74
-    exp_simple  ir al estado 191
+    bloque  ir al estado 191
 
 
 Estado 187
 
-   71 exp_lista_ID: AT num op_ternario •
+   76 op_ternario: PLUSPLUS • exp_simple
 
-    $default  reduce usando la regla 71 (exp_lista_ID)
+    VALBOOL   desplazar e ir al estado 67
+    LLAVEIZQ  desplazar e ir al estado 69
+    CHAR      desplazar e ir al estado 72
+    NUMERO    desplazar e ir al estado 73
+    ENTERO    desplazar e ir al estado 74
+
+    exp_simple  ir al estado 192
+    num         ir al estado 79
 
 
 Estado 188
+
+   69 exp_lista_ID: AT num op_ternario •
+
+    $default  reduce usando la regla 69 (exp_lista_ID)
+
+
+Estado 189
 
    16 asig_const_lista: CADENA CORDCH •
 
     $default  reduce usando la regla 16 (asig_const_lista)
 
 
-Estado 189
+Estado 190
 
    15 asig_const_lista: items CORDCH •
 
     $default  reduce usando la regla 15 (asig_const_lista)
 
 
-Estado 190
+Estado 191
 
    43 sentencia_if: PARIZQ exp PARDCH bloque ELSE bloque •
 
     $default  reduce usando la regla 43 (sentencia_if)
 
 
-Estado 191
+Estado 192
 
-   80 op_ternario: PLUSPLUS exp_simple •
+   76 op_ternario: PLUSPLUS exp_simple •
 
-    $default  reduce usando la regla 80 (op_ternario)
+    $default  reduce usando la regla 76 (op_ternario)

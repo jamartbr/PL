@@ -1,39 +1,11 @@
 int main 
 {
-    local{
-        int i1, i2;
-        float f_1, f_2;
-        char char_1_2;
-        bool b1, b2;
-        list int l1, l2;
-
-        const int const1 = 200 ;   
-    }
-
-    int suma(int a, int b)
-    {
-        return $a+$b;
-    }
-
-    float resta(float a, float b)
-    {
-        local{
-            float n1;
-            float n2;
-        }
-
-        n1=$a;
-        n2=$b;
-
-        return $n1-$n2;
-    }
-
     bool estaDentro(list lista, int long)
     {
-        return long < #lista;
-    }
+        return ({long} < #{lista});
+    };
        
-    i1 = 12;
+    lasfjlahf_ = +12;
     i2 = -2;
     f1 = 13.2;
     f2 = -15.54;
@@ -44,36 +16,36 @@ int main
     l1 = [1,2,3,4];
     l2 = [-9,3,45,-52];
 
-    if(i1>i2)
+    if({fsalhkajh})
     {
         b1 = FALSE;
-    }
+    };
 
-    while (i2 < 6)
+    while ({i2} < 6)
     {
-        i2 = i2+1;
-    }
+        i2 = {i2} + +1;
+    };
 
     suma(1,2);
 
     do
     {
-        l1@2 ++ (l1@2 +1);
-    } while(l1@2 < 5)
+        l1@2 ++ +1;
+    } while(l1@2 < 5);
 
     cout << "holaMundo";
     cin >> 2347 >> 123;
-    l1**l2;
+    {l1}**{l2};
 
 
-    ?l1;
-    l2--3;
-    l1>>;
-    l2<<;
-    $l1;
-    #l2;
-    l@2++5;
-    l1%1;
+    ?{l1};
+    {l2}--3;
+    {l1}>>;
+    {l2}<<;
+    {l1};
+    #{l2};
+    {l}@2++5;
+    {l1}%1;
     
 
     return 0;

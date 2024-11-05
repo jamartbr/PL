@@ -78,7 +78,7 @@ extern int yydebug;
     CORDCH = 279,                  /* CORDCH  */
     PYC = 280,                     /* PYC  */
     COMA = 281,                    /* COMA  */
-    ASING = 282,                   /* ASING  */
+    ASIGN = 282,                   /* ASIGN  */
     OPEMON = 283,                  /* OPEMON  */
     OPEBIN = 284,                  /* OPEBIN  */
     SIG = 285,                     /* SIG  */

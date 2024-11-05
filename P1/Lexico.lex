@@ -46,7 +46,7 @@ CORIZQ      "\["
 CORDCH      "\]"
 PYC         ";"
 COMA        ","
-ASING       "="
+ASIGN       "="
 OPEMON      "!"
 OPEBIN      ("=="|"!="|"<"|">"|"<="|">="|"and"|"or"|"xor")
 SIG         ">>"
@@ -98,7 +98,7 @@ OTROS       .
 "]"         { token = "CORDCH"; return CORDCH; }
 ";"         { token = "PYC"; return PYC; }
 ","         { token = "COMA"; return COMA; }
-"="         { token = "ASING"; return ASING; }
+"="         { token = "ASIGN"; return ASIGN; }
 "!"         { token = "OPEMON"; return OPEMON; }
 "=="        { token = "OPEBIN"; atributo = 0; return OPEBIN; }
 "!="        { token = "OPEBIN"; atributo = 1; return OPEBIN; }

@@ -1010,7 +1010,7 @@ YY_RULE_SETUP
 case 28:
 YY_RULE_SETUP
 #line 101 "Lexico.lex"
-{ token = "ASING"; return ASING; }
+{ token = "ASIGN"; return ASIGN; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP

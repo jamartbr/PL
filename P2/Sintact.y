@@ -49,7 +49,7 @@ void yyerror ( const char *);
 %token CORDCH     
 %token PYC        
 %token COMA       
-%token ASING      
+%token ASIGN      
 %token OPEMON     
 %token OPEBIN     
 %token SIG        
@@ -104,8 +104,8 @@ cuerpo_declar_var   : tipo_var_elem nombres
 nombres             : nombres COMA ID
                     | ID
                     ;
-cuerpo_declar_const : TIPOCONST tipo_var_elem ID ASING exp_simple
-                    | TIPOCONST TIPOLISTA tipo_var_elem ID ASING CORIZQ asig_const_lista
+cuerpo_declar_const : TIPOCONST tipo_var_elem ID ASIGN exp_simple
+                    | TIPOCONST TIPOLISTA tipo_var_elem ID ASIGN CORIZQ asig_const_lista
                     ;
 asig_const_lista    : items CORDCH
                     | CADENA CORDCH
@@ -120,7 +120,7 @@ items               : items COMA exp_simple
 declar_funciones    : declar_funciones declar_funcion
                     |
                     ;
-declar_funcion      : cabec_funcion bloque
+declar_funcion      : cabec_funcion bloque PYC
                     ;
 cabec_funcion       : tipo_var ID PARIZQ parametros PARDCH
                     ;
@@ -135,7 +135,7 @@ parametro           : tipo_var ID
 // Sentencias
 
 sentencias          : sentencias bloque PYC 
-                    | sentencias ID ASING sentencia_asig PYC 
+                    | sentencias ID ASIGN sentencia_asig PYC 
                     | sentencias IF sentencia_if PYC 
                     | sentencias WHILE sentencia_while PYC 
                     | sentencias CIN sentencia_entrada PYC 
@@ -187,15 +187,13 @@ exp                 : exp PLUS termino
                     | exp TIMES termino
                     | exp OPEBIN termino
                     | exp OPEBINLIST termino
-                    | termino
                     | exp ID exp_lista_ID
-                    | exp DOLLAR ID
                     | exp OPEMONLIST ID
                     | exp exp_simple aux ID
+                    | termino
+                    | error
                     ;
-exp_lista_ID        : SIG
-                    | ANT
-                    | AT num op_ternario
+exp_lista_ID        : AT num op_ternario
                     | MINUSMINUS num
                     | TIMESTIMES ID
                     | PLUS exp_simple
@@ -208,9 +206,6 @@ exp_lista_ID        : SIG
 
 // Operadores y radicales
 
-op_signo            : PLUS
-                    | MINUS
-                    ;
 op_ternario         : PLUSPLUS exp_simple
                     |
                     ;
@@ -220,8 +215,10 @@ aux                 : PLUS
 
 termino             : exp_simple
                     | OPEMON exp_simple
+                    | PARIZQ exp PARDCH
+                    | OPEMONLIST LLAVEIZQ ID LLAVEDCH
                     ;
-exp_simple          : op_signo num
+exp_simple          : num
                     | CHAR
                     | VALBOOL
                     | LLAVEIZQ ID LLAVEDCH
@@ -238,7 +235,7 @@ tipo_var_elem       : TIPOVAR
                     | TIPOINT
                     ;
 tipo_var            : tipo_var_elem
-                    | TIPOLISTA tipo_var_elem
+                    | TIPOLISTA
                     ;
 
 

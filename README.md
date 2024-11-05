@@ -18,7 +18,7 @@ gcc lex.yy.c -o lexico
 
 make
 
-./Sintact <[-t]> <[-v]> <[-d]> <programa>
+./Sintact <[-t]> <[-v]> <[-d]> <[-Wcounterexamples]> <programa>
 
 ```
 
@@ -27,3 +27,5 @@ make
 -v Indica a BISON que genere, además de y.tab.c, y.output, que contiene una descripción textual de los estados del autómata finito determinista y correspondientes a la gramática de entrada.
 
 -d Indica a BISON que genere el archivo y.tab.h, que contiene la lista de tokens junto con su código. Esto es especialmente útil para comprobar errores de tratamiento de los tokens por considerar un código incorrecto.
+
+-Wcounterexamples Muestra ejemplos de los conflictos encontrados

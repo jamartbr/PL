@@ -50,7 +50,7 @@ CORIZQ      "\["
 CORDCH      "\]"
 PYC         ";"
 COMA        ","
-ASING       "="
+ASIGN       "="
 OPEMON      "!"
 OPEBIN      ("=="|"!="|"<"|">"|"<="|">="|"and"|"or"|"xor")
 SIG         ">>"
@@ -68,8 +68,8 @@ TIMES       "*"
 
 CHAR        '[A-Za-z]'
 CADENA      \"([^\"\n]|\\\")*\"
-NUMERO      ([1-9][0-9]*|0)(\.[0-9]+)? 
-ENTERO      ([1-9][0-9]*|0)
+NUMERO      (\+|-)?([1-9][0-9]*|0)(\.[0-9]+)? 
+ENTERO      (\+|-)?([1-9][0-9]*|0)
 
 ID          ([A-Za-z])([A-Za-z]|[0-9]|_)*
 
@@ -104,7 +104,7 @@ OTROS       .
 "]"         { token = "CORDCH"; return CORDCH; }
 ";"         { token = "PYC"; return PYC; }
 ","         { token = "COMA"; return COMA; }
-"="         { token = "ASING"; return ASING; }
+"="         { token = "ASIGN"; return ASIGN; }
 "!"         { token = "OPEMON"; return OPEMON; }
 "=="        { token = "OPEBIN"; atributo = 0; return OPEBIN; }
 "!="        { token = "OPEBIN"; atributo = 1; return OPEBIN; }
@@ -132,8 +132,8 @@ OTROS       .
 
 '[A-Za-z]?'                         { token = "CHAR"; atributo=-2; return CHAR; }
 \"([^\"\n]|\\\")*\"                 { token = "CADENA"; atributo=-2; return CADENA; }
-([1-9][0-9]*|0)                     { token = "ENTERO"; atributo=-2; return ENTERO; }
-([1-9][0-9]*|0)(\.[0-9]+)?          { token = "NUMERO"; atributo=-2; return NUMERO; }
+(\+|-)?([1-9][0-9]*|0)                     { token = "ENTERO"; atributo=-2; return ENTERO; }
+(\+|-)?([1-9][0-9]*|0)(\.[0-9]+)?          { token = "NUMERO"; atributo=-2; return NUMERO; }
 ([A-Za-z])([A-Za-z]|[0-9]|_)*       { token = "ID"; atributo=-2; return ID; }
 
 .                                   { printf ("\n[Línea %2d] *** Error léxico : %s\n\n", yylineno , yytext ); }
