@@ -18,9 +18,11 @@ gcc lex.yy.c -o lexico
 
 make
 
-./Sintact <[-t]> <[-v]> <[-d]> <[-Wcounterexamples]> <programa>
+./Sintact <programa>
 
 ```
+
+En el archivo Makefile, cuando llamamos a bison se pueden agregar la siguientes opciones:
 
 -t Incluir código de depuración en el programa generado. Esto permite que el analizador obtenido, al ser ejecutado, escriba en pantalla las producciones que va aplicando cuando procesa una entrada. Para hacerlo, debemos fijar la variable de entorno YYDEBUG a 1 antes de ejecutar el analizador. Poniéndola a 0 (por defecto) no se obtendrá salida de depuración.
 
