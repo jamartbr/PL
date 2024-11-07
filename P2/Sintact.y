@@ -74,8 +74,6 @@ void yyerror ( const char *);
 
 // ************* Definición de Precedencia y Asocitividad *************
 
-
-
 %%
 
 // ************* Producciones de la Gramática *************
