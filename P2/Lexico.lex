@@ -44,20 +44,26 @@ VALBOOL     ("FALSE"|"TRUE")
 
 PARIZQ      "("
 PARDCH      ")"
-LLAVEIZQ    "\{"
-LLAVEDCH    "\}"
-CORIZQ      "\["
-CORDCH      "\]"
+LLAVEIZQ    "{"
+LLAVEDCH    "}"
+CORIZQ      "["
+CORDCH      "]"
 PYC         ";"
 COMA        ","
 ASIGN       "="
 OPEMON      "!"
-OPEBIN      ("=="|"!="|"<"|">"|"<="|">="|"and"|"or"|"xor")
+OR          "or"
+AND         "and"
+XOR         "xor"
+EQ          ("=="|"!=")
+REL         ("<"|">"|"<="|">=")
 SIG         ">>"
 ANT         "<<"
 DOLLAR      "$"
-OPEMONLIST  ("#"|"?")
-OPEBINLIST  ("/"|"%")
+HASHTAG     "#"
+INTERR      "?"
+DIV         "/"
+MOD         "%"
 AT          "@"
 PLUSPLUS    "++"
 MINUSMINUS  "--"
@@ -73,11 +79,13 @@ ENTERO      (\+|-)?([1-9][0-9]*|0)
 
 ID          ([A-Za-z])([A-Za-z]|[0-9]|_)*
 
+SALTO       [\n]+
+
 OTROS       .
 
 %%
 
-[ \t\n]+    ;
+[ \t]+      ;
 "while"     { token = "WHILE"; return WHILE; }
 "do"        { token = "DO"; return DO; }
 "until"     { token = "UNTIL"; return UNTIL; }
@@ -106,22 +114,22 @@ OTROS       .
 ","         { token = "COMA"; return COMA; }
 "="         { token = "ASIGN"; return ASIGN; }
 "!"         { token = "OPEMON"; return OPEMON; }
-"=="        { token = "OPEBIN"; atributo = 0; return OPEBIN; }
-"!="        { token = "OPEBIN"; atributo = 1; return OPEBIN; }
-"<"         { token = "OPEBIN"; atributo = 2; return OPEBIN; }
-">"         { token = "OPEBIN"; atributo = 3; return OPEBIN; }
-"<="        { token = "OPEBIN"; atributo = 4; return OPEBIN; }
-">="        { token = "OPEBIN"; atributo = 5; return OPEBIN; }
-"and"       { token = "OPEBIN"; atributo = 6; return OPEBIN; }
-"or"        { token = "OPEBIN"; atributo = 7; return OPEBIN; }
-"xor"       { token = "OPEBIN"; atributo = 8; return OPEBIN; }
+"=="        { token = "EQ"; atributo = 0; return EQ; }
+"!="        { token = "EQ"; atributo = 1; return EQ; }
+"<"         { token = "REL"; atributo = 0; return REL; }
+">"         { token = "REL"; atributo = 1; return REL; }
+"<="        { token = "REL"; atributo = 2; return REL; }
+">="        { token = "REL"; atributo = 3; return REL; }
+"and"       { token = "AND"; return AND; }
+"or"        { token = "OR"; return OR; }
+"xor"       { token = "XOR"; return XOR; }
 ">>"        { token = "SIG"; return SIG; }
 "<<"        { token = "ANT"; return ANT; }
 "$"         { token = "DOLLAR"; return DOLLAR; }
-"?"         { token = "OPEMONLIST"; atributo = 0; return OPEMONLIST; }
-"#"         { token = "OPEMONLIST"; atributo = 1; return OPEMONLIST; }
-"/"         { token = "OPEBINLIST"; atributo = 2; return OPEBINLIST; }
-"%"         { token = "OPEBINLIST"; atributo = 1; return OPEBINLIST; }
+"?"         { token = "INTERR"; return INTERR; }
+"#"         { token = "HASHTAG"; return HASHTAG; }
+"/"         { token = "DIV"; return DIV; }
+"%"         { token = "MOD"; return MOD; }
 "@"         { token = "AT"; return AT; }
 "++"        { token = "PLUSPLUS"; return PLUSPLUS; }
 "--"        { token = "MINUSMINUS"; return MINUSMINUS; }
@@ -135,6 +143,8 @@ OTROS       .
 (\+|-)?([1-9][0-9]*|0)                     { token = "ENTERO"; atributo=-2; return ENTERO; }
 (\+|-)?([1-9][0-9]*|0)(\.[0-9]+)?          { token = "NUMERO"; atributo=-2; return NUMERO; }
 ([A-Za-z])([A-Za-z]|[0-9]|_)*       { token = "ID"; atributo=-2; return ID; }
+
+\n[\t\n ]*                                 {token = "SALTO"; return SALTO;}
 
 .                                   { printf ("\n[Línea %2d] *** Error léxico : %s\n\n", yylineno , yytext ); }
 

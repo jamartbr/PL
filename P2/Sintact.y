@@ -24,7 +24,7 @@ void yyerror ( const char *);
 
 // ************* Definición de Tokens *************
 
-%token WHILE      
+%token WHILE
 %token DO         
 %token UNTIL      
 %token IF         
@@ -50,13 +50,19 @@ void yyerror ( const char *);
 %token PYC        
 %token COMA       
 %token ASIGN      
-%token OPEMON     
-%token OPEBIN     
+%token OPEMON 
+%token OR
+%token AND
+%token XOR
+%token EQ
+%token REL
 %token SIG        
 %token ANT        
 %token DOLLAR
-%token OPEMONLIST 
-%token OPEBINLIST 
+%token HASHTAG
+%token INTERR
+%token DIV
+%token MOD
 %token AT         
 %token PLUSPLUS   
 %token MINUSMINUS 
@@ -69,10 +75,30 @@ void yyerror ( const char *);
 %token CADENA     
 %token NUMERO     
 %token ENTERO
-%token ID   
+%token ID  
+
+%token SALTO
 
 
 // ************* Definición de Precedencia y Asocitividad *************
+
+%left OR
+%left AND
+%left XOR
+%left EQ
+%left REL
+%left PLUS MINUS
+%left TIMES MOD DIV
+%right OPEMON
+%left MINUSMINUS
+%left PLUSPLUS
+%left AT
+%right HASHTAG
+%right INTERR
+%left CORIZQ CORDCH
+%left PARIZQ PARDCH
+
+
 
 %%
 
@@ -82,22 +108,23 @@ void yyerror ( const char *);
 
 programa            : TIPOINT MAIN bloque
                     ;
-bloque              : LLAVEIZQ declar_var_locales declar_funciones sentencias LLAVEDCH
+bloque              : LLAVEIZQ salto_llave declar_var_locales declar_funciones sentencias LLAVEDCH
                     ;
 
 
 // Declaración variables locales
 
-declar_var_locales  : LOCAL LLAVEIZQ var_locales LLAVEDCH
+declar_var_locales  : LOCAL LLAVEIZQ salto_llave var_locales LLAVEDCH salto_llave
                     | 
                     ;
-var_locales         : var_locales cuerpo_declar_var PYC
-                    | var_locales cuerpo_declar_const PYC
-                    | cuerpo_declar_var PYC
-                    | cuerpo_declar_const PYC
+var_locales         : var_locales cuerpo_declar_var
+                    | var_locales cuerpo_declar_const salto_pyc
+                    | cuerpo_declar_var
+                    | cuerpo_declar_const salto_pyc
                     ;
-cuerpo_declar_var   : tipo_var_elem nombres
+cuerpo_declar_var   : tipo_var_elem nombres PYC
                     | TIPOLISTA tipo_var_elem nombres
+                    | error
                     ;
 nombres             : nombres COMA ID
                     | ID
@@ -118,9 +145,10 @@ items               : items COMA exp_simple
 declar_funciones    : declar_funciones declar_funcion
                     |
                     ;
-declar_funcion      : cabec_funcion bloque PYC
+declar_funcion      : cabec_funcion bloque salto_pyc
                     ;
 cabec_funcion       : tipo_var ID PARIZQ parametros PARDCH
+                    | error
                     ;
 parametros          : parametros COMA parametro 
                     | parametro
@@ -132,16 +160,16 @@ parametro           : tipo_var ID
 
 // Sentencias
 
-sentencias          : sentencias bloque PYC 
-                    | sentencias ID ASIGN sentencia_asig PYC 
-                    | sentencias IF sentencia_if PYC 
-                    | sentencias WHILE sentencia_while PYC 
-                    | sentencias CIN sentencia_entrada PYC 
-                    | sentencias COUT sentencia_salida PYC 
-                    | sentencias RETURN sentencia_return PYC 
-                    | sentencias DO sentencia_do_until PYC 
-                    | sentencias ID PARIZQ sentencia_funcion PARDCH PYC 
-                    | sentencias sentencia_lista PYC 
+sentencias          : sentencias bloque salto_pyc 
+                    | sentencias ID ASIGN sentencia_asig salto_pyc 
+                    | sentencias IF sentencia_if salto_pyc 
+                    | sentencias WHILE sentencia_while salto_pyc 
+                    | sentencias CIN sentencia_entrada salto_pyc 
+                    | sentencias COUT sentencia_salida salto_pyc 
+                    | sentencias RETURN sentencia_return salto_pyc 
+                    | sentencias DO sentencia_do_until salto_pyc 
+                    | sentencias ID PARIZQ sentencia_funcion PARDCH salto_pyc 
+                    | sentencias sentencia_lista salto_pyc 
                     |
                     ;
 sentencia_asig      : exp
@@ -183,13 +211,15 @@ sentencia_lista     : ID SIG
 exp                 : exp PLUS termino
                     | exp MINUS termino
                     | exp TIMES termino
-                    | exp OPEBIN termino
-                    | exp OPEBINLIST termino
-                    | exp ID exp_lista_ID
-                    | exp OPEMONLIST ID
-                    | exp exp_simple aux ID
+                    | exp OR termino
+                    | exp AND termino
+                    | exp XOR termino
+                    | exp REL termino
+                    | exp EQ termino
+                    | exp DIV termino
+                    | exp MOD termino
+                    | exp exp_simple aux LLAVEIZQ ID LLAVEDCH
                     | termino
-                    | error
                     ;
 exp_lista_ID        : AT num op_ternario
                     | MINUSMINUS num
@@ -197,7 +227,9 @@ exp_lista_ID        : AT num op_ternario
                     | PLUS exp_simple
                     | MINUS exp_simple
                     | TIMES exp_simple
-                    | OPEBINLIST exp_simple
+                    | DIV exp_simple
+                    | MOD exp_simple
+                    | error
                     ;
 
 
@@ -214,12 +246,15 @@ aux                 : PLUS
 termino             : exp_simple
                     | OPEMON exp_simple
                     | PARIZQ exp PARDCH
-                    | OPEMONLIST LLAVEIZQ ID LLAVEDCH
+                    | INTERR LLAVEIZQ ID LLAVEDCH
+                    | HASHTAG LLAVEIZQ ID LLAVEDCH
+                    | ID exp_lista_ID
                     ;
 exp_simple          : num
                     | CHAR
                     | VALBOOL
                     | LLAVEIZQ ID LLAVEDCH
+                    | error
                     ;
 num                 : NUMERO
                     | ENTERO
@@ -236,9 +271,12 @@ tipo_var            : tipo_var_elem
                     | TIPOLISTA
                     ;
 
-
-// Tratamiento de errores
-
+salto_llave         : salto_llave SALTO
+                    | SALTO
+                    | error
+                    ;
+salto_pyc           : PYC salto_llave
+                    ;
 
 
 %%
