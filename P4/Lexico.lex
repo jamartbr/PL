@@ -17,7 +17,7 @@
 
 
 char* token;
-int atributo = -1;
+int atrib = -1;
 
 // La siguiente orden incluye la tabla de tokens obtenida en BISON
 
@@ -84,65 +84,62 @@ OTROS       .
 %%
 
 [ \t\n]+      ;
-"while"     { token = "WHILE"; return WHILE; }
-"do"        { token = "DO"; return DO; }
-"until"     { token = "UNTIL"; return UNTIL; }
-"if"        { token = "IF"; return IF; }
-"else"      { token = "ELSE"; return ELSE; }
-"cin"       { token = "CIN"; return CIN; }
-"cout"      { token = "COUT"; return COUT; }
-"main"      { token = "MAIN"; return MAIN; }
-"return"    { token = "RETURN"; return RETURN; }
-"local"     { token = "LOCAL"; return LOCAL; }
-"int"       { token = "TIPOINT"; return TIPOINT; }
-"float"     { token = "TIPOVAR"; atributo = 0; return TIPOVAR; }
-"char"      { token = "TIPOCHAR"; return TIPOCHAR; }
-"bool"      { token = "TIPOVAR"; atributo = 2; return TIPOVAR; }
-"list"      { token = "TIPOLISTA"; return TIPOLISTA; }
-"const"     { token = "TIPOCONST"; return TIPOCONST; }
-"TRUE"      { token = "VALBOOL"; atributo = 1; return VALBOOL; }
-"FALSE"     { token = "VALBOOL"; atributo = 0; return VALBOOL; }
-"("         { token = "PARIZQ"; return PARIZQ; }
-")"         { token = "PARDCH"; return PARDCH; }
-"{"         { token = "LLAVEIZQ"; return LLAVEIZQ; }
-"}"         { token = "LLAVEDCH"; return LLAVEDCH; }
-"["         { token = "CORIZQ"; return CORIZQ; }
-"]"         { token = "CORDCH"; return CORDCH; }
-";"         { token = "PYC"; return PYC; }
-","         { token = "COMA"; return COMA; }
-"="         { token = "ASIGN"; return ASIGN; }
-"!"         { token = "OPEMON"; return OPEMON; }
-"=="        { token = "EQ"; atributo = 0; return EQ; }
-"!="        { token = "EQ"; atributo = 1; return EQ; }
-"<"         { token = "REL"; atributo = 0; return REL; }
-">"         { token = "REL"; atributo = 1; return REL; }
-"<="        { token = "REL"; atributo = 2; return REL; }
-">="        { token = "REL"; atributo = 3; return REL; }
-"and"       { token = "AND"; return AND; }
-"or"        { token = "OR"; return OR; }
-"xor"       { token = "XOR"; return XOR; }
-">>"        { token = "SIG"; return SIG; }
-"<<"        { token = "ANT"; return ANT; }
-"$"         { token = "DOLLAR"; return DOLLAR; }
-"?"         { token = "INTERR"; return INTERR; }
-"#"         { token = "HASHTAG"; return HASHTAG; }
-"/"         { token = "DIV"; return DIV; }
-"%"         { token = "MOD"; return MOD; }
-"@"         { token = "AT"; return AT; }
-"++"        { token = "PLUSPLUS"; return PLUSPLUS; }
-"--"        { token = "MINUSMINUS"; return MINUSMINUS; }
-"**"        { token = "TIMESTIMES"; return TIMESTIMES; }
-"+"         { token = "PLUS"; return PLUS; }
-"-"         { token = "MINUS"; return MINUS; }
-"*"         { token = "TIMES"; return TIMES; }
-
-'[A-Za-z]?'                         { token = "CHAR"; atributo=-2; return CHAR; }
-\"([^\"\n]|\\\")*\"                 { token = "CADENA"; atributo=-2; return CADENA; }
-(\+|-)?([1-9][0-9]*|0)                     { token = "ENTERO"; atributo=-2; return ENTERO; }
-(\+|-)?([1-9][0-9]*|0)(\.[0-9]+)?          { token = "NUMERO"; atributo=-2; return NUMERO; }
-([A-Za-z])([A-Za-z]|[0-9]|_)*       { token = "ID"; atributo=-2; return ID; }
-
-
+"while"     { return WHILE; }
+"do"        { return DO; }
+"until"     { return UNTIL; }
+"if"        { return IF; }
+"else"      { return ELSE; }
+"cin"       { return CIN; }
+"cout"      { return COUT; }
+"main"      { return MAIN; }
+"return"    { return RETURN; }
+"local"     { return LOCAL; }
+"int"       { yylval.dtipo = entero; return TIPOINT; }
+"float"     { yylval.atrib = 0; yylval.dtipo = real; return TIPOVAR; }
+"bool"      { yylval.atrib = 1; yylval.dtipo = booleano; return TIPOVAR; }
+"char"      { yylval.dtipo = caracter; return TIPOCHAR; }
+"list"      { yylval.dtipo = lista; return TIPOLISTA; }
+"const"     { return TIPOCONST; }
+"FALSE"     { yylval.atrib = 0; return VALBOOL; }
+"TRUE"      { yylval.atrib = 1; return VALBOOL; }
+"("         { return PARIZQ; }
+")"         { return PARDCH; }
+"{"         { return LLAVEIZQ; }
+"}"         { return LLAVEDCH; }
+"["         { return CORIZQ; }
+"]"         { return CORDCH; }
+";"         { return PYC; }
+","         { return COMA; }
+"="         { return ASIGN; }
+"!"         { return OPEMON; }
+"=="        { yylval.atrib = 0; return EQ; }
+"!="        { yylval.atrib = 1; return EQ; }
+"<"         { yylval.atrib = 0; return REL; }
+">"         { yylval.atrib = 1; return REL; }
+"<="        { yylval.atrib = 2; return REL; }
+">="        { yylval.atrib = 3; return REL; }
+"and"       { return AND; }
+"or"        { return OR; }
+"xor"       { return XOR; }
+">>"        { return SIG; }
+"<<"        { return ANT; }
+"$"         { return DOLLAR; }
+"?"         { return INTERR; }
+"#"         { return HASHTAG; }
+"/"         { return DIV; }
+"%"         { return MOD; }
+"@"         { return AT; }
+"++"        { return PLUSPLUS; }
+"--"        { return MINUSMINUS; }
+"**"        { return TIMESTIMES; }
+"+"         { return PLUS; }
+"-"         { return MINUS; }
+"*"         { return TIMES; }
+'[A-Za-z]?'                         { yylval.atrib=-2; yylval.dtipo = caracter; return CHAR; }
+\"([^\"\n]|\\\")*\"                 { yylval.atrib=-2; yylval.dtipo = lista; return CADENA; }
+(\+|-)?([1-9][0-9]*|0)                     { yylval.atrib=-2; yylval.dtipo = entero; return ENTERO; }
+(\+|-)?([1-9][0-9]*|0)(\.[0-9]+)?          { yylval.atrib=-2; yylval.dtipo = real; return NUMERO; }
+([A-Za-z])([A-Za-z]|[0-9]|_)*       { yylval.atrib=-2; yylval.lexema = strdup(yytext); return ID; }
 .                                   { printf ("\n[Línea %2d] *** Error léxico : %s\n\n", yylineno , yytext ); }
 
 %%
@@ -162,14 +159,14 @@ OTROS       .
 //     while (codigo != 0)
 //     {
 //         printf("\n");
-//         if (atributo == -1)
+//         if (atrib == -1)
 //             printf ("[%15s] :: %s \n", yytext, token);
-//         else if (atributo == -2)
+//         else if (atrib == -2)
 //             printf ("[%15s] :: %s \t :: lexema = %s\n", yytext, token, yytext);
 //         else
-//             printf ("[%15s] :: %s \t :: atrib = %d (%s)\n", yytext, token, atributo, yytext);
+//             printf ("[%15s] :: %s \t :: atrib = %d (%s)\n", yytext, token, atrib, yytext);
 
-//         atributo = -1;
+//         atrib = -1;
 //         codigo = yylex();
 //     }
 //     exit(0);
