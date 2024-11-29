@@ -17,6 +17,8 @@ int main {
     bool estaDentro(list lista, int long) {
         return ({long} < #{lista});
     };
+
+    aux = estaDentro ( lista1, long1);
        
     lasfjlahf_ = +12;
     i2 = -2;
@@ -48,7 +50,7 @@ int main {
     l1 = 1 + l1**l2;
 
 
-    b = (17 and or a + 90) * {l1} % / 3;
+    b = (17 and or a + 90) * {l1} % 3;
 
     A = ?{l1};
     A = l2 -- 3;

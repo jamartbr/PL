@@ -1,7 +1,7 @@
 .SUFFIXES:
 
-sintact: main.o Sintact.tab.o
-	gcc -o Sintact main.o Sintact.tab.o lex.yy.o
+sintact: main.o Sintact.tab.o lex.yy.o
+	gcc -o Sintact main.o Sintact.tab.o lex.yy.o -lfl
 
 Sintact.tab.o: Sintact.tab.c lex.yy.c
 	gcc -c Sintact.tab.c
@@ -13,7 +13,7 @@ main.o: main.c
 Sintact.tab.c: Sintact.y lex.yy.c
 	bison -t -v -d -Wcounterexamples Sintact.y
 
-lex.yy.c: Lexico.lex
+lex.yy.c: Lexico.lex 
 	flex -l Lexico.lex
 
 clean :

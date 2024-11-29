@@ -4,7 +4,7 @@
 // *** Fichero : LEXICO.LEX
 // *** Función : Especificación LEX del lenguaje
 // ***
-// *** Ultima modificación: 25-oct-2024
+// *** Ultima modificación: 28-nov-2024
 // ***
 // ******************************************************
 
@@ -24,62 +24,6 @@ int atributo = -1;
 %}
 
 %option noyywrap
-
-WHILE       "while"
-DO          "do"
-UNTIL       "until"
-IF          "if"
-ELSE        "else"
-CIN         "cin"
-COUT        "cout"
-MAIN        "main"
-RETURN      "return"
-LOCAL       "local"
-TIPOINT     "int"
-TIPOCHAR    "char"
-TIPOVAR     ("float"|"bool")
-TIPOLISTA   "list"
-TIPOCONST   "const"
-VALBOOL     ("FALSE"|"TRUE")
-
-PARIZQ      "("
-PARDCH      ")"
-LLAVEIZQ    "{"
-LLAVEDCH    "}"
-CORIZQ      "["
-CORDCH      "]"
-PYC         ";"
-COMA        ","
-ASIGN       "="
-OPEMON      "!"
-OR          "or"
-AND         "and"
-XOR         "xor"
-EQ          ("=="|"!=")
-REL         ("<"|">"|"<="|">=")
-SIG         ">>"
-ANT         "<<"
-DOLLAR      "$"
-HASHTAG     "#"
-INTERR      "?"
-DIV         "/"
-MOD         "%"
-AT          "@"
-PLUSPLUS    "++"
-MINUSMINUS  "--"
-TIMESTIMES  "**"
-PLUS        "+"
-MINUS       "-"
-TIMES       "*"
-
-CHAR        '[A-Za-z]'
-CADENA      \"([^\"\n]|\\\")*\"
-NUMERO      (\+|-)?([1-9][0-9]*|0)(\.[0-9]+)? 
-ENTERO      (\+|-)?([1-9][0-9]*|0)
-
-ID          ([A-Za-z])([A-Za-z]|[0-9]|_)*
-
-OTROS       .
 
 %%
 

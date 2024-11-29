@@ -8,78 +8,16 @@
 // ***
 // ******************************************************
 
-// La declaración posterior indica que no se va a escribir la función 'yywrap '
-// evita que se tenga que enlazar con -lfl , o que se tenga que escribir dicha
-// función.
+# include "Sintact.tab.h" 
 
-# include "Sintact.tab.h"
+# include <stdlib.h>
+# include <stdio.h>
+# include <string.h> 
 
-
-
-char* token;
-int atrib = -1;
-
-// La siguiente orden incluye la tabla de tokens obtenida en BISON
 
 %}
 
 %option noyywrap
-
-WHILE       "while"
-DO          "do"
-UNTIL       "until"
-IF          "if"
-ELSE        "else"
-CIN         "cin"
-COUT        "cout"
-MAIN        "main"
-RETURN      "return"
-LOCAL       "local"
-TIPOINT     "int"
-TIPOCHAR    "char"
-TIPOVAR     ("float"|"bool")
-TIPOLISTA   "list"
-TIPOCONST   "const"
-VALBOOL     ("FALSE"|"TRUE")
-
-PARIZQ      "("
-PARDCH      ")"
-LLAVEIZQ    "{"
-LLAVEDCH    "}"
-CORIZQ      "["
-CORDCH      "]"
-PYC         ";"
-COMA        ","
-ASIGN       "="
-OPEMON      "!"
-OR          "or"
-AND         "and"
-XOR         "xor"
-EQ          ("=="|"!=")
-REL         ("<"|">"|"<="|">=")
-SIG         ">>"
-ANT         "<<"
-DOLLAR      "$"
-HASHTAG     "#"
-INTERR      "?"
-DIV         "/"
-MOD         "%"
-AT          "@"
-PLUSPLUS    "++"
-MINUSMINUS  "--"
-TIMESTIMES  "**"
-PLUS        "+"
-MINUS       "-"
-TIMES       "*"
-
-CHAR        '[A-Za-z]'
-CADENA      \"([^\"\n]|\\\")*\"
-NUMERO      (\+|-)?([1-9][0-9]*|0)(\.[0-9]+)? 
-ENTERO      (\+|-)?([1-9][0-9]*|0)
-
-ID          ([A-Za-z])([A-Za-z]|[0-9]|_)*
-
-OTROS       .
 
 %%
 
@@ -94,11 +32,11 @@ OTROS       .
 "main"      { return MAIN; }
 "return"    { return RETURN; }
 "local"     { return LOCAL; }
-"int"       { yylval.dtipo = entero; return TIPOINT; }
-"float"     { yylval.atrib = 0; yylval.dtipo = real; return TIPOVAR; }
-"bool"      { yylval.atrib = 1; yylval.dtipo = booleano; return TIPOVAR; }
-"char"      { yylval.dtipo = caracter; return TIPOCHAR; }
-"list"      { yylval.dtipo = lista; return TIPOLISTA; }
+"int"       { return TIPOINT;}
+"float"     { yylval.atrib = 0; return TIPOVAR; }
+"bool"      { yylval.atrib = 1; return TIPOVAR; }
+"char"      { return TIPOCHAR; }
+"list"      { return TIPOLISTA; }
 "const"     { return TIPOCONST; }
 "FALSE"     { yylval.atrib = 0; return VALBOOL; }
 "TRUE"      { yylval.atrib = 1; return VALBOOL; }
@@ -135,11 +73,11 @@ OTROS       .
 "+"         { return PLUS; }
 "-"         { return MINUS; }
 "*"         { return TIMES; }
-'[A-Za-z]?'                         { yylval.atrib=-2; yylval.dtipo = caracter; return CHAR; }
-\"([^\"\n]|\\\")*\"                 { yylval.atrib=-2; yylval.dtipo = lista; return CADENA; }
-(\+|-)?([1-9][0-9]*|0)                     { yylval.atrib=-2; yylval.dtipo = entero; return ENTERO; }
-(\+|-)?([1-9][0-9]*|0)(\.[0-9]+)?          { yylval.atrib=-2; yylval.dtipo = real; return NUMERO; }
-([A-Za-z])([A-Za-z]|[0-9]|_)*       { yylval.atrib=-2; yylval.lexema = strdup(yytext); return ID; }
+'[A-Za-z]'                          { return CHAR; }
+\"([^\"\n]|\\\")*\"                 { return CADENA; }
+(\+|-)?([1-9][0-9]*|0)              { return ENTERO; }
+(\+|-)?([1-9][0-9]*|0)(\.[0-9]+)?   { return NUMERO; }
+([A-Za-z])([A-Za-z]|[0-9]|_)*       { yylval.lexema = strdup (yytext) ; return ID; }
 .                                   { printf ("\n[Línea %2d] *** Error léxico : %s\n\n", yylineno , yytext ); }
 
 %%

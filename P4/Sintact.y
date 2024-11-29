@@ -15,6 +15,182 @@
 int yylex ();
 void yyerror ( const char *);
 
+
+
+typedef enum {
+    marca , // marca comienzo bloque
+    funcion , // si es subprograma
+    variable , // si es variable
+    parametro_formal  // si es parámetro formal
+} tipoEntrada ;
+
+typedef enum {
+    entero ,
+    real ,
+    caracter ,
+    booleano ,
+    lista ,
+    desconocido 
+} dtipo ;
+
+typedef struct {
+    tipoEntrada     entrada ;
+    char            *nombre ;
+    dtipo           tipoDato ;
+    unsigned int    parametros ;
+    unsigned int    dimension ;
+} entradaTS ;
+
+# define MAX_TS 500
+
+unsigned int TOPE = 0 ; // Tope de la pila
+unsigned int Subprog ; // Indicador de comienzo de bloque de un subprog
+
+entradaTS TS[MAX_TS] ; // Pila de la tabla de símbolos
+
+typedef struct {
+    int atrib ; // Atributo del símbolo (si tiene )
+    char *lexema ; // Nombre del lexema
+    dtipo tipo ; // Tipo del símbolo
+} atributos ;
+
+# define YYSTYPE atributos  // A partir de ahora , cada símbolo tiene
+                            // una estructura de tipo atributos
+
+dtipo tipoTmp = desconocido ;
+
+// Lista de funciones y procedimientos para manejo de la TS
+
+TS_VaciarENTRADAS() {
+    while (TS[TOPE].entrada != marca) {
+        TOPE-- ;
+    }
+    TOPE-- ;
+    TS_mostrar() ;
+}
+
+TS_comprobarUnico(char *lexema) {
+    int i = TOPE-1 ;
+    while (i >= 0 && TS[i].entrada != marca) {  // Busca en la TS
+        if (strcmp(TS[i].nombre, lexema) == 0) {
+            printf("Error: identificador %s ya declarado\n", lexema) ;
+            exit(1) ;
+        }
+        i-- ;
+    }
+}
+
+TS_duplicaParametros() {
+    int i = TOPE-1 ;
+    while (i>0 && TS[i].entrada == parametro_formal) {
+        TS[TOPE].entrada = variable ;
+        TS[TOPE].nombre = (char *) malloc(strlen(TS[i].nombre)+1) ;
+        strcpy(TS[TOPE].nombre, TS[i].nombre) ;
+        TS[TOPE].tipoDato = TS[i].tipoDato ;
+        TOPE++ ;
+        i-- ;
+    }
+}
+
+TS_insertaMARCA() {
+    if (TOPE < MAX_TS) {
+        TS[TOPE].entrada = marca ;
+        TS_duplicaParametros() ;
+        TOPE++ ;
+    } else {
+        printf("Error: desbordamiento de la pila\n") ;
+        exit(1) ;
+    }
+    TS_mostrar() ;
+}
+
+TS_insertaID(atributos simbolo) {
+    TS_comprobarUnico(simbolo.lexema) ;
+    if (TOPE < MAX_TS) {
+        TS[TOPE].entrada = variable ;
+        TS[TOPE].nombre = (char *) malloc(strlen(simbolo.lexema)+1) ;
+        strcpy(TS[TOPE].nombre, simbolo.lexema) ;
+        TS[TOPE].tipoDato = simbolo.tipo ;
+        TOPE++ ;
+    } else {
+        printf("Error: desbordamiento de la pila\n") ;
+        exit(1) ;
+    }
+    TS_mostrar() ;
+}
+
+TS_insertaFUNCION(atributos simbolo) {
+    TS_comprobarUnico(simbolo.lexema) ;
+    if (TOPE < MAX_TS) {
+        TS[TOPE].entrada = funcion ;
+        TS[TOPE].nombre = (char *) malloc(strlen(simbolo.lexema)+1) ;
+        strcpy(TS[TOPE].nombre, simbolo.lexema) ;
+        TS[TOPE].tipoDato = simbolo.tipo ;
+        TS[TOPE].parametros = 0 ;
+        TOPE++ ;
+    } else {
+        printf("Error: desbordamiento de la pila\n") ;
+        exit(1) ;
+    }
+    TS_mostrar() ;
+}
+
+TS_aumentaPARAMETROS() {
+    int topeTMP = TOPE-1 ;
+    while (TS[topeTMP].entrada != funcion) {
+        topeTMP-- ;
+    }
+    TS[topeTMP].parametros = TOPE - topeTMP ;
+}
+
+TS_insertaPARAMETRO(atributos simbolo) {
+    if (TOPE < MAX_TS) {
+        TS[TOPE].entrada = parametro_formal ;
+        TS[TOPE].nombre = (char *) malloc(strlen(simbolo.lexema)+1) ;
+        strcpy(TS[TOPE].nombre, simbolo.lexema) ;
+        TS[TOPE].tipoDato = tipoTmp ;
+        TS_aumentaPARAMETROS() ;
+        TOPE++ ;
+    } else {
+        printf("Error: desbordamiento de la pila\n") ;
+        exit(1) ;
+    }
+    TS_mostrar();
+}
+
+TS_insertaIDENT(atributos simbolo) {
+    if (TOPE < MAX_TS) {
+        TS[TOPE].entrada = variable ;
+        TS[TOPE].nombre = (char *) malloc(strlen(simbolo.lexema)+1) ;
+        strcpy(TS[TOPE].nombre, simbolo.lexema) ;
+        TS[TOPE].tipoDato = simbolo.tipo ;
+        TS[TOPE].parametros = 0 ;
+        TOPE++ ;
+    } else {
+        printf("Error: desbordamiento de la pila\n") ;
+        exit(1) ;
+    }
+    TS_mostrar();
+}
+
+TS_mostrar() {
+    int i = 0 ;
+    while (i < TOPE) {
+        if (TS[i].entrada == marca) {
+            printf("Marca\n") ;
+        } else if (TS[i].entrada == funcion) {
+            printf("Función: %s\n", TS[i].nombre) ;
+        } else if (TS[i].entrada == variable) {
+            printf("Variable: %s\n", TS[i].nombre) ;
+        } else if (TS[i].entrada == parametro_formal) {
+            printf("Parámetro: %s\n", TS[i].nombre) ;
+        }
+        i++ ;
+    }
+}
+
+// Fin de funciones y procedimientos para manejo de la TS
+
 %}
 
 %define parse.error verbose
@@ -124,11 +300,11 @@ cuerpo_declar_var   : tipo_var_elem nombres PYC
                     | TIPOLISTA tipo_var_elem nombres PYC
                     | error
                     ;
-nombres             : nombres COMA ID
-                    | ID
+nombres             : nombres COMA ID { TS_insertaID($3) ; }
+                    | ID { TS_insertaID($1) ; }
                     ;
-cuerpo_declar_const : TIPOCONST tipo_var_elem ID ASIGN exp_simple PYC
-                    | TIPOCONST TIPOLISTA tipo_var_elem ID ASIGN CORIZQ asig_const_lista PYC
+cuerpo_declar_const : TIPOCONST tipo_var_elem ID ASIGN exp_simple PYC { TS_insertaID($3) ; }
+                    | TIPOCONST TIPOLISTA tipo_var_elem ID ASIGN CORIZQ asig_const_lista PYC { TS_insertaID($4) ; }
                     ;
 asig_const_lista    : items CORDCH
                     | CADENA CORDCH
@@ -146,14 +322,14 @@ declar_funciones    : declar_funciones declar_funcion
 declar_funcion      : cabec_funcion
                         bloque PYC
                     ;
-cabec_funcion       : tipo_var ID PARIZQ parametros PARDCH
+cabec_funcion       : tipo_var ID PARIZQ parametros PARDCH { TS_insertaFUNCION($2) ; }
                     | error
                     ;
 parametros          : parametros COMA parametro
                     | parametro
                     |
                     ;
-parametro           : tipo_var ID { tipoTmp = yylval.dtipo ; } { TS_insertaPARAMETRO(yylval) ; }
+parametro           : tipo_var ID  { TS_insertaPARAMETRO($2) ; }
                     ;
 
 
@@ -206,7 +382,9 @@ sentencia_lista     : ID SIG
 
 
 // Expresiones
-TOPE-1
+
+exp                 : exp PLUS termino
+                    | exp MINUS termino
                     | exp TIMES termino
                     | exp OR termino
                     | exp AND termino
@@ -233,7 +411,7 @@ exp_lista_ID        : AT num op_ternario
 
 // Operadores y radicales
 
-op_ternario         : PLUSPLUS exp_simple yylval.dtipo = caracter;
+op_ternario         : PLUSPLUS exp_simple
                     ;
 aux                 : PLUS
                     | TIMES
@@ -259,143 +437,15 @@ num                 : NUMERO
 
 // Tipos de variables
 
-tipo_var_elem       : TIPOVAR
-                    | TIPOCHAR
-                    | TIPOINT
+tipo_var_elem       : TIPOVAR { tipoTmp = $1.tipo ; }
+                    | TIPOCHAR { tipoTmp = $1.tipo ; }
+                    | TIPOINT { tipoTmp = $1.tipo ; }
                     ;
 tipo_var            : tipo_var_elem
-                    | TIPOLISTA
+                    | TIPOLISTA { tipoTmp = $1.tipo ; }
                     ;
 
 
 %%
 
-typedef enum {
-    marca , // marca comienzo bloque
-    funcion , // si es subprograma
-    variable , // si es variable
-    parametro_formal , // si es parámetro formal
-} tipoEntrada ;
 
-typedef enum {
-    entero ,
-    real ,
-    caracter ,
-    booleano ,
-    lista ,
-    desconocido ,
-    no_asignado
-} dtipo ;
-
-typedef struct {
-    tipoEntrada     entrada ;
-    char            *nombre ;
-    dtipo           tipoDato ;
-    unsigned int    parametros ;
-    unsigned int    dimension ;
-} entradaTS ;
-
-# define MAX_TS 500
-
-unsigned int TOPE = 0 ; // Tope de la pila
-unsigned int Subprog ; // Indicador de comienzo de bloque de un subprog
-
-entradaTS TS[MAX_TS] ; // Pila de la tabla de símbolos
-
-typedef struct {
-    int atrib ; // Atributo del símbolo (si tiene )
-    char *lexema ; // Nombre del lexema
-    dtipo tipo ; // Tipo del símbolo
-} atributos ;
-
-# define YYSTYPE atributos  // A partir de ahora , cada símbolo tiene
-                            // una estructura de tipo atributos
-
-
-
-
-
-dtipo tipoTmp = desconocido ;
-
-// Lista de funciones y procedimientos para manejo de la TS
-TS_insertaMARCA() {
-    if (TOPE < MAX_TS) {
-        TS[TOPE].entrada = marca ;
-        TOPE++ ;
-    } else {
-        printf("Error: desbordamiento de la pila\n") ;
-        exit(1) ;
-    }
-}
-
-TS_VaciarENTRADAS() {
-    while (TS[TOPE].entrada != marca) {
-        TOPE-- ;
-    }
-    TOPE-- ;
-}
-
-TS_insertaID(atributos simbolo) {
-    if (TOPE < MAX_TS) {
-        TS[TOPE].entrada = variable ;
-        TS[TOPE].nombre = (char *) malloc(strlen(yylval.lexema)+1) ;
-        strcpy(TS[TOPE].nombre, yylval.lexema) ;
-        TS[TOPE].tipoDato = yylval.dtipo ;
-        TOPE++ ;
-    } else {
-        printf("Error: desbordamiento de la pila\n") ;
-        exit(1) ;
-    }
-}
-
-TS_insertaFUNCION(atributos simbolo) {
-    if (TOPE < MAX_TS) {
-        TS[TOPE].entrada = funcion ;
-        TS[TOPE].nombre = (char *) malloc(strlen(yylval.lexema)+1) ;
-        strcpy(TS[TOPE].nombre, yylval.lexema) ;
-        TS[TOPE].tipoDato = yylval.dtipo ;
-        TS[TOPE].parametros = 0 ;
-        TOPE++ ;
-    } else {
-        printf("Error: desbordamiento de la pila\n") ;
-        exit(1) ;
-    }
-}
-
-TS_aumentaPARAMETROS() {
-    topeTMP = TOPE-1 ;
-    while (TS[topeTMP].entrada != funcion) {
-        topeTMP-- ;
-    }
-    TS[topeTMP].parametros = TOPE - topeTMP ;
-}
-
-TS_insertaPARAMETRO(atributos simbolo) {
-    if (TOPE < MAX_TS) {
-        TS[TOPE].entrada = parametro_formal ;
-        TS[TOPE].nombre = (char *) malloc(strlen(yylval.lexema)+1) ;
-        strcpy(TS[TOPE].nombre, yylval.lexema) ;
-        TS[TOPE].tipoDato = tipoTmp ;
-        TS_aumentaPARAMETROS() ;
-        TOPE++ ;
-    } else {
-        printf("Error: desbordamiento de la pila\n") ;
-        exit(1) ;
-    }
-}
-
-TS_insertaIDENT(atributos simbolo) {
-    if (TOPE < MAX_TS) {
-        TS[TOPE].entrada = variable ;
-        TS[TOPE].nombre = (char *) malloc(strlen(yylval.lexema)+1) ;
-        strcpy(TS[TOPE].nombre, yylval.lexema) ;
-        TS[TOPE].tipoDato = yylval.dtipo ;
-        TS[TOPE].parametros = 0 ;
-        TOPE++ ;
-    } else {
-        printf("Error: desbordamiento de la pila\n") ;
-        exit(1) ;
-    }
-}
-
-// Fin de funciones y procedimientos para manejo de la TS
