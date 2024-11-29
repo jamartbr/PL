@@ -5,10 +5,14 @@
 // ***
 // ************************************************************************
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include "estructuras.h"
+#include "estructuras.h"
+
+entradaTS TS[MAX_TS];
+long int TOPE = 0;
+
+dtipo tipoTmp = desconocido;
+
+
 
 
 /***********************************/
@@ -23,11 +27,11 @@ void TS_VaciarENTRADAS() {
     TS_mostrar() ;
 }
 
-void TS_comprobarUnico(char *lexema) {
+void TS_comprobarUnico(atributos atributo) {
     int i = TOPE-1 ;
     while (i >= 0 && TS[i].entrada != marca) {  // Busca en la TS
-        if (strcmp(TS[i].nombre, lexema) == 0) {
-            printf("Error: identificador %s ya declarado\n", lexema) ;
+        if (strcmp(TS[i].nombre, atributo.lexema) == 0) {
+            printf("Error: identificador %s ya declarado\n", atributo.lexema) ;
             exit(1) ;
         }
         i-- ;
@@ -58,12 +62,12 @@ void TS_insertaMARCA() {
     TS_mostrar() ;
 }
 
-void TS_insertaID(char *lexema) {
-    TS_comprobarUnico(lexema) ;
+void TS_insertaID(atributos atributo) {
+    TS_comprobarUnico(atributo) ;
     if (TOPE < MAX_TS) {
         TS[TOPE].entrada = variable ;
-        TS[TOPE].nombre = (char *) malloc(strlen(lexema)+1) ;
-        strcpy(TS[TOPE].nombre, lexema) ;
+        TS[TOPE].nombre = (char *) malloc(strlen(atributo.lexema)+1) ;
+        strcpy(TS[TOPE].nombre, atributo.lexema) ;
         TS[TOPE].tipoDato = tipoTmp ;
         TOPE++ ;
     } else {
@@ -73,12 +77,12 @@ void TS_insertaID(char *lexema) {
     TS_mostrar() ;
 }
 
-void TS_insertaFUNCION(char *lexema) {
-    TS_comprobarUnico(lexema) ;
+void TS_insertaFUNCION(atributos atributo) {
+    TS_comprobarUnico(atributo) ;
     if (TOPE < MAX_TS) {
         TS[TOPE].entrada = funcion ;
-        TS[TOPE].nombre = (char *) malloc(strlen(lexema)+1) ;
-        strcpy(TS[TOPE].nombre, lexema) ;
+        TS[TOPE].nombre = (char *) malloc(strlen(atributo.lexema)+1) ;
+        strcpy(TS[TOPE].nombre, atributo.lexema) ;
         TS[TOPE].tipoDato = tipoTmp ;
         TS[TOPE].parametros = 0 ;
         TOPE++ ;
@@ -97,11 +101,11 @@ void TS_aumentaPARAMETROS() {
     TS[topeTMP].parametros = TOPE - topeTMP ;
 }
 
-void TS_insertaPARAMETRO(char *lexema) {
+void TS_insertaPARAMETRO(atributos atributo) {
     if (TOPE < MAX_TS) {
         TS[TOPE].entrada = parametro_formal ;
-        TS[TOPE].nombre = (char *) malloc(strlen(lexema)+1) ;
-        strcpy(TS[TOPE].nombre, lexema) ;
+        TS[TOPE].nombre = (char *) malloc(strlen(atributo.lexema)+1) ;
+        strcpy(TS[TOPE].nombre, atributo.lexema) ;
         TS[TOPE].tipoDato = tipoTmp ;
         TS_aumentaPARAMETROS() ;
         TOPE++ ;
@@ -112,11 +116,11 @@ void TS_insertaPARAMETRO(char *lexema) {
     TS_mostrar();
 }
 
-void TS_insertaIDENT(char *lexema) {
+void TS_insertaIDENT(atributos atributo) {
     if (TOPE < MAX_TS) {
         TS[TOPE].entrada = variable ;
-        TS[TOPE].nombre = (char *) malloc(strlen(lexema)+1) ;
-        strcpy(TS[TOPE].nombre, lexema) ;
+        TS[TOPE].nombre = (char *) malloc(strlen(atributo.lexema)+1) ;
+        strcpy(TS[TOPE].nombre, atributo.lexema) ;
         TS[TOPE].tipoDato = tipoTmp ;
         TS[TOPE].parametros = 0 ;
         TOPE++ ;
@@ -141,4 +145,5 @@ void TS_mostrar() {
         }
         i++ ;
     }
+    printf("\n") ;
 }

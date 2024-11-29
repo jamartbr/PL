@@ -1,24 +1,40 @@
-.SUFFIXES:
+OBJ = obj
+SRC = src
+BIN = bin
+INCLUDE = include
 
-sintact: main.o Sintact.tab.o lex.yy.o
-	gcc -o Sintact main.o Sintact.tab.o lex.yy.o -lfl
+Sintact: $(OBJ)/estructuras.o $(OBJ)/main.o $(OBJ)/y.tab.o
+	@echo ""
+	@echo Generando ejecutable...
+	@echo ""
+	gcc -o $(BIN)/Sintact $(OBJ)/estructuras.o $(OBJ)/main.o $(OBJ)/y.tab.o
+	@echo ""
+	@echo Ejecutable generado con éxito
+	@echo ""
 
-Sintact.tab.o: Sintact.tab.c lex.yy.c
-	gcc -c Sintact.tab.c
-	gcc -c lex.yy.c
+$(OBJ)/main.o: $(SRC)/main.c
+	gcc -o $@ -c $(SRC)/main.c -I$(INCLUDE)
 
-main.o: main.c
-	gcc -c main.c
+$(OBJ)/y.tab.o: $(SRC)/y.tab.c
+	gcc -o $@ -c $(SRC)/y.tab.c -I$(INCLUDE)
 
-Sintact.tab.c: Sintact.y lex.yy.c
-	bison -t -v -d -Wcounterexamples Sintact.y
+$(SRC)/y.tab.c: $(SRC)/Sintact.y $(SRC)/lex.yy.c
+	bison -t -v -d -Wcounterexamples -o $@ $(SRC)/Sintact.y
 
-lex.yy.c: Lexico.lex 
-	flex -l Lexico.lex
+$(SRC)/lex.yy.c: $(SRC)/Lexico.lex
+	lex -o $@ $(SRC)/Lexico.lex
 
-clean :
-	rm -f Sintact main.o Sintact.tab.o Sintact.tab.c lex.yy.c lex.yy.o
+$(OBJ)/estructuras.o: $(SRC)/estructuras.c
+	gcc -o $@ -c $(SRC)/estructuras.c -I$(INCLUDE)
 
-all :
-	make clean
-	make sintact
+all:
+	make Sintact
+
+clean:
+	@echo ""
+	@echo Limpiando los ficheros...
+	@echo ""
+	rm -rf $(BIN)/Sintact $(OBJ)/* $(SRC)/y.tab.c $(SRC)/lex.yy.c
+	@echo ""
+	@echo Limpieza finalizada
+	@echo ""

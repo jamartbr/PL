@@ -8,16 +8,21 @@
 // ***
 // ******************************************************
 
-# include "Sintact.tab.h" 
+// Declaraciones
 
-# include <stdlib.h>
-# include <stdio.h>
-# include <string.h> 
+#include <stdlib.h>
+#include <string.h>
 
 
 %}
 
+%option yylineno
 %option noyywrap
+
+letra [a-zA-Z]
+digito [0-9]
+entero {digito}+
+real {entero}.{entero}
 
 %%
 
@@ -109,3 +114,4 @@
 //     }
 //     exit(0);
 // }
+

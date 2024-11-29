@@ -1,5 +1,6 @@
+#line 2 "src/lex.yy.c"
 
-#line 3 "lex.yy.c"
+#line 4 "src/lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -162,8 +163,27 @@ extern FILE *yyin, *yyout;
 #define EOB_ACT_END_OF_FILE 1
 #define EOB_ACT_LAST_MATCH 2
     
-    #define YY_LESS_LINENO(n)
-    #define YY_LINENO_REWIND_TO(ptr)
+    /* Note: We specifically omit the test for yy_rule_can_match_eol because it requires
+     *       access to the local variable yy_act. Since yyless() is a macro, it would break
+     *       existing scanners that call yyless() from OUTSIDE yylex.
+     *       One obvious solution it to make yy_act a global. I tried that, and saw
+     *       a 5% performance hit in a non-yylineno scanner, because yy_act is
+     *       normally declared as a register variable-- so it is not worth it.
+     */
+    #define  YY_LESS_LINENO(n) \
+            do { \
+                int yyl;\
+                for ( yyl = n; yyl < yyleng; ++yyl )\
+                    if ( yytext[yyl] == '\n' )\
+                        --yylineno;\
+            }while(0)
+    #define YY_LINENO_REWIND_TO(dst) \
+            do {\
+                const char *p;\
+                for ( p = yy_cp-1; p >= (dst); --p)\
+                    if ( *p == '\n' )\
+                        --yylineno;\
+            }while(0)
     
 /* Return all but the first "n" matched characters back to the input stream. */
 #define yyless(n) \
@@ -322,6 +342,9 @@ void yyfree ( void *  );
 #define YY_AT_BOL() (YY_CURRENT_BUFFER_LVALUE->yy_at_bol)
 
 /* Begin user sect3 */
+
+#define yywrap() (/*CONSTCOND*/1)
+#define YY_SKIP_YYWRAP
 typedef flex_uint8_t YY_CHAR;
 
 FILE *yyin = NULL, *yyout = NULL;
@@ -517,6 +540,14 @@ static const flex_int16_t yy_chk[228] =
       131,  131,  131,  131,  131,  131,  131
     } ;
 
+/* Table of booleans, true if rule could match eol. */
+static const flex_int32_t yy_rule_can_match_eol[60] =
+    {   0,
+1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+        };
+
 static yy_state_type yy_last_accepting_state;
 static char *yy_last_accepting_cpos;
 
@@ -531,8 +562,8 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "Lexico.lex"
-#line 2 "Lexico.lex"
+#line 1 "src/Lexico.lex"
+#line 2 "src/Lexico.lex"
 // ******************************************************
 // ***
 // *** Fichero : LEXICO.LEX
@@ -542,15 +573,14 @@ char *yytext;
 // ***
 // ******************************************************
 
-# include "Sintact.tab.h" 
+// Declaraciones
 
-# include <stdlib.h>
-# include <stdio.h>
-# include <string.h> 
+#include <stdlib.h>
+#include <string.h>
 
 
-#line 553 "lex.yy.c"
-#line 554 "lex.yy.c"
+#line 583 "src/lex.yy.c"
+#line 584 "src/lex.yy.c"
 
 #define INITIAL 0
 
@@ -767,10 +797,10 @@ YY_DECL
 		}
 
 	{
-#line 20 "Lexico.lex"
+#line 27 "src/Lexico.lex"
 
 
-#line 774 "lex.yy.c"
+#line 804 "src/lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -816,6 +846,16 @@ yy_find_action:
 
 		YY_DO_BEFORE_ACTION;
 
+		if ( yy_act != YY_END_OF_BUFFER && yy_rule_can_match_eol[yy_act] )
+			{
+			int yyl;
+			for ( yyl = 0; yyl < yyleng; ++yyl )
+				if ( yytext[yyl] == '\n' )
+					
+    yylineno++;
+;
+			}
+
 do_action:	/* This label is used only to access EOF actions. */
 
 		switch ( yy_act )
@@ -830,300 +870,300 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 22 "Lexico.lex"
+#line 29 "src/Lexico.lex"
 ;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 23 "Lexico.lex"
+#line 30 "src/Lexico.lex"
 { return WHILE; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 24 "Lexico.lex"
+#line 31 "src/Lexico.lex"
 { return DO; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 25 "Lexico.lex"
+#line 32 "src/Lexico.lex"
 { return UNTIL; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 26 "Lexico.lex"
+#line 33 "src/Lexico.lex"
 { return IF; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 27 "Lexico.lex"
+#line 34 "src/Lexico.lex"
 { return ELSE; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 28 "Lexico.lex"
+#line 35 "src/Lexico.lex"
 { return CIN; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 29 "Lexico.lex"
+#line 36 "src/Lexico.lex"
 { return COUT; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 30 "Lexico.lex"
+#line 37 "src/Lexico.lex"
 { return MAIN; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 31 "Lexico.lex"
+#line 38 "src/Lexico.lex"
 { return RETURN; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 32 "Lexico.lex"
+#line 39 "src/Lexico.lex"
 { return LOCAL; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 33 "Lexico.lex"
+#line 40 "src/Lexico.lex"
 { return TIPOINT;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 34 "Lexico.lex"
+#line 41 "src/Lexico.lex"
 { yylval.atrib = 0; return TIPOVAR; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 35 "Lexico.lex"
+#line 42 "src/Lexico.lex"
 { yylval.atrib = 1; return TIPOVAR; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 36 "Lexico.lex"
+#line 43 "src/Lexico.lex"
 { return TIPOCHAR; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 37 "Lexico.lex"
+#line 44 "src/Lexico.lex"
 { return TIPOLISTA; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 38 "Lexico.lex"
+#line 45 "src/Lexico.lex"
 { return TIPOCONST; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 39 "Lexico.lex"
+#line 46 "src/Lexico.lex"
 { yylval.atrib = 0; return VALBOOL; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 40 "Lexico.lex"
+#line 47 "src/Lexico.lex"
 { yylval.atrib = 1; return VALBOOL; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 41 "Lexico.lex"
+#line 48 "src/Lexico.lex"
 { return PARIZQ; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 42 "Lexico.lex"
+#line 49 "src/Lexico.lex"
 { return PARDCH; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 43 "Lexico.lex"
+#line 50 "src/Lexico.lex"
 { return LLAVEIZQ; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 44 "Lexico.lex"
+#line 51 "src/Lexico.lex"
 { return LLAVEDCH; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 45 "Lexico.lex"
+#line 52 "src/Lexico.lex"
 { return CORIZQ; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 46 "Lexico.lex"
+#line 53 "src/Lexico.lex"
 { return CORDCH; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 47 "Lexico.lex"
+#line 54 "src/Lexico.lex"
 { return PYC; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 48 "Lexico.lex"
+#line 55 "src/Lexico.lex"
 { return COMA; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 49 "Lexico.lex"
+#line 56 "src/Lexico.lex"
 { return ASIGN; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 50 "Lexico.lex"
+#line 57 "src/Lexico.lex"
 { return OPEMON; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 51 "Lexico.lex"
+#line 58 "src/Lexico.lex"
 { yylval.atrib = 0; return EQ; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 52 "Lexico.lex"
+#line 59 "src/Lexico.lex"
 { yylval.atrib = 1; return EQ; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 53 "Lexico.lex"
+#line 60 "src/Lexico.lex"
 { yylval.atrib = 0; return REL; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 54 "Lexico.lex"
+#line 61 "src/Lexico.lex"
 { yylval.atrib = 1; return REL; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 55 "Lexico.lex"
+#line 62 "src/Lexico.lex"
 { yylval.atrib = 2; return REL; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 56 "Lexico.lex"
+#line 63 "src/Lexico.lex"
 { yylval.atrib = 3; return REL; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 57 "Lexico.lex"
+#line 64 "src/Lexico.lex"
 { return AND; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 58 "Lexico.lex"
+#line 65 "src/Lexico.lex"
 { return OR; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 59 "Lexico.lex"
+#line 66 "src/Lexico.lex"
 { return XOR; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 60 "Lexico.lex"
+#line 67 "src/Lexico.lex"
 { return SIG; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 61 "Lexico.lex"
+#line 68 "src/Lexico.lex"
 { return ANT; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 62 "Lexico.lex"
+#line 69 "src/Lexico.lex"
 { return DOLLAR; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 63 "Lexico.lex"
+#line 70 "src/Lexico.lex"
 { return INTERR; }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 64 "Lexico.lex"
+#line 71 "src/Lexico.lex"
 { return HASHTAG; }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 65 "Lexico.lex"
+#line 72 "src/Lexico.lex"
 { return DIV; }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 66 "Lexico.lex"
+#line 73 "src/Lexico.lex"
 { return MOD; }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 67 "Lexico.lex"
+#line 74 "src/Lexico.lex"
 { return AT; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 68 "Lexico.lex"
+#line 75 "src/Lexico.lex"
 { return PLUSPLUS; }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 69 "Lexico.lex"
+#line 76 "src/Lexico.lex"
 { return MINUSMINUS; }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 70 "Lexico.lex"
+#line 77 "src/Lexico.lex"
 { return TIMESTIMES; }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 71 "Lexico.lex"
+#line 78 "src/Lexico.lex"
 { return PLUS; }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 72 "Lexico.lex"
+#line 79 "src/Lexico.lex"
 { return MINUS; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 73 "Lexico.lex"
+#line 80 "src/Lexico.lex"
 { return TIMES; }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 74 "Lexico.lex"
+#line 81 "src/Lexico.lex"
 { return CHAR; }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 75 "Lexico.lex"
+#line 82 "src/Lexico.lex"
 { return CADENA; }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 76 "Lexico.lex"
+#line 83 "src/Lexico.lex"
 { return ENTERO; }
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 77 "Lexico.lex"
+#line 84 "src/Lexico.lex"
 { return NUMERO; }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 78 "Lexico.lex"
+#line 85 "src/Lexico.lex"
 { yylval.lexema = strdup (yytext) ; return ID; }
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 79 "Lexico.lex"
+#line 86 "src/Lexico.lex"
 { printf ("\n[Línea %2d] *** Error léxico : %s\n\n", yylineno , yytext ); }
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 81 "Lexico.lex"
+#line 88 "src/Lexico.lex"
 ECHO;
 	YY_BREAK
-#line 1127 "lex.yy.c"
+#line 1167 "src/lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1491,6 +1531,10 @@ static int yy_get_next_buffer (void)
 
 	*--yy_cp = (char) c;
 
+    if ( c == '\n' ){
+        --yylineno;
+    }
+
 	(yytext_ptr) = yy_bp;
 	(yy_hold_char) = *yy_cp;
 	(yy_c_buf_p) = yy_cp;
@@ -1567,6 +1611,11 @@ static int yy_get_next_buffer (void)
 	c = *(unsigned char *) (yy_c_buf_p);	/* cast for 8-bit char's */
 	*(yy_c_buf_p) = '\0';	/* preserve yytext */
 	(yy_hold_char) = *++(yy_c_buf_p);
+
+	if ( c == '\n' )
+		
+    yylineno++;
+;
 
 	return c;
 }
@@ -2034,6 +2083,9 @@ static int yy_init_globals (void)
      * This function is called from yylex_destroy(), so don't allocate here.
      */
 
+    /* We do not touch yylineno unless the option is enabled. */
+    yylineno =  1;
+    
     (yy_buffer_stack) = NULL;
     (yy_buffer_stack_top) = 0;
     (yy_buffer_stack_max) = 0;
@@ -2128,7 +2180,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 81 "Lexico.lex"
+#line 88 "src/Lexico.lex"
 
 
 // int main ( int argc, char ** argv )
@@ -2158,4 +2210,5 @@ void yyfree (void * ptr )
 //     }
 //     exit(0);
 // }
+
 

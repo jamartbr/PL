@@ -67,7 +67,7 @@
 
 
 /* First part of user prologue.  */
-#line 1 "Sintact.y"
+#line 1 "src/Sintact.y"
 
 // ************************************************************
 // ***
@@ -78,191 +78,28 @@
 // ***
 // ************************************************************
 
-# include <stdlib.h>
-# include <stdio.h>
-# include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include "estructuras.h"
 
-int yylex ();
-void yyerror ( const char *);
+// La siguiente declaracion permite que ’yyerror’ se pueda invocar desde el
+// fuente de lex (prueba.l)
+void yyerror(char * msg);
 
+// La siguiente variable se usará para conocer el numero de la línea
+// que se esta leyendo en cada momento. También es posible usar la variable
+// ’yylineno’ que también nos muestra la línea actual. Para ello es necesario
+// invocar a flex con la opción ’-l’ (compatibilidad con lex).
 
+//############
+//#define YYDEBUG 1
+//############
 
-typedef enum {
-    marca , // marca comienzo bloque
-    funcion , // si es subprograma
-    variable , // si es variable
-    parametro_formal  // si es parámetro formal
-} tipoEntrada ;
-
-typedef enum {
-    entero ,
-    real ,
-    caracter ,
-    booleano ,
-    lista ,
-    desconocido 
-} dtipo ;
-
-typedef struct {
-    tipoEntrada     entrada ;
-    char            *nombre ;
-    dtipo           tipoDato ;
-    unsigned int    parametros ;
-    unsigned int    dimension ;
-} entradaTS ;
-
-# define MAX_TS 500
-
-unsigned int TOPE = 0 ; // Tope de la pila
-unsigned int Subprog ; // Indicador de comienzo de bloque de un subprog
-
-entradaTS TS[MAX_TS] ; // Pila de la tabla de símbolos
-
-typedef struct {
-    int atrib ; // Atributo del símbolo (si tiene )
-    char *lexema ; // Nombre del lexema
-    dtipo tipo ; // Tipo del símbolo
-} atributos ;
-
-# define YYSTYPE atributos  // A partir de ahora , cada símbolo tiene
-                            // una estructura de tipo atributos
-
-dtipo tipoTmp = desconocido ;
-
-// Lista de funciones y procedimientos para manejo de la TS
-
-TS_VaciarENTRADAS() {
-    while (TS[TOPE].entrada != marca) {
-        TOPE-- ;
-    }
-    TOPE-- ;
-    TS_mostrar() ;
-}
-
-TS_comprobarUnico(char *lexema) {
-    int i = TOPE-1 ;
-    while (i >= 0 && TS[i].entrada != marca) {  // Busca en la TS
-        if (strcmp(TS[i].nombre, lexema) == 0) {
-            printf("Error: identificador %s ya declarado\n", lexema) ;
-            exit(1) ;
-        }
-        i-- ;
-    }
-}
-
-TS_duplicaParametros() {
-    int i = TOPE-1 ;
-    while (i>0 && TS[i].entrada == parametro_formal) {
-        TS[TOPE].entrada = variable ;
-        TS[TOPE].nombre = (char *) malloc(strlen(TS[i].nombre)+1) ;
-        strcpy(TS[TOPE].nombre, TS[i].nombre) ;
-        TS[TOPE].tipoDato = TS[i].tipoDato ;
-        TOPE++ ;
-        i-- ;
-    }
-}
-
-TS_insertaMARCA() {
-    if (TOPE < MAX_TS) {
-        TS[TOPE].entrada = marca ;
-        TS_duplicaParametros() ;
-        TOPE++ ;
-    } else {
-        printf("Error: desbordamiento de la pila\n") ;
-        exit(1) ;
-    }
-    TS_mostrar() ;
-}
-
-TS_insertaID(atributos simbolo) {
-    TS_comprobarUnico(simbolo.lexema) ;
-    if (TOPE < MAX_TS) {
-        TS[TOPE].entrada = variable ;
-        TS[TOPE].nombre = (char *) malloc(strlen(simbolo.lexema)+1) ;
-        strcpy(TS[TOPE].nombre, simbolo.lexema) ;
-        TS[TOPE].tipoDato = simbolo.tipo ;
-        TOPE++ ;
-    } else {
-        printf("Error: desbordamiento de la pila\n") ;
-        exit(1) ;
-    }
-    TS_mostrar() ;
-}
-
-TS_insertaFUNCION(atributos simbolo) {
-    TS_comprobarUnico(simbolo.lexema) ;
-    if (TOPE < MAX_TS) {
-        TS[TOPE].entrada = funcion ;
-        TS[TOPE].nombre = (char *) malloc(strlen(simbolo.lexema)+1) ;
-        strcpy(TS[TOPE].nombre, simbolo.lexema) ;
-        TS[TOPE].tipoDato = simbolo.tipo ;
-        TS[TOPE].parametros = 0 ;
-        TOPE++ ;
-    } else {
-        printf("Error: desbordamiento de la pila\n") ;
-        exit(1) ;
-    }
-    TS_mostrar() ;
-}
-
-TS_aumentaPARAMETROS() {
-    int topeTMP = TOPE-1 ;
-    while (TS[topeTMP].entrada != funcion) {
-        topeTMP-- ;
-    }
-    TS[topeTMP].parametros = TOPE - topeTMP ;
-}
-
-TS_insertaPARAMETRO(atributos simbolo) {
-    if (TOPE < MAX_TS) {
-        TS[TOPE].entrada = parametro_formal ;
-        TS[TOPE].nombre = (char *) malloc(strlen(simbolo.lexema)+1) ;
-        strcpy(TS[TOPE].nombre, simbolo.lexema) ;
-        TS[TOPE].tipoDato = tipoTmp ;
-        TS_aumentaPARAMETROS() ;
-        TOPE++ ;
-    } else {
-        printf("Error: desbordamiento de la pila\n") ;
-        exit(1) ;
-    }
-    TS_mostrar();
-}
-
-TS_insertaIDENT(atributos simbolo) {
-    if (TOPE < MAX_TS) {
-        TS[TOPE].entrada = variable ;
-        TS[TOPE].nombre = (char *) malloc(strlen(simbolo.lexema)+1) ;
-        strcpy(TS[TOPE].nombre, simbolo.lexema) ;
-        TS[TOPE].tipoDato = simbolo.tipo ;
-        TS[TOPE].parametros = 0 ;
-        TOPE++ ;
-    } else {
-        printf("Error: desbordamiento de la pila\n") ;
-        exit(1) ;
-    }
-    TS_mostrar();
-}
-
-TS_mostrar() {
-    int i = 0 ;
-    while (i < TOPE) {
-        if (TS[i].entrada == marca) {
-            printf("Marca\n") ;
-        } else if (TS[i].entrada == funcion) {
-            printf("Función: %s\n", TS[i].nombre) ;
-        } else if (TS[i].entrada == variable) {
-            printf("Variable: %s\n", TS[i].nombre) ;
-        } else if (TS[i].entrada == parametro_formal) {
-            printf("Parámetro: %s\n", TS[i].nombre) ;
-        }
-        i++ ;
-    }
-}
-
-// Fin de funciones y procedimientos para manejo de la TS
+#define YYERROR_VERBOSE
 
 
-#line 266 "Sintact.tab.c"
+#line 103 "src/y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -285,7 +122,7 @@ TS_mostrar() {
 #  endif
 # endif
 
-#include "Sintact.tab.h"
+#include "y.tab.h"
 /* Symbol kind.  */
 enum yysymbol_kind_t
 {
@@ -771,17 +608,17 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   283,   283,   285,   285,   291,   292,   294,   295,   296,
-     297,   299,   300,   301,   303,   304,   306,   307,   309,   310,
-     312,   313,   314,   319,   320,   322,   325,   326,   328,   329,
-     330,   332,   338,   339,   340,   341,   342,   343,   344,   345,
-     346,   347,   348,   350,   351,   352,   354,   355,   357,   359,
-     361,   362,   364,   366,   367,   369,   370,   372,   374,   376,
-     378,   379,   380,   386,   387,   388,   389,   390,   391,   392,
-     393,   394,   395,   396,   397,   399,   400,   401,   402,   403,
-     404,   405,   406,   407,   414,   416,   417,   420,   421,   422,
-     423,   424,   425,   427,   428,   429,   430,   431,   433,   434,
-     440,   441,   442,   444,   445
+       0,   117,   117,   119,   119,   125,   126,   128,   129,   130,
+     131,   133,   134,   135,   137,   138,   140,   141,   143,   144,
+     146,   147,   148,   153,   154,   156,   159,   160,   162,   163,
+     164,   166,   172,   173,   174,   175,   176,   177,   178,   179,
+     180,   181,   182,   184,   185,   186,   188,   189,   191,   193,
+     195,   196,   198,   200,   201,   203,   204,   206,   208,   210,
+     212,   213,   214,   220,   221,   222,   223,   224,   225,   226,
+     227,   228,   229,   230,   231,   233,   234,   235,   236,   237,
+     238,   239,   240,   241,   248,   250,   251,   254,   255,   256,
+     257,   258,   259,   261,   262,   263,   264,   265,   267,   268,
+     274,   275,   276,   278,   279
 };
 #endif
 
@@ -1816,79 +1653,79 @@ yyreduce:
   switch (yyn)
     {
   case 3: /* $@1: %empty  */
-#line 285 "Sintact.y"
+#line 119 "src/Sintact.y"
                                { TS_insertaMARCA() ; }
-#line 1822 "Sintact.tab.c"
+#line 1659 "src/y.tab.c"
     break;
 
   case 4: /* bloque: LLAVEIZQ $@1 declar_var_locales declar_funciones sentencias LLAVEDCH  */
-#line 285 "Sintact.y"
+#line 119 "src/Sintact.y"
                                                                                                                { TS_VaciarENTRADAS() ; }
-#line 1828 "Sintact.tab.c"
+#line 1665 "src/y.tab.c"
     break;
 
   case 14: /* nombres: nombres COMA ID  */
-#line 303 "Sintact.y"
+#line 137 "src/Sintact.y"
                                       { TS_insertaID(yyvsp[0]) ; }
-#line 1834 "Sintact.tab.c"
+#line 1671 "src/y.tab.c"
     break;
 
   case 15: /* nombres: ID  */
-#line 304 "Sintact.y"
+#line 138 "src/Sintact.y"
                          { TS_insertaID(yyvsp[0]) ; }
-#line 1840 "Sintact.tab.c"
+#line 1677 "src/y.tab.c"
     break;
 
   case 16: /* cuerpo_declar_const: TIPOCONST tipo_var_elem ID ASIGN exp_simple PYC  */
-#line 306 "Sintact.y"
+#line 140 "src/Sintact.y"
                                                                       { TS_insertaID(yyvsp[-3]) ; }
-#line 1846 "Sintact.tab.c"
+#line 1683 "src/y.tab.c"
     break;
 
   case 17: /* cuerpo_declar_const: TIPOCONST TIPOLISTA tipo_var_elem ID ASIGN CORIZQ asig_const_lista PYC  */
-#line 307 "Sintact.y"
+#line 141 "src/Sintact.y"
                                                                                              { TS_insertaID(yyvsp[-4]) ; }
-#line 1852 "Sintact.tab.c"
+#line 1689 "src/y.tab.c"
     break;
 
   case 26: /* cabec_funcion: tipo_var ID PARIZQ parametros PARDCH  */
-#line 325 "Sintact.y"
+#line 159 "src/Sintact.y"
                                                            { TS_insertaFUNCION(yyvsp[-3]) ; }
-#line 1858 "Sintact.tab.c"
+#line 1695 "src/y.tab.c"
     break;
 
   case 31: /* parametro: tipo_var ID  */
-#line 332 "Sintact.y"
+#line 166 "src/Sintact.y"
                                    { TS_insertaPARAMETRO(yyvsp[0]) ; }
-#line 1864 "Sintact.tab.c"
+#line 1701 "src/y.tab.c"
     break;
 
   case 100: /* tipo_var_elem: TIPOVAR  */
-#line 440 "Sintact.y"
+#line 274 "src/Sintact.y"
                               { tipoTmp = yyvsp[0].tipo ; }
-#line 1870 "Sintact.tab.c"
+#line 1707 "src/y.tab.c"
     break;
 
   case 101: /* tipo_var_elem: TIPOCHAR  */
-#line 441 "Sintact.y"
+#line 275 "src/Sintact.y"
                                { tipoTmp = yyvsp[0].tipo ; }
-#line 1876 "Sintact.tab.c"
+#line 1713 "src/y.tab.c"
     break;
 
   case 102: /* tipo_var_elem: TIPOINT  */
-#line 442 "Sintact.y"
+#line 276 "src/Sintact.y"
                               { tipoTmp = yyvsp[0].tipo ; }
-#line 1882 "Sintact.tab.c"
+#line 1719 "src/y.tab.c"
     break;
 
   case 104: /* tipo_var: TIPOLISTA  */
-#line 445 "Sintact.y"
+#line 279 "src/Sintact.y"
                                 { tipoTmp = yyvsp[0].tipo ; }
-#line 1888 "Sintact.tab.c"
+#line 1725 "src/y.tab.c"
     break;
 
 
-#line 1892 "Sintact.tab.c"
+#line 1729 "src/y.tab.c"
 
       default: break;
     }
@@ -2112,7 +1949,13 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 449 "Sintact.y"
+#line 283 "src/Sintact.y"
 
 
+#include "lex.yy.c"
 
+// Se debe implementar la función yyerror. En este caso simplemente escribimos
+// el mensaje de error en pantalla
+void yyerror( char *msg ){
+	fprintf(stderr, "Line %d: %s\n", yylineno, msg) ;
+}

@@ -5,6 +5,9 @@
 // ***
 // ************************************************************************
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 typedef enum {
     marca , // marca comienzo bloque
@@ -23,24 +26,6 @@ typedef enum {
 } dtipo ;
 
 typedef struct {
-    int atrib ; // Atributo del símbolo (si tiene )
-    char *lexema ; // Nombre del lexema
-    dtipo tipo ; // Tipo del símbolo
-} atributos ;
-
-# define YYSTYPE atributos  // A partir de ahora , cada símbolo tiene una estructura de tipo atributos
-
-
-/**************************************/
-/* Definición de la tabla de símbolos */
-/**************************************/
-
-# define MAX_TS 500
-
-unsigned int TOPE = 0 ; // Tope de la pila
-unsigned int Subprog ; // Indicador de comienzo de bloque de un subprog
-
-typedef struct {
     tipoEntrada     entrada ;
     char            *nombre ;
     dtipo           tipoDato ;
@@ -48,9 +33,21 @@ typedef struct {
     unsigned int    dimension ;
 } entradaTS ;
 
-entradaTS TS[MAX_TS] ; // Pila de la tabla de símbolos
+typedef struct {
+    int atrib ; // Atributo del símbolo (si tiene )
+    char *lexema ; // Nombre del lexema
+    dtipo tipo ; // Tipo del símbolo
+} atributos ;
 
-dtipo tipoTmp ; // Variable global para almacenar el tipo de los identificadores
+#define YYSTYPE atributos
+#define MAX_TS 500
+
+extern long int TOPE;
+
+extern entradaTS TS[MAX_TS];
+
+// Variable global que almacena el tipo en las declaraciones
+extern dtipo tipoTmp;
 
 
 /***********************************/
@@ -59,21 +56,20 @@ dtipo tipoTmp ; // Variable global para almacenar el tipo de los identificadores
 
 void TS_VaciarENTRADAS() ;
 
-void TS_comprobarUnico(char *lexema) ;
+void TS_comprobarUnico(atributos atributo) ;
 
 void TS_duplicaParametros() ;
 
 void TS_insertaMARCA() ;
 
-void TS_insertaID(char *lexema) ;
+void TS_insertaID(atributos atributo) ;
 
-void TS_insertaPARAMETRO(char *lexema) ;
+void TS_insertaPARAMETRO(atributos atributo) ;
 
-void TS_insertaIDENT(char *lexema) ;
+void TS_insertaIDENT(atributos atributo) ;
 
-void TS_insertaFUNCION(char *lexema) ;
+void TS_insertaFUNCION(atributos atributo) ;
 
 void TS_aumentaPARAMETROS() ;
 
 void TS_mostrar() ;
-

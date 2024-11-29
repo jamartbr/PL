@@ -8,195 +8,29 @@
 // ***
 // ************************************************************
 
-# include <stdlib.h>
-# include <stdio.h>
-# include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include "estructuras.h"
 
-int yylex ();
-void yyerror ( const char *);
+// La siguiente declaracion permite que ’yyerror’ se pueda invocar desde el
+// fuente de lex (prueba.l)
+void yyerror(char * msg);
 
+// La siguiente variable se usará para conocer el numero de la línea
+// que se esta leyendo en cada momento. También es posible usar la variable
+// ’yylineno’ que también nos muestra la línea actual. Para ello es necesario
+// invocar a flex con la opción ’-l’ (compatibilidad con lex).
 
+//############
+//#define YYDEBUG 1
+//############
 
-typedef enum {
-    marca , // marca comienzo bloque
-    funcion , // si es subprograma
-    variable , // si es variable
-    parametro_formal  // si es parámetro formal
-} tipoEntrada ;
-
-typedef enum {
-    entero ,
-    real ,
-    caracter ,
-    booleano ,
-    lista ,
-    desconocido 
-} dtipo ;
-
-typedef struct {
-    tipoEntrada     entrada ;
-    char            *nombre ;
-    dtipo           tipoDato ;
-    unsigned int    parametros ;
-    unsigned int    dimension ;
-} entradaTS ;
-
-# define MAX_TS 500
-
-unsigned int TOPE = 0 ; // Tope de la pila
-unsigned int Subprog ; // Indicador de comienzo de bloque de un subprog
-
-entradaTS TS[MAX_TS] ; // Pila de la tabla de símbolos
-
-typedef struct {
-    int atrib ; // Atributo del símbolo (si tiene )
-    char *lexema ; // Nombre del lexema
-    dtipo tipo ; // Tipo del símbolo
-} atributos ;
-
-# define YYSTYPE atributos  // A partir de ahora , cada símbolo tiene
-                            // una estructura de tipo atributos
-
-dtipo tipoTmp = desconocido ;
-
-// Lista de funciones y procedimientos para manejo de la TS
-
-TS_VaciarENTRADAS() {
-    while (TS[TOPE].entrada != marca) {
-        TOPE-- ;
-    }
-    TOPE-- ;
-    TS_mostrar() ;
-}
-
-TS_comprobarUnico(char *lexema) {
-    int i = TOPE-1 ;
-    while (i >= 0 && TS[i].entrada != marca) {  // Busca en la TS
-        if (strcmp(TS[i].nombre, lexema) == 0) {
-            printf("Error: identificador %s ya declarado\n", lexema) ;
-            exit(1) ;
-        }
-        i-- ;
-    }
-}
-
-TS_duplicaParametros() {
-    int i = TOPE-1 ;
-    while (i>0 && TS[i].entrada == parametro_formal) {
-        TS[TOPE].entrada = variable ;
-        TS[TOPE].nombre = (char *) malloc(strlen(TS[i].nombre)+1) ;
-        strcpy(TS[TOPE].nombre, TS[i].nombre) ;
-        TS[TOPE].tipoDato = TS[i].tipoDato ;
-        TOPE++ ;
-        i-- ;
-    }
-}
-
-TS_insertaMARCA() {
-    if (TOPE < MAX_TS) {
-        TS[TOPE].entrada = marca ;
-        TS_duplicaParametros() ;
-        TOPE++ ;
-    } else {
-        printf("Error: desbordamiento de la pila\n") ;
-        exit(1) ;
-    }
-    TS_mostrar() ;
-}
-
-TS_insertaID(atributos simbolo) {
-    TS_comprobarUnico(simbolo.lexema) ;
-    if (TOPE < MAX_TS) {
-        TS[TOPE].entrada = variable ;
-        TS[TOPE].nombre = (char *) malloc(strlen(simbolo.lexema)+1) ;
-        strcpy(TS[TOPE].nombre, simbolo.lexema) ;
-        TS[TOPE].tipoDato = simbolo.tipo ;
-        TOPE++ ;
-    } else {
-        printf("Error: desbordamiento de la pila\n") ;
-        exit(1) ;
-    }
-    TS_mostrar() ;
-}
-
-TS_insertaFUNCION(atributos simbolo) {
-    TS_comprobarUnico(simbolo.lexema) ;
-    if (TOPE < MAX_TS) {
-        TS[TOPE].entrada = funcion ;
-        TS[TOPE].nombre = (char *) malloc(strlen(simbolo.lexema)+1) ;
-        strcpy(TS[TOPE].nombre, simbolo.lexema) ;
-        TS[TOPE].tipoDato = simbolo.tipo ;
-        TS[TOPE].parametros = 0 ;
-        TOPE++ ;
-    } else {
-        printf("Error: desbordamiento de la pila\n") ;
-        exit(1) ;
-    }
-    TS_mostrar() ;
-}
-
-TS_aumentaPARAMETROS() {
-    int topeTMP = TOPE-1 ;
-    while (TS[topeTMP].entrada != funcion) {
-        topeTMP-- ;
-    }
-    TS[topeTMP].parametros = TOPE - topeTMP ;
-}
-
-TS_insertaPARAMETRO(atributos simbolo) {
-    if (TOPE < MAX_TS) {
-        TS[TOPE].entrada = parametro_formal ;
-        TS[TOPE].nombre = (char *) malloc(strlen(simbolo.lexema)+1) ;
-        strcpy(TS[TOPE].nombre, simbolo.lexema) ;
-        TS[TOPE].tipoDato = tipoTmp ;
-        TS_aumentaPARAMETROS() ;
-        TOPE++ ;
-    } else {
-        printf("Error: desbordamiento de la pila\n") ;
-        exit(1) ;
-    }
-    TS_mostrar();
-}
-
-TS_insertaIDENT(atributos simbolo) {
-    if (TOPE < MAX_TS) {
-        TS[TOPE].entrada = variable ;
-        TS[TOPE].nombre = (char *) malloc(strlen(simbolo.lexema)+1) ;
-        strcpy(TS[TOPE].nombre, simbolo.lexema) ;
-        TS[TOPE].tipoDato = simbolo.tipo ;
-        TS[TOPE].parametros = 0 ;
-        TOPE++ ;
-    } else {
-        printf("Error: desbordamiento de la pila\n") ;
-        exit(1) ;
-    }
-    TS_mostrar();
-}
-
-TS_mostrar() {
-    int i = 0 ;
-    while (i < TOPE) {
-        if (TS[i].entrada == marca) {
-            printf("Marca\n") ;
-        } else if (TS[i].entrada == funcion) {
-            printf("Función: %s\n", TS[i].nombre) ;
-        } else if (TS[i].entrada == variable) {
-            printf("Variable: %s\n", TS[i].nombre) ;
-        } else if (TS[i].entrada == parametro_formal) {
-            printf("Parámetro: %s\n", TS[i].nombre) ;
-        }
-        i++ ;
-    }
-}
-
-// Fin de funciones y procedimientos para manejo de la TS
+#define YYERROR_VERBOSE
 
 %}
 
 %define parse.error verbose
-
-%start programa
-
 
 // ************* Definición de Tokens *************
 
@@ -448,4 +282,10 @@ tipo_var            : tipo_var_elem
 
 %%
 
+#include "lex.yy.c"
 
+// Se debe implementar la función yyerror. En este caso simplemente escribimos
+// el mensaje de error en pantalla
+void yyerror( char *msg ){
+	fprintf(stderr, "Line %d: %s\n", yylineno, msg) ;
+}
