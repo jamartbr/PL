@@ -2,7 +2,7 @@
 // ************************************************************
 // ***
 // *** Fichero : SINTACT.Y
-// *** Función : Especificación BISON del lenguaje
+// *** Función : Especificación BISON del lenguaje aaaaaaa
 // ***
 // *** Ultima modificación: 25-oct-2024
 // ***
