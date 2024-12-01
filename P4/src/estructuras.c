@@ -8,7 +8,7 @@
 #include "estructuras.h"
 
 entradaTS TS[MAX_TS];
-long int TOPE = 0;
+unsigned int TOPE = 0;
 
 dtipo tipoTmp = desconocido;
 
@@ -20,7 +20,14 @@ dtipo tipoTmp = desconocido;
 /***********************************/
 
 void TS_VaciarENTRADAS() {
-    while (TS[TOPE].entrada != marca) {
+    if (TOPE == 5) {
+        printf("Error: no hay entradas para borrar\n") ;
+    }
+    // if (TS[TOPE].entrada == marca) {
+    //     printf("Error: no hay entradas para borrar\n") ;
+    // }
+    while (TOPE >= 1 && TS[TOPE].entrada != marca) {
+        printf(TOPE) ;
         TOPE-- ;
     }
     TOPE-- ;
@@ -39,8 +46,9 @@ void TS_comprobarUnico(atributos atributo) {
 }
 
 void TS_duplicaParametros() {
-    int i = TOPE-1 ;
+    int i = TOPE-2 ;
     while (i>0 && TS[i].entrada == parametro_formal) {
+        printf("Duplicando parámetro %s\n", TS[i].nombre) ;
         TS[TOPE].entrada = variable ;
         TS[TOPE].nombre = (char *) malloc(strlen(TS[i].nombre)+1) ;
         strcpy(TS[TOPE].nombre, TS[i].nombre) ;
@@ -53,8 +61,8 @@ void TS_duplicaParametros() {
 void TS_insertaMARCA() {
     if (TOPE < MAX_TS) {
         TS[TOPE].entrada = marca ;
-        TS_duplicaParametros() ;
         TOPE++ ;
+        TS_duplicaParametros() ;
     } else {
         printf("Error: desbordamiento de la pila\n") ;
         exit(1) ;
@@ -94,8 +102,8 @@ void TS_insertaFUNCION(atributos atributo) {
 }
 
 void TS_aumentaPARAMETROS() {
-    int topeTMP = TOPE-1 ;
-    while (TS[topeTMP].entrada != funcion) {
+    unsigned int topeTMP = TOPE-1 ;
+    while (topeTMP>0 && TS[topeTMP].entrada == parametro_formal) {
         topeTMP-- ;
     }
     TS[topeTMP].parametros = TOPE - topeTMP ;
@@ -132,16 +140,17 @@ void TS_insertaIDENT(atributos atributo) {
 }
 
 void TS_mostrar() {
+    printf("Tabla de símbolos:\n") ;
     int i = 0 ;
     while (i < TOPE) {
         if (TS[i].entrada == marca) {
             printf("Marca\n") ;
         } else if (TS[i].entrada == funcion) {
-            printf("Función: %s\n", TS[i].nombre) ;
+            printf("Función: %s, tipo: %s, parámetros: %d\n", TS[i].nombre, TS[i].tipoDato, TS[i].parametros) ;
         } else if (TS[i].entrada == variable) {
-            printf("Variable: %s\n", TS[i].nombre) ;
+            printf("Variable: %s, tipo: %s\n", TS[i].nombre, TS[i].tipoDato) ;
         } else if (TS[i].entrada == parametro_formal) {
-            printf("Parámetro: %s\n", TS[i].nombre) ;
+            printf("Parámetro: %s, tipo: %s\n", TS[i].nombre, TS[i].tipoDato) ;
         }
         i++ ;
     }

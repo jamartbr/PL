@@ -122,7 +122,7 @@ bloque              : LLAVEIZQ { TS_insertaMARCA() ; } declar_var_locales declar
 
 // Declaración variables locales
 
-declar_var_locales  : LOCAL LLAVEIZQ  var_locales LLAVEDCH 
+declar_var_locales  : LOCAL LLAVEIZQ { TS_insertaMARCA() ; } var_locales LLAVEDCH { TS_VaciarENTRADAS() ; }
                     | 
                     ;
 var_locales         : var_locales cuerpo_declar_var
@@ -130,15 +130,15 @@ var_locales         : var_locales cuerpo_declar_var
                     | cuerpo_declar_var
                     | cuerpo_declar_const
                     ;
-cuerpo_declar_var   : tipo_var_elem nombres PYC
+cuerpo_declar_var   : tipo_var_elem nombres PYC 
                     | TIPOLISTA tipo_var_elem nombres PYC
                     | error
                     ;
 nombres             : nombres COMA ID { TS_insertaID($3) ; }
                     | ID { TS_insertaID($1) ; }
                     ;
-cuerpo_declar_const : TIPOCONST tipo_var_elem ID ASIGN exp_simple PYC { TS_insertaID($3) ; }
-                    | TIPOCONST TIPOLISTA tipo_var_elem ID ASIGN CORIZQ asig_const_lista PYC { TS_insertaID($4) ; }
+cuerpo_declar_const : TIPOCONST tipo_var_elem ID { TS_insertaID($3) ; } ASIGN exp_simple PYC 
+                    | TIPOCONST TIPOLISTA tipo_var_elem ID { TS_insertaID($4) ; } ASIGN CORIZQ asig_const_lista PYC 
                     ;
 asig_const_lista    : items CORDCH
                     | CADENA CORDCH
@@ -156,7 +156,7 @@ declar_funciones    : declar_funciones declar_funcion
 declar_funcion      : cabec_funcion
                         bloque PYC
                     ;
-cabec_funcion       : tipo_var ID PARIZQ parametros PARDCH { TS_insertaFUNCION($2) ; }
+cabec_funcion       : tipo_var ID { TS_insertaFUNCION($2) ; } PARIZQ parametros PARDCH 
                     | error
                     ;
 parametros          : parametros COMA parametro
@@ -283,9 +283,3 @@ tipo_var            : tipo_var_elem
 %%
 
 #include "lex.yy.c"
-
-// Se debe implementar la función yyerror. En este caso simplemente escribimos
-// el mensaje de error en pantalla
-void yyerror( char *msg ){
-	fprintf(stderr, "Line %d: %s\n", yylineno, msg) ;
-}

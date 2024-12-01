@@ -42,7 +42,7 @@ typedef struct {
 #define YYSTYPE atributos
 #define MAX_TS 500
 
-extern long int TOPE;
+extern unsigned int TOPE;
 
 extern entradaTS TS[MAX_TS];
 

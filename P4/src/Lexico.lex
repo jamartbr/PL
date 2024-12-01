@@ -19,11 +19,6 @@
 %option yylineno
 %option noyywrap
 
-letra [a-zA-Z]
-digito [0-9]
-entero {digito}+
-real {entero}.{entero}
-
 %%
 
 [ \t\n]+      ;

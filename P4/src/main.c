@@ -10,11 +10,19 @@
 #include "estructuras.h"
 
 extern FILE *yyin;
+extern int yylineno ;
 
 int yyparse(void);
 
 
 
+
+// ************************************************************************
+
+void yyerror (const char *s)
+{
+    fprintf (stderr, "[Línea %2d] *** %s\n", yylineno , s);
+}
 
 // ************************************************************************
 
