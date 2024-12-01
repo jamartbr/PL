@@ -8,8 +8,6 @@ int main {
     bool estaDentro(list lista, int long) {
         local {
             int a, b, c, d;   
-            char a, b, c;
-            int a;
         }
         return {a}+{b};
     };
@@ -17,8 +15,6 @@ int main {
     bool estaDentro(list lista, int long) {
         return ({long} < #{lista});
     };
-
-    aux = estaDentro ( lista1, long1);
        
     lasfjlahf_ = +12;
     i2 = -2;

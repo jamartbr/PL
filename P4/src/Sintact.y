@@ -122,7 +122,7 @@ bloque              : LLAVEIZQ { TS_insertaMARCA() ; } declar_var_locales declar
 
 // Declaración variables locales
 
-declar_var_locales  : LOCAL LLAVEIZQ { TS_insertaMARCA() ; } var_locales LLAVEDCH { TS_VaciarENTRADAS() ; }
+declar_var_locales  : LOCAL LLAVEIZQ var_locales LLAVEDCH 
                     | 
                     ;
 var_locales         : var_locales cuerpo_declar_var
@@ -156,7 +156,7 @@ declar_funciones    : declar_funciones declar_funcion
 declar_funcion      : cabec_funcion
                         bloque PYC
                     ;
-cabec_funcion       : tipo_var ID PARIZQ parametros PARDCH { TS_insertaFUNCION($2) ; }
+cabec_funcion       : tipo_var ID { TS_insertaFUNCION($2) ; } PARIZQ parametros PARDCH 
                     | error
                     ;
 parametros          : parametros COMA parametro

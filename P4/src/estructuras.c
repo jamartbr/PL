@@ -39,7 +39,7 @@ void TS_comprobarUnico(atributos atributo) {
 }
 
 void TS_duplicaParametros() {
-    int i = TOPE-1 ;
+    int i = TOPE-2 ;
     while (i>0 && TS[i].entrada == parametro_formal) {
         TS[TOPE].entrada = variable ;
         TS[TOPE].nombre = (char *) malloc(strlen(TS[i].nombre)+1) ;
@@ -53,8 +53,8 @@ void TS_duplicaParametros() {
 void TS_insertaMARCA() {
     if (TOPE < MAX_TS) {
         TS[TOPE].entrada = marca ;
-        TS_duplicaParametros() ;
         TOPE++ ;
+        TS_duplicaParametros() ;
     } else {
         printf("Error: desbordamiento de la pila\n") ;
         exit(1) ;
