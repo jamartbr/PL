@@ -5,7 +5,7 @@ int main {
         const list char b = ['b'];
     }
     
-    bool estaDentro(list lista, int long) {
+    int suma1(list lista, int long) {
         local {
             int a, b, c, d;   
         }

@@ -20,7 +20,7 @@ dtipo tipoTmp = desconocido;
 /***********************************/
 
 void TS_VaciarENTRADAS() {
-    while (TS[TOPE].entrada != marca) {
+    while (TS[TOPE-1].entrada != marca) {
         TOPE-- ;
     }
     TOPE-- ;
