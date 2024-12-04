@@ -132,18 +132,24 @@ void TS_insertaIDENT(atributos atributo) {
 }
 
 void TS_mostrar() {
-    int i = 0 ;
-    while (i < TOPE) {
-        if (TS[i].entrada == marca) {
-            printf("Marca\n") ;
-        } else if (TS[i].entrada == funcion) {
-            printf("Función: %s\n", TS[i].nombre) ;
-        } else if (TS[i].entrada == variable) {
-            printf("Variable: %s\n", TS[i].nombre) ;
-        } else if (TS[i].entrada == parametro_formal) {
-            printf("Parámetro: %s\n", TS[i].nombre) ;
-        }
-        i++ ;
+    if (TOPE == 0) {
+        printf("Tabla de símbolos vacía\n") ;
+        return ;
     }
-    printf("\n") ;
+    else{
+        int i = 0 ;
+        while (i < TOPE) {
+            if (TS[i].entrada == marca) {
+                printf("Marca\n") ;
+            } else if (TS[i].entrada == funcion) {
+                printf("Función: %s\n", TS[i].nombre) ;
+            } else if (TS[i].entrada == variable) {
+                printf("Variable: %s\n", TS[i].nombre) ;
+            } else if (TS[i].entrada == parametro_formal) {
+                printf("Parámetro: %s\n", TS[i].nombre) ;
+            }
+            i++ ;
+        }
+        printf("\n") ;
+    }
 }
