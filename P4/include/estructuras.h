@@ -48,6 +48,7 @@ extern entradaTS TS[MAX_TS];
 
 // Variable global que almacena el tipo en las declaraciones
 extern dtipo tipoTmp;
+extern int paramDuplicados;
 
 
 /***********************************/

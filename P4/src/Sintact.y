@@ -114,9 +114,9 @@ void yyerror(char * msg);
 
 // Programa
 
-programa            : TIPOINT MAIN { TS_insertaMARCA() ; } bloque { TS_VaciarENTRADAS() ; }
+programa            : TIPOINT MAIN  bloque 
                     ;
-bloque              : LLAVEIZQ declar_var_locales declar_funciones sentencias LLAVEDCH 
+bloque              : LLAVEIZQ { TS_insertaMARCA() ; } declar_var_locales declar_funciones sentencias LLAVEDCH { TS_VaciarENTRADAS() ; }
                     ;
 
 
@@ -153,8 +153,7 @@ items               : items COMA exp_simple
 declar_funciones    : declar_funciones declar_funcion
                     |
                     ;
-declar_funcion      : cabec_funcion
-                        { TS_insertaMARCA() ; } bloque { TS_VaciarENTRADAS() ; } PYC
+declar_funcion      : cabec_funcion bloque PYC
                     ;
 cabec_funcion       : tipo_var ID { TS_insertaFUNCION($2) ; } PARIZQ parametros PARDCH 
                     | error

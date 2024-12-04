@@ -9,6 +9,7 @@
 
 entradaTS TS[MAX_TS];
 long int TOPE = 0;
+paramDuplicados = 1;
 
 dtipo tipoTmp = desconocido;
 
@@ -48,13 +49,16 @@ void TS_duplicaParametros() {
         TOPE++ ;
         i-- ;
     }
+    paramDuplicados = 1 ;
 }
 
 void TS_insertaMARCA() {
     if (TOPE < MAX_TS) {
         TS[TOPE].entrada = marca ;
         TOPE++ ;
-        TS_duplicaParametros() ;
+        if(paramDuplicados==0){
+            TS_duplicaParametros() ;
+        }
     } else {
         printf("Error: desbordamiento de la pila\n") ;
         exit(1) ;
@@ -90,6 +94,7 @@ void TS_insertaFUNCION(atributos atributo) {
         printf("Error: desbordamiento de la pila\n") ;
         exit(1) ;
     }
+    paramDuplicados = 0 ;
     TS_mostrar() ;
 }
 
