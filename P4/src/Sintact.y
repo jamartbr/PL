@@ -246,6 +246,7 @@ exp_lista_ID        : AT num op_ternario
 // Operadores y radicales
 
 op_ternario         : PLUSPLUS exp_simple
+                    |
                     ;
 aux                 : PLUS
                     | TIMES

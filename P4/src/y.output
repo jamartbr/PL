@@ -117,38 +117,39 @@ Gramática
    83             | error
 
    84 op_ternario: PLUSPLUS exp_simple
+   85            | ε
 
-   85 aux: PLUS
-   86    | TIMES
+   86 aux: PLUS
+   87    | TIMES
 
-   87 termino: exp_simple
-   88        | OPEMON exp_simple
-   89        | PARIZQ exp PARDCH
-   90        | INTERR LLAVEIZQ ID LLAVEDCH
-   91        | HASHTAG LLAVEIZQ ID LLAVEDCH
-   92        | ID exp_lista_ID
+   88 termino: exp_simple
+   89        | OPEMON exp_simple
+   90        | PARIZQ exp PARDCH
+   91        | INTERR LLAVEIZQ ID LLAVEDCH
+   92        | HASHTAG LLAVEIZQ ID LLAVEDCH
+   93        | ID exp_lista_ID
 
-   93 exp_simple: num
-   94           | CHAR
-   95           | VALBOOL
-   96           | LLAVEIZQ ID LLAVEDCH
-   97           | error
+   94 exp_simple: num
+   95           | CHAR
+   96           | VALBOOL
+   97           | LLAVEIZQ ID LLAVEDCH
+   98           | error
 
-   98 num: NUMERO
-   99    | ENTERO
+   99 num: NUMERO
+  100    | ENTERO
 
-  100 tipo_var_elem: TIPOVAR
-  101              | TIPOCHAR
-  102              | TIPOINT
+  101 tipo_var_elem: TIPOVAR
+  102              | TIPOCHAR
+  103              | TIPOINT
 
-  103 tipo_var: tipo_var_elem
-  104         | TIPOLISTA
+  104 tipo_var: tipo_var_elem
+  105         | TIPOLISTA
 
 
 Terminales con las reglas donde aparecen
 
     $end (0) 0
-    error (256) 12 27 83 97
+    error (256) 12 27 83 98
     WHILE (258) 35
     DO (259) 39
     UNTIL (260) 58
@@ -159,22 +160,22 @@ Terminales con las reglas donde aparecen
     MAIN (265) 1
     RETURN (266) 38
     LOCAL (267) 4
-    TIPOINT (268) 1 102
-    TIPOCHAR (269) 101
-    TIPOVAR (270) 100
-    TIPOLISTA (271) 11 16 104
+    TIPOINT (268) 1 103
+    TIPOCHAR (269) 102
+    TIPOVAR (270) 101
+    TIPOLISTA (271) 11 16 105
     TIPOCONST (272) 15 16
-    VALBOOL (273) 95
-    PARIZQ (274) 26 40 46 47 48 58 89
-    PARDCH (275) 26 40 46 47 48 58 89
-    LLAVEIZQ (276) 3 4 73 90 91 96
-    LLAVEDCH (277) 3 4 73 90 91 96
+    VALBOOL (273) 96
+    PARIZQ (274) 26 40 46 47 48 58 90
+    PARDCH (275) 26 40 46 47 48 58 90
+    LLAVEIZQ (276) 3 4 73 91 92 97
+    LLAVEDCH (277) 3 4 73 91 92 97
     CORIZQ (278) 16 44 45
     CORDCH (279) 17 18 44 45
     PYC (280) 10 11 15 16 24 32 33 34 35 36 37 38 39 40 41
     COMA (281) 13 19 28
     ASIGN (282) 15 16 33
-    OPEMON (283) 88
+    OPEMON (283) 89
     OR (284) 66
     AND (285) 67
     XOR (286) 68
@@ -183,22 +184,22 @@ Terminales con las reglas donde aparecen
     SIG (289) 49 50 53 60
     ANT (290) 52 61
     DOLLAR (291) 62
-    HASHTAG (292) 91
-    INTERR (293) 90
+    HASHTAG (292) 92
+    INTERR (293) 91
     DIV (294) 71 81
     MOD (295) 72 82
     AT (296) 75
     PLUSPLUS (297) 84
     MINUSMINUS (298) 76
     TIMESTIMES (299) 77
-    PLUS (300) 63 78 85
+    PLUS (300) 63 78 86
     MINUS (301) 64 79
-    TIMES (302) 65 80 86
-    CHAR (303) 94
+    TIMES (302) 65 80 87
+    CHAR (303) 95
     CADENA (304) 18 45 56
-    NUMERO (305) 98
-    ENTERO (306) 99
-    ID (307) 13 14 15 16 26 31 33 40 60 61 62 73 77 90 91 92 96
+    NUMERO (305) 99
+    ENTERO (306) 100
+    ID (307) 13 14 15 16 26 31 33 40 60 61 62 73 77 91 92 93 97
 
 
 No terminales con las reglas donde aparecen
@@ -294,30 +295,30 @@ No terminales con las reglas donde aparecen
         on right: 41
     exp (83)
         on left: 63 64 65 66 67 68 69 70 71 72 73 74
-        on right: 43 46 47 48 50 51 55 57 58 63 64 65 66 67 68 69 70 71 72 73 89
+        on right: 43 46 47 48 50 51 55 57 58 63 64 65 66 67 68 69 70 71 72 73 90
     exp_lista_ID (84)
         on left: 75 76 77 78 79 80 81 82 83
-        on right: 92
+        on right: 93
     op_ternario (85)
-        on left: 84
+        on left: 84 85
         on right: 75
     aux (86)
-        on left: 85 86
+        on left: 86 87
         on right: 73
     termino (87)
-        on left: 87 88 89 90 91 92
+        on left: 88 89 90 91 92 93
         on right: 63 64 65 66 67 68 69 70 71 72 74
     exp_simple (88)
-        on left: 93 94 95 96 97
-        on right: 15 19 20 73 78 79 80 81 82 84 87 88
+        on left: 94 95 96 97 98
+        on right: 15 19 20 73 78 79 80 81 82 84 88 89
     num (89)
-        on left: 98 99
-        on right: 75 76 93
+        on left: 99 100
+        on right: 75 76 94
     tipo_var_elem (90)
-        on left: 100 101 102
-        on right: 10 11 15 16 103
+        on left: 101 102 103
+        on right: 10 11 15 16 104
     tipo_var (91)
-        on left: 103 104
+        on left: 104 105
         on right: 26 31
 
 
@@ -458,23 +459,23 @@ Estado 12
 
 Estado 13
 
-  102 tipo_var_elem: TIPOINT •
+  103 tipo_var_elem: TIPOINT •
 
-    $default  reduce usando la regla 102 (tipo_var_elem)
+    $default  reduce usando la regla 103 (tipo_var_elem)
 
 
 Estado 14
 
-  101 tipo_var_elem: TIPOCHAR •
+  102 tipo_var_elem: TIPOCHAR •
 
-    $default  reduce usando la regla 101 (tipo_var_elem)
+    $default  reduce usando la regla 102 (tipo_var_elem)
 
 
 Estado 15
 
-  100 tipo_var_elem: TIPOVAR •
+  101 tipo_var_elem: TIPOVAR •
 
-    $default  reduce usando la regla 100 (tipo_var_elem)
+    $default  reduce usando la regla 101 (tipo_var_elem)
 
 
 Estado 16
@@ -552,9 +553,9 @@ Estado 22
 
 Estado 23
 
-  104 tipo_var: TIPOLISTA •
+  105 tipo_var: TIPOLISTA •
 
-    $default  reduce usando la regla 104 (tipo_var)
+    $default  reduce usando la regla 105 (tipo_var)
 
 
 Estado 24
@@ -604,9 +605,9 @@ Estado 26
 
 Estado 27
 
-  103 tipo_var: tipo_var_elem •
+  104 tipo_var: tipo_var_elem •
 
-    $default  reduce usando la regla 103 (tipo_var)
+    $default  reduce usando la regla 104 (tipo_var)
 
 
 Estado 28
@@ -987,21 +988,21 @@ Estado 65
 
 Estado 66
 
-   97 exp_simple: error •
+   98 exp_simple: error •
 
-    $default  reduce usando la regla 97 (exp_simple)
+    $default  reduce usando la regla 98 (exp_simple)
 
 
 Estado 67
 
-   95 exp_simple: VALBOOL •
+   96 exp_simple: VALBOOL •
 
-    $default  reduce usando la regla 95 (exp_simple)
+    $default  reduce usando la regla 96 (exp_simple)
 
 
 Estado 68
 
-   89 termino: PARIZQ • exp PARDCH
+   90 termino: PARIZQ • exp PARDCH
 
     error     desplazar e ir al estado 66
     VALBOOL   desplazar e ir al estado 67
@@ -1023,14 +1024,14 @@ Estado 68
 
 Estado 69
 
-   96 exp_simple: LLAVEIZQ • ID LLAVEDCH
+   97 exp_simple: LLAVEIZQ • ID LLAVEDCH
 
     ID  desplazar e ir al estado 109
 
 
 Estado 70
 
-   88 termino: OPEMON • exp_simple
+   89 termino: OPEMON • exp_simple
 
     error     desplazar e ir al estado 66
     VALBOOL   desplazar e ir al estado 67
@@ -1045,42 +1046,42 @@ Estado 70
 
 Estado 71
 
-   91 termino: HASHTAG • LLAVEIZQ ID LLAVEDCH
+   92 termino: HASHTAG • LLAVEIZQ ID LLAVEDCH
 
     LLAVEIZQ  desplazar e ir al estado 111
 
 
 Estado 72
 
-   90 termino: INTERR • LLAVEIZQ ID LLAVEDCH
+   91 termino: INTERR • LLAVEIZQ ID LLAVEDCH
 
     LLAVEIZQ  desplazar e ir al estado 112
 
 
 Estado 73
 
-   94 exp_simple: CHAR •
+   95 exp_simple: CHAR •
 
-    $default  reduce usando la regla 94 (exp_simple)
+    $default  reduce usando la regla 95 (exp_simple)
 
 
 Estado 74
 
-   98 num: NUMERO •
-
-    $default  reduce usando la regla 98 (num)
-
-
-Estado 75
-
-   99 num: ENTERO •
+   99 num: NUMERO •
 
     $default  reduce usando la regla 99 (num)
 
 
+Estado 75
+
+  100 num: ENTERO •
+
+    $default  reduce usando la regla 100 (num)
+
+
 Estado 76
 
-   92 termino: ID • exp_lista_ID
+   93 termino: ID • exp_lista_ID
 
     error       desplazar e ir al estado 113
     DIV         desplazar e ir al estado 114
@@ -1149,16 +1150,16 @@ Estado 79
 
 Estado 80
 
-   87 termino: exp_simple •
+   88 termino: exp_simple •
 
-    $default  reduce usando la regla 87 (termino)
+    $default  reduce usando la regla 88 (termino)
 
 
 Estado 81
 
-   93 exp_simple: num •
+   94 exp_simple: num •
 
-    $default  reduce usando la regla 93 (exp_simple)
+    $default  reduce usando la regla 94 (exp_simple)
 
 
 Estado 82
@@ -1525,7 +1526,7 @@ Estado 108
    71    | exp • DIV termino
    72    | exp • MOD termino
    73    | exp • exp_simple aux LLAVEIZQ ID LLAVEDCH
-   89 termino: PARIZQ exp • PARDCH
+   90 termino: PARIZQ exp • PARDCH
 
     error     desplazar e ir al estado 66
     VALBOOL   desplazar e ir al estado 67
@@ -1551,28 +1552,28 @@ Estado 108
 
 Estado 109
 
-   96 exp_simple: LLAVEIZQ ID • LLAVEDCH
+   97 exp_simple: LLAVEIZQ ID • LLAVEDCH
 
     LLAVEDCH  desplazar e ir al estado 150
 
 
 Estado 110
 
-   88 termino: OPEMON exp_simple •
+   89 termino: OPEMON exp_simple •
 
-    $default  reduce usando la regla 88 (termino)
+    $default  reduce usando la regla 89 (termino)
 
 
 Estado 111
 
-   91 termino: HASHTAG LLAVEIZQ • ID LLAVEDCH
+   92 termino: HASHTAG LLAVEIZQ • ID LLAVEDCH
 
     ID  desplazar e ir al estado 151
 
 
 Estado 112
 
-   90 termino: INTERR LLAVEIZQ • ID LLAVEDCH
+   91 termino: INTERR LLAVEIZQ • ID LLAVEDCH
 
     ID  desplazar e ir al estado 152
 
@@ -1688,9 +1689,9 @@ Estado 121
 
 Estado 122
 
-   92 termino: ID exp_lista_ID •
+   93 termino: ID exp_lista_ID •
 
-    $default  reduce usando la regla 92 (termino)
+    $default  reduce usando la regla 93 (termino)
 
 
 Estado 123
@@ -2130,28 +2131,28 @@ Estado 148
 
 Estado 149
 
-   89 termino: PARIZQ exp PARDCH •
+   90 termino: PARIZQ exp PARDCH •
 
-    $default  reduce usando la regla 89 (termino)
+    $default  reduce usando la regla 90 (termino)
 
 
 Estado 150
 
-   96 exp_simple: LLAVEIZQ ID LLAVEDCH •
+   97 exp_simple: LLAVEIZQ ID LLAVEDCH •
 
-    $default  reduce usando la regla 96 (exp_simple)
+    $default  reduce usando la regla 97 (exp_simple)
 
 
 Estado 151
 
-   91 termino: HASHTAG LLAVEIZQ ID • LLAVEDCH
+   92 termino: HASHTAG LLAVEIZQ ID • LLAVEDCH
 
     LLAVEDCH  desplazar e ir al estado 189
 
 
 Estado 152
 
-   90 termino: INTERR LLAVEIZQ ID • LLAVEDCH
+   91 termino: INTERR LLAVEIZQ ID • LLAVEDCH
 
     LLAVEDCH  desplazar e ir al estado 190
 
@@ -2175,6 +2176,8 @@ Estado 155
    75 exp_lista_ID: AT num • op_ternario
 
     PLUSPLUS  desplazar e ir al estado 191
+
+    $default  reduce usando la regla 85 (op_ternario)
 
     op_ternario  ir al estado 192
 
@@ -2286,16 +2289,16 @@ Estado 170
 
 Estado 171
 
-   85 aux: PLUS •
+   86 aux: PLUS •
 
-    $default  reduce usando la regla 85 (aux)
+    $default  reduce usando la regla 86 (aux)
 
 
 Estado 172
 
-   86 aux: TIMES •
+   87 aux: TIMES •
 
-    $default  reduce usando la regla 86 (aux)
+    $default  reduce usando la regla 87 (aux)
 
 
 Estado 173
@@ -2503,16 +2506,16 @@ Estado 188
 
 Estado 189
 
-   91 termino: HASHTAG LLAVEIZQ ID LLAVEDCH •
+   92 termino: HASHTAG LLAVEIZQ ID LLAVEDCH •
 
-    $default  reduce usando la regla 91 (termino)
+    $default  reduce usando la regla 92 (termino)
 
 
 Estado 190
 
-   90 termino: INTERR LLAVEIZQ ID LLAVEDCH •
+   91 termino: INTERR LLAVEIZQ ID LLAVEDCH •
 
-    $default  reduce usando la regla 90 (termino)
+    $default  reduce usando la regla 91 (termino)
 
 
 Estado 191
