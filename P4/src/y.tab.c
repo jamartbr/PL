@@ -1702,32 +1702,74 @@ yyreduce:
 #line 1703 "src/y.tab.c"
     break;
 
+  case 34: /* sentencias: sentencias ID ASIGN sentencia_asig PYC  */
+#line 173 "src/Sintact.y"
+                                                             { comprobarEsTipo(buscarTipo(yyvsp[-3].lexema), yyvsp[-1].tipo) ; }
+#line 1709 "src/y.tab.c"
+    break;
+
+  case 35: /* sentencias: sentencias IF sentencia_if PYC  */
+#line 174 "src/Sintact.y"
+                                                     { comprobarEsTipo(booleano, yyvsp[-1].tipo) ; }
+#line 1715 "src/y.tab.c"
+    break;
+
+  case 36: /* sentencias: sentencias WHILE sentencia_while PYC  */
+#line 175 "src/Sintact.y"
+                                                           { comprobarEsTipo(booleano, yyvsp[-1].tipo) ; }
+#line 1721 "src/y.tab.c"
+    break;
+
+  case 39: /* sentencias: sentencias RETURN sentencia_return PYC  */
+#line 178 "src/Sintact.y"
+                                                             { comprobarDevuelveTipoCorrecto(yyvsp[-1]) ; }
+#line 1727 "src/y.tab.c"
+    break;
+
+  case 40: /* sentencias: sentencias DO sentencia_do_until PYC  */
+#line 179 "src/Sintact.y"
+                                                           { comprobarEsTipo(booleano, yyvsp[-1].tipo) ; }
+#line 1733 "src/y.tab.c"
+    break;
+
+  case 41: /* sentencias: sentencias ID PARIZQ sentencia_funcion PARDCH PYC  */
+#line 180 "src/Sintact.y"
+                                                                        { yyval.tipo = buscarTipo(yyvsp[-4].lexema) ; }
+#line 1739 "src/y.tab.c"
+    break;
+
+  case 44: /* sentencia_asig: exp  */
+#line 184 "src/Sintact.y"
+                          { yyval.tipo = yyvsp[0].tipo ; }
+#line 1745 "src/y.tab.c"
+    break;
+
   case 102: /* tipo_var_elem: TIPOVAR  */
 #line 275 "src/Sintact.y"
                               { tipoTmp = yyvsp[0].tipo ; }
-#line 1709 "src/y.tab.c"
+#line 1751 "src/y.tab.c"
     break;
 
   case 103: /* tipo_var_elem: TIPOCHAR  */
 #line 276 "src/Sintact.y"
                                { tipoTmp = yyvsp[0].tipo ; }
-#line 1715 "src/y.tab.c"
+#line 1757 "src/y.tab.c"
     break;
 
   case 104: /* tipo_var_elem: TIPOINT  */
 #line 277 "src/Sintact.y"
                               { tipoTmp = yyvsp[0].tipo ; }
-#line 1721 "src/y.tab.c"
+#line 1763 "src/y.tab.c"
     break;
 
   case 106: /* tipo_var: TIPOLISTA  */
 #line 280 "src/Sintact.y"
                                 { tipoTmp = yyvsp[0].tipo ; }
-#line 1727 "src/y.tab.c"
+#line 1769 "src/y.tab.c"
     break;
 
 
-#line 1731 "src/y.tab.c"
+#line 1773 "src/y.tab.c"
 
       default: break;
     }

@@ -78,10 +78,10 @@ real {entero}.{entero}
 "+"         { return PLUS; }
 "-"         { return MINUS; }
 "*"         { return TIMES; }
-'[A-Za-z]'                          { return CHAR; }
-\"([^\"\n]|\\\")*\"                 { return CADENA; }
-(\+|-)?([1-9][0-9]*|0)              { return ENTERO; }
-(\+|-)?([1-9][0-9]*|0)(\.[0-9]+)?   { return NUMERO; }
+'[A-Za-z]'                          { yylval.lexema = strdup (yytext) ; return CHAR; }
+\"([^\"\n]|\\\")*\"                 { yylval.lexema = strdup (yytext) ; return CADENA; }
+(\+|-)?([1-9][0-9]*|0)              { yylval.lexema = strdup (yytext) ; return ENTERO; }
+(\+|-)?([1-9][0-9]*|0)(\.[0-9]+)?   { yylval.lexema = strdup (yytext) ; return NUMERO; }
 ([A-Za-z])([A-Za-z]|[0-9]|_)*       { yylval.lexema = strdup (yytext) ; return ID; }
 .                                   { printf ("\n[Línea %2d] *** Error léxico : %s\n\n", yylineno , yytext ); }
 

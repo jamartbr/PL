@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include<stdbool.h>// Booleanos
 
 typedef enum {
     marca , // marca comienzo bloque
@@ -37,6 +38,7 @@ typedef struct {
     int atrib ; // Atributo del símbolo (si tiene )
     char *lexema ; // Nombre del lexema
     dtipo tipo ; // Tipo del símbolo
+	bool lista; // Si es una lista
 } atributos ;
 
 #define YYSTYPE atributos
@@ -74,3 +76,22 @@ void TS_insertaFUNCION(atributos atributo) ;
 void TS_aumentaPARAMETROS() ;
 
 void TS_mostrar() ;
+
+
+/***************************************************/
+/* Funciones auxiliares para el análisis semántico */
+/***************************************************/
+
+dtipo buscarTipo(char *nombre) ;
+
+void comprobarDevuelveTipoCorrecto(atributos atrib) ;
+
+void comprobarEsTipo(dtipo tipo, dtipo tipo2) ;
+
+dtipo comprobarOpBinario(atributos izq, atributos operador, atributos der) ;
+
+dtipo comprobarOpBinarioMenos(atributos izq, atributos der) ;
+
+dtipo comprobarEsEnteroReal (atributos atrib) ;
+
+dtipo comprobarOpUnarios( atributos atrib ) ;

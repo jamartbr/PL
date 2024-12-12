@@ -1131,22 +1131,22 @@ YY_RULE_SETUP
 case 53:
 YY_RULE_SETUP
 #line 81 "src/Lexico.lex"
-{ return CHAR; }
+{ yylval.lexema = strdup (yytext) ; return CHAR; }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
 #line 82 "src/Lexico.lex"
-{ return CADENA; }
+{ yylval.lexema = strdup (yytext) ; return CADENA; }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
 #line 83 "src/Lexico.lex"
-{ return ENTERO; }
+{ yylval.lexema = strdup (yytext) ; return ENTERO; }
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
 #line 84 "src/Lexico.lex"
-{ return NUMERO; }
+{ yylval.lexema = strdup (yytext) ; return NUMERO; }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP

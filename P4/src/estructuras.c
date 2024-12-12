@@ -13,8 +13,6 @@ paramDuplicados = 1;
 
 dtipo tipoTmp = desconocido;
 
-//Prueba añadir github
-
 
 /***********************************/
 /* Métodos de la tabla de símbolos */
@@ -157,4 +155,57 @@ void TS_mostrar() {
         }
         printf("\n") ;
     }
+}
+
+
+/***************************************************/
+/* Funciones auxiliares para el análisis semántico */
+/***************************************************/
+
+dtipo buscarTipo(char *nombre) {
+    int pos = TOPE-1 ;
+    entradaTS entrada = {desconocido, NULL, desconocido, 0, 0} ;
+    while (pos >= 0 && TS[pos].entrada != marca) {
+        if (strcmp(TS[pos].nombre, nombre) == 0) {
+            entrada = TS[pos] ;
+            break ;
+        }
+        pos-- ;
+    }
+    return entrada.tipoDato ;
+}
+
+void comprobarDevuelveTipoCorrecto(atributos atrib) {
+    int pos = TOPE-1 ;
+    while (pos >= 0 && TS[pos].entrada != funcion) {
+        pos-- ;
+    }
+    if (TS[pos].entrada == funcion) {
+        if (atrib.tipo != TS[pos].tipoDato) {
+            printf("Error: tipo de retorno incorrecto\n") ;
+            exit(1) ;
+        }
+    } else {
+        printf("Error: se ha intentado devolver un valor sin estar dentro de un bloque\n") ;
+        exit(1) ;
+    }
+}
+
+void comprobarEsTipo(dtipo tipo, dtipo tipo2) {
+    if (tipo != tipo2) {
+        printf("Error: tipos incompatibles\n") ;
+        exit(1) ;
+    }
+}
+
+dtipo comprobarOpBinario(atributos izq, atributos operador, atributos der) {
+}
+
+dtipo comprobarOpBinarioMenos(atributos izq, atributos der) {
+}
+
+dtipo comprobarEsEnteroReal (atributos atrib){
+}
+
+dtipo comprobarOpUnarios( atributos exp ){
 }

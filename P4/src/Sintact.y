@@ -170,18 +170,18 @@ parametro           : tipo_var ID  { TS_insertaPARAMETRO($2) ; }
 // Sentencias
 
 sentencias          : sentencias bloque PYC 
-                    | sentencias ID ASIGN sentencia_asig PYC 
-                    | sentencias IF sentencia_if PYC 
-                    | sentencias WHILE sentencia_while PYC 
+                    | sentencias ID ASIGN sentencia_asig PYC { comprobarEsTipo(buscarTipo($2.lexema), $4.tipo) ; }
+                    | sentencias IF sentencia_if PYC { comprobarEsTipo(booleano, $3.tipo) ; }
+                    | sentencias WHILE sentencia_while PYC { comprobarEsTipo(booleano, $3.tipo) ; }
                     | sentencias CIN sentencia_entrada PYC 
                     | sentencias COUT sentencia_salida PYC 
-                    | sentencias RETURN sentencia_return PYC 
-                    | sentencias DO sentencia_do_until PYC 
-                    | sentencias ID PARIZQ sentencia_funcion PARDCH PYC 
+                    | sentencias RETURN sentencia_return PYC { comprobarDevuelveTipoCorrecto($3) ; }
+                    | sentencias DO sentencia_do_until PYC { comprobarEsTipo(booleano, $3.tipo) ; }
+                    | sentencias ID PARIZQ sentencia_funcion PARDCH PYC { $$.tipo = buscarTipo($2.lexema) ; }
                     | sentencias sentencia_lista PYC 
                     |
                     ;
-sentencia_asig      : exp
+sentencia_asig      : exp { $$.tipo = $1.tipo ; }
                     | CORIZQ items CORDCH
                     | CORIZQ CADENA CORDCH
                     ;
