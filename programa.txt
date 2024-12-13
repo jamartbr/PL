@@ -1,61 +1,28 @@
 int main {
     local {
-        const int id1 = -98.0;
+        const int id1 = -98;
         const char a = 'a';
         const list char b = ['b'];
+        bool c,b1;
+        list int l1,l2,l3,l4;
+        char a1,a2,a3;
+        int i2, A;
     }
     
-    int suma1(list lista, int long) {
+    int suma1(int entero, int long) {
         local {
-            int a, b, c, d;   
+            int a, b, c, d;  
         }
+
         return {a}+{b};
     };
     
     bool estaDentro(list lista, int long) {
         return ({long} < #{lista});
     };
-       
-    lasfjlahf_ = +12;
-    i2 = -2;
-    f1 = 13.2;
-    f2 = -15.54;
-    char1_2 = 'g';
-    b1 = TRUE;
-    b2 = FALSE;
-        
-    l1 = [1,2,3,4];
-    l2 = [-9,3,45,-52];
+    
+    b1 = {l1} + #{l1};
 
-    if({fsalhkajh}) {
-        b1 = FALSE;
-    };
-
-    while ({i2} < 6) {
-        i2 = {i2} + 1;
-        a = {a} + 7;
-    };
-
-    suma(1,2);
-    do {
-        l3 = l1 @ 2 ++ +1;
-    } until(l1@2 < 5);
-
-    cout << "holaMundo";
-    cin >> 2347 >> 123;
-    l1 = 1 + l1**l2;
-
-
-    b = (17 and a + 90) * {l1} % 3;
-
-    A = ?{l1};
-    A = l2 -- 3;
-    l1>>;
-    l2<<;
-    A = {l1};
-    A = #{l2};
-    A = l@2++5;
-    A = {l1}%1;
     
 
     return 0;

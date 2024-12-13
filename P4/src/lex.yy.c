@@ -876,262 +876,262 @@ YY_RULE_SETUP
 case 2:
 YY_RULE_SETUP
 #line 30 "src/Lexico.lex"
-{ return WHILE; }
+{ yylval.lexema = "while"; return WHILE; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 31 "src/Lexico.lex"
-{ return DO; }
+{ yylval.lexema = "do"; return DO; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 32 "src/Lexico.lex"
-{ return UNTIL; }
+{ yylval.lexema = "until"; return UNTIL; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 33 "src/Lexico.lex"
-{ return IF; }
+{ yylval.lexema = "if"; return IF; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 34 "src/Lexico.lex"
-{ return ELSE; }
+{ yylval.lexema = "else"; return ELSE; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 35 "src/Lexico.lex"
-{ return CIN; }
+{ yylval.lexema = "cin"; return CIN; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 36 "src/Lexico.lex"
-{ return COUT; }
+{ yylval.lexema = "cout"; return COUT; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 37 "src/Lexico.lex"
-{ return MAIN; }
+{ yylval.lexema = "main"; return MAIN; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 38 "src/Lexico.lex"
-{ return RETURN; }
+{ yylval.lexema = "return"; return RETURN; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 39 "src/Lexico.lex"
-{ return LOCAL; }
+{ yylval.lexema = "local"; return LOCAL; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 40 "src/Lexico.lex"
-{ return TIPOINT;}
+{ yylval.lexema = "int"; yylval.tipo = entero; return TIPOINT; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 41 "src/Lexico.lex"
-{ yylval.atrib = 0; return TIPOVAR; }
+{ yylval.lexema = "float"; yylval.atrib = 0; yylval.tipo = real; return TIPOVAR; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 42 "src/Lexico.lex"
-{ yylval.atrib = 1; return TIPOVAR; }
+{ yylval.lexema = "bool"; yylval.atrib = 1; yylval.tipo = booleano; return TIPOVAR; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 43 "src/Lexico.lex"
-{ return TIPOCHAR; }
+{ yylval.lexema = "char"; yylval.tipo = caracter; return TIPOCHAR; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 44 "src/Lexico.lex"
-{ return TIPOLISTA; }
+{ yylval.lexema = "list"; yylval.tipo = lista; return TIPOLISTA; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 45 "src/Lexico.lex"
-{ return TIPOCONST; }
+{ yylval.lexema = "const"; return TIPOCONST; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 46 "src/Lexico.lex"
-{ yylval.atrib = 0; return VALBOOL; }
+{ yylval.lexema = "FALSE"; yylval.atrib = 0; yylval.tipo = booleano; return VALBOOL; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 47 "src/Lexico.lex"
-{ yylval.atrib = 1; return VALBOOL; }
+{ yylval.lexema = "TRUE"; yylval.atrib = 1;  yylval.tipo = booleano; return VALBOOL; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 #line 48 "src/Lexico.lex"
-{ return PARIZQ; }
+{ yylval.lexema = "("; return PARIZQ; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 #line 49 "src/Lexico.lex"
-{ return PARDCH; }
+{ yylval.lexema = ")"; return PARDCH; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
 #line 50 "src/Lexico.lex"
-{ return LLAVEIZQ; }
+{ yylval.lexema = "{"; return LLAVEIZQ; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
 #line 51 "src/Lexico.lex"
-{ return LLAVEDCH; }
+{ yylval.lexema = "}"; return LLAVEDCH; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 #line 52 "src/Lexico.lex"
-{ return CORIZQ; }
+{ yylval.lexema = "["; return CORIZQ; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
 #line 53 "src/Lexico.lex"
-{ return CORDCH; }
+{ yylval.lexema = "]"; return CORDCH; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
 #line 54 "src/Lexico.lex"
-{ return PYC; }
+{ yylval.lexema = ";"; return PYC; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 55 "src/Lexico.lex"
-{ return COMA; }
+{ yylval.lexema = ","; return COMA; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 56 "src/Lexico.lex"
-{ return ASIGN; }
+{ yylval.lexema = "="; return ASIGN; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 57 "src/Lexico.lex"
-{ return OPEMON; }
+{ yylval.lexema = "!"; return OPEMON; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 #line 58 "src/Lexico.lex"
-{ yylval.atrib = 0; return EQ; }
+{ yylval.lexema = "=="; yylval.atrib = 0; return EQ; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
 #line 59 "src/Lexico.lex"
-{ yylval.atrib = 1; return EQ; }
+{ yylval.lexema = "!="; yylval.atrib = 1; return EQ; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
 #line 60 "src/Lexico.lex"
-{ yylval.atrib = 0; return REL; }
+{ yylval.lexema = "<"; yylval.atrib = 0; return REL; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
 #line 61 "src/Lexico.lex"
-{ yylval.atrib = 1; return REL; }
+{ yylval.lexema = ">"; yylval.atrib = 1; return REL; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
 #line 62 "src/Lexico.lex"
-{ yylval.atrib = 2; return REL; }
+{ yylval.lexema = "<="; yylval.atrib = 2; return REL; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
 #line 63 "src/Lexico.lex"
-{ yylval.atrib = 3; return REL; }
+{ yylval.lexema = ">="; yylval.atrib = 3; return REL; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
 #line 64 "src/Lexico.lex"
-{ return AND; }
+{ yylval.lexema = "and"; return AND; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
 #line 65 "src/Lexico.lex"
-{ return OR; }
+{ yylval.lexema = "or"; return OR; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
 #line 66 "src/Lexico.lex"
-{ return XOR; }
+{ yylval.lexema = "xor"; return XOR; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
 #line 67 "src/Lexico.lex"
-{ return SIG; }
+{ yylval.lexema = ">>"; return SIG; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
 #line 68 "src/Lexico.lex"
-{ return ANT; }
+{ yylval.lexema = "<<"; return ANT; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
 #line 69 "src/Lexico.lex"
-{ return DOLLAR; }
+{ yylval.lexema = "$"; return DOLLAR; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
 #line 70 "src/Lexico.lex"
-{ return INTERR; }
+{ yylval.lexema = "?"; return INTERR; }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
 #line 71 "src/Lexico.lex"
-{ return HASHTAG; }
+{ yylval.lexema = "#"; return HASHTAG; }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
 #line 72 "src/Lexico.lex"
-{ return DIV; }
+{ yylval.lexema = "/"; return DIV; }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
 #line 73 "src/Lexico.lex"
-{ return MOD; }
+{ yylval.lexema = "%"; return MOD; }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
 #line 74 "src/Lexico.lex"
-{ return AT; }
+{ yylval.lexema = "@"; return AT; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
 #line 75 "src/Lexico.lex"
-{ return PLUSPLUS; }
+{ yylval.lexema = "++"; return PLUSPLUS; }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
 #line 76 "src/Lexico.lex"
-{ return MINUSMINUS; }
+{ yylval.lexema = "--"; return MINUSMINUS; }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
 #line 77 "src/Lexico.lex"
-{ return TIMESTIMES; }
+{ yylval.lexema = "**"; return TIMESTIMES; }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
 #line 78 "src/Lexico.lex"
-{ return PLUS; }
+{ yylval.lexema = "+"; return PLUS; }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
 #line 79 "src/Lexico.lex"
-{ return MINUS; }
+{ yylval.lexema = "-"; return MINUS; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
 #line 80 "src/Lexico.lex"
-{ return TIMES; }
+{ yylval.lexema = "*"; return TIMES; }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
 #line 81 "src/Lexico.lex"
-{ yylval.lexema = strdup (yytext) ; return CHAR; }
+{ yylval.lexema = strdup (yytext) ; yylval.tipo = caracter ; return CHAR; }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
@@ -1141,12 +1141,12 @@ YY_RULE_SETUP
 case 55:
 YY_RULE_SETUP
 #line 83 "src/Lexico.lex"
-{ yylval.lexema = strdup (yytext) ; return ENTERO; }
+{ yylval.lexema = strdup (yytext) ; yylval.tipo = entero ;  return ENTERO; }
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
 #line 84 "src/Lexico.lex"
-{ yylval.lexema = strdup (yytext) ; return NUMERO; }
+{ yylval.lexema = strdup (yytext) ; yylval.tipo = real ; return NUMERO; }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP

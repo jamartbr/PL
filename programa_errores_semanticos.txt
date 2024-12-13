@@ -1,0 +1,78 @@
+int main {
+    local {
+        const int id1 = -98;
+        const char a = 'a';
+        const list char b = ['b'];
+        bool c,b1;
+        list int l1,l2,l3,l4;
+        char a1,a2,a3;
+        int i2, A;
+
+***        
+    }
+
+    
+    int suma1(int entero, int long) {
+        local {
+            int a, b, c, d; 
+***            int entero;  
+        }
+        return {a}+{b};
+    };
+    
+    bool estaDentro(list lista, int long) {
+        return ({long} < #{lista});
+    };
+
+    fallo = 90;
+    
+    i2 = suma1(i1,d,i2);
+       
+    id1 = +12;
+    c = TRUE;
+        
+    l1 = [1,2,3,4];
+    l2 = [-9,3,45,-52];
+
+    if(TRUE) {
+        b1 = FALSE;
+    };
+
+    while ({i2} < 6) {
+        i2 = {i2} + 1;
+        a = {a} + 7;
+    };
+
+    do {
+        local {
+            bool hola;
+        }
+        l3 = l1 @ 2 ++ +1;
+    } until (TRUE);
+
+    cout << "holaMundo";
+    cin >> 2347 >> 123;
+    id1 = 1 + l1 ** l2;
+
+
+    A = ?{l1};
+    l1 = l2 -- 3;
+    l1>>;
+    l2<<;
+    l2 = {l1};
+    A = #{l2};
+    l3 = l4@2++5;
+    l4 = l1%1;
+
+***    l1 = {l1} - {b1};
+
+***    b1 = {l1} or {b1};  
+
+***    b1 = {l3} + #{l1};
+
+***    id1 = suma1(d, b1, c);
+    
+
+    return 0;
+
+}

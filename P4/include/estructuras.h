@@ -30,6 +30,7 @@ typedef struct {
     tipoEntrada     entrada ;
     char            *nombre ;
     dtipo           tipoDato ;
+    dtipo           tipoContenido ;
     unsigned int    parametros ;
     unsigned int    dimension ;
 } entradaTS ;
@@ -38,7 +39,6 @@ typedef struct {
     int atrib ; // Atributo del símbolo (si tiene )
     char *lexema ; // Nombre del lexema
     dtipo tipo ; // Tipo del símbolo
-	bool lista; // Si es una lista
 } atributos ;
 
 #define YYSTYPE atributos
@@ -51,6 +51,7 @@ extern entradaTS TS[MAX_TS];
 // Variable global que almacena el tipo en las declaraciones
 extern dtipo tipoTmp;
 extern int paramDuplicados;
+extern int nParamTmp;
 
 
 /***********************************/
@@ -67,9 +68,11 @@ void TS_insertaMARCA() ;
 
 void TS_insertaID(atributos atributo) ;
 
+void TS_insertaID2(atributos atributo, dtipo tipo) ;
+
 void TS_insertaPARAMETRO(atributos atributo) ;
 
-void TS_insertaIDENT(atributos atributo) ;
+void TS_insertaLISTA(atributos atributo) ;
 
 void TS_insertaFUNCION(atributos atributo) ;
 
@@ -84,9 +87,13 @@ void TS_mostrar() ;
 
 dtipo buscarTipo(char *nombre) ;
 
+dtipo buscarTipoContenido(char *nombre) ;
+
 void comprobarDevuelveTipoCorrecto(atributos atrib) ;
 
 void comprobarEsTipo(dtipo tipo, dtipo tipo2) ;
+
+void comprobarNoEsTipo(dtipo tipo, dtipo tipo2) ;
 
 dtipo comprobarOpBinario(atributos izq, atributos operador, atributos der) ;
 
@@ -95,3 +102,7 @@ dtipo comprobarOpBinarioMenos(atributos izq, atributos der) ;
 dtipo comprobarEsEnteroReal (atributos atrib) ;
 
 dtipo comprobarOpUnarios( atributos atrib ) ;
+
+void comprobarLlamadaFuncion(atributos atrib) ;
+
+void comprobarParametro(atributos funcion, atributos param) ;
