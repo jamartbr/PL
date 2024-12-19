@@ -53,11 +53,6 @@ extern dtipo tipoTmp;
 extern int paramDuplicados;
 extern int nParamTmp;
 
-FILE *main;
-FILE *funciones;
-int contTmp = 0;
-int contEtq = 0;
-
 
 /***********************************/
 /* Métodos de la tabla de símbolos */
@@ -85,10 +80,6 @@ void TS_aumentaPARAMETROS() ;
 
 void TS_mostrar() ;
 
-void abrirArchivoTrad() ;
-
-void cerrarArchivoTrad() ;
-
 
 /***************************************************/
 /* Funciones auxiliares para el análisis semántico */
@@ -115,7 +106,3 @@ dtipo comprobarOpUnarios( atributos atrib ) ;
 void comprobarLlamadaFuncion(atributos atrib) ;
 
 void comprobarParametro(atributos funcion, atributos param) ;
-
-/***************************************************/
-/* Funciones auxiliares para el código intermedio */
-/***************************************************/
