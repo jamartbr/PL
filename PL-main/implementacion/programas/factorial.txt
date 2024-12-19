@@ -1,0 +1,27 @@
+principal() {
+
+	variable entero n, sol;
+
+	entero f( entero x ) {
+
+		booleano esUno( entero z ) {
+			devuelve z == 1;
+		}
+
+		si ( esUno (x) ) {
+			devuelve 1;
+		} sino {
+			variable entero siguiente = x - 1;
+			devuelve  f(siguiente) * x;
+		}
+	}
+
+	salida 'Introduce un numero: ';
+	entrada n;
+
+	sol = f(n);
+
+	salida 'El factorial de ', n, ' es ', sol;
+
+
+}

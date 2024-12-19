@@ -1,0 +1,7 @@
+principal(){
+
+	variable listade entero a;
+
+	a = a++3@0;
+
+}

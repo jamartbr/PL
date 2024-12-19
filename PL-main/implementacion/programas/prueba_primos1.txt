@@ -1,0 +1,34 @@
+principal() {
+	variable entero n, curr, contador;
+	variable listade entero resultados;
+
+	salida 'Introduce un numero ';
+	entrada n;
+
+	salida n, ' == ';
+	curr = 2;
+
+	mientras ( curr <= n ) {
+		variable entero d = n/curr;
+
+		si ( d * curr == n ) {
+			resultados = resultados++curr@#resultados;
+			n = n/curr;
+		} sino {
+			curr = curr + 1;
+		}
+
+	}
+
+	contador = 0;
+
+	mientras( contador < #resultados ){
+		n = ?resultados;
+		salida n, ', ';
+		resultados>>;
+		contador = contador + 1;
+	}
+
+	salida '\n';
+
+}
